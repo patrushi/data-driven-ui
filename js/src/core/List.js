@@ -18,7 +18,7 @@ export default class List extends PureComponent {
     }
 
     componentDidMount() {
-        this.refresh(false);
+        this.refresh(true);
     }
 
     renderColumnTitle = (metadata) => {
