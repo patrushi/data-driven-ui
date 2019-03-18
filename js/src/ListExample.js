@@ -12,7 +12,7 @@ export default class ListExample extends PureComponent {
                 {name: 'LastName', title: 'Last Name'},
             ],
             filters: {
-               Gender: {type: 'shortselect', options: [{key: 'Male'}, {key: 'Female'}], dataSourse: {debounceInterval: 1000, func: (name, value) => {return `Gender eq Microsoft.OData.Service.Sample.TrippinInMemory.Models.PersonGender'${value}'`}}}
+               Gender: {type: 'shortselect', options: [{key: 'Male'}, {key: 'Female'}], dataSourse: {refresh: 'debounce', type: 'Microsoft.OData.Service.Sample.TrippinInMemory.Models.PersonGender', func: (name, value) => {return `Gender eq Microsoft.OData.Service.Sample.TrippinInMemory.Models.PersonGender'${value}'`}}}
             },
             paging: {},
             dataSourse: {type: 'odata', shortPath: `People`, selectAll: true}

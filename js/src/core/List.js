@@ -18,7 +18,7 @@ export default class List extends PureComponent {
             }
         };
 
-        this.refreshWithDebounce = debounce(this.refresh, 200);
+        this.refreshWithDebounce = debounce(this.refresh, 1000);
     }
 
     componentDidMount() {
@@ -65,8 +65,8 @@ export default class List extends PureComponent {
     changeFilter = (metadata, value) => {
         this.setState({
             filters: {...this.state.filters, [metadata.name]: value}
-        }, (metadata.dataSourse || {}).debounceInterval
-            ? this.refreshWithDebounce()//debounce(() => this.refreshWithCount(), metadata.dataSourse.debounceInterval) 
+        }, (metadata.dataSourse || {}).refresh == 'debounce'
+            ? () => this.refreshWithDebounce(true)
             : () => this.refresh(true));
     }
 

@@ -9,7 +9,8 @@ export default {
         odata: {
             getList: getList, 
             getLongSelect: getLongSelect, 
-            format: 'json', 
+            format: 'json',
+            debounceInterval: 200,
             basePath: 'https://services.odata.org/TripPinRESTierService',
             separateQueryForCount: true,
             filters: {
