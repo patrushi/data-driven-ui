@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import LongProcessPanel from '../default-ui/LongProcessPanel.js';
 import FieldPanel from '../default-ui/FieldPanel';
+import debounce from './debounce'; 
 
 export default class List extends PureComponent {
     constructor(props) {
@@ -8,6 +9,7 @@ export default class List extends PureComponent {
 
         this.state = {
             columnOrders: [],
+            filters: {},
             count: 100,
             items: [],
             paging: {
@@ -15,6 +17,8 @@ export default class List extends PureComponent {
                 perPage: 10
             }
         };
+
+        this.refreshWithDebounce = debounce(this.refresh, 200);
     }
 
     componentDidMount() {
@@ -39,9 +43,9 @@ export default class List extends PureComponent {
 
     changeColumnOrder = (metadata) => {
         var currentOrder = this.state.columnOrders[metadata.name];
-        var newOrder = currentOrder == undefined
+        var newOrder = currentOrder === undefined
             ? 'asc'
-            : currentOrder == 'asc'
+            : currentOrder === 'asc'
                 ? 'desc'
                 : undefined;
         this.setState({
@@ -58,6 +62,14 @@ export default class List extends PureComponent {
         this.setState({paging: {...this.state.paging, perPage}}, () => this.refresh(false));
     }
 
+    changeFilter = (metadata, value) => {
+        this.setState({
+            filters: {...this.state.filters, [metadata.name]: value}
+        }, (metadata.dataSourse || {}).debounceInterval
+            ? this.refreshWithDebounce()//debounce(() => this.refreshWithCount(), metadata.dataSourse.debounceInterval) 
+            : () => this.refresh(true));
+    }
+
     refresh = (needCount) => {
         this.setState({isLoading: true});
         var dataSourse = this.props.defaults.dataSourseTypes[this.props.metadata.dataSourse.type];
@@ -65,9 +77,11 @@ export default class List extends PureComponent {
     }
 
     refreshCallback = (data) => {
-        if (data.count !== undefined) {
+        if (data.count !== undefined && data.items !== undefined) {
             this.setState({count: data.count, items: data.items, isLoading: false});
-        } else {
+        } else if (data.count !== undefined) {
+            this.setState({count: data.count, isLoading: false});
+        } else if (data.items !== undefined) {
             this.setState({items: data.items, isLoading: false});
         }
         if (this.props.onChangeItems) this.props.onChangeItems(data);
@@ -82,7 +96,8 @@ export default class List extends PureComponent {
                 renderCell: this.renderCell,
                 changeColumnOrder: this.changeColumnOrder,
                 changePage: this.changePage,
-                changePerPage: this.changePerPage
+                changePerPage: this.changePerPage,
+                changeFilter: this.changeFilter
             },
         };
         const component = this.props.component
@@ -90,7 +105,7 @@ export default class List extends PureComponent {
             : this.props.defaults.listType.initFunc(props).render();
         return <React.Fragment>
                 <LongProcessPanel isLoading={this.state.isLoading}>
-                    <FieldPanel {...this.props} />
+                    <FieldPanel {...props} />
                     {component}
                 </LongProcessPanel>
             </React.Fragment>;

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import LongSelectWithStyles from './LongSelectWithStyles';
+import debounce from '../core/debounce'; 
 
 export default class LongSelect extends PureComponent {
     constructor(props) {
@@ -19,23 +20,4 @@ export default class LongSelect extends PureComponent {
                 loadOptions={this.loadOptionsFunc()} />
         );
     }
-}
-
-// ==============================
-// Debounce (https://github.com/jashkenas/underscore)
-// ==============================
-export function debounce(func, wait, immediate) {
-    let timeout;
-    return function () {
-        const context = this,
-            args = arguments;
-        const later = function () {
-            timeout = null;
-            if (!immediate) func.apply(context, args);
-        };
-        const callNow = immediate && !timeout;
-        if (timeout) clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-        if (callNow) func.apply(context, args);
-    };
 }

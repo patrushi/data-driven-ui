@@ -4,14 +4,11 @@ import ExtTextField from '@material-ui/core/TextField';
 export default class TextField extends PureComponent {
     constructor(props) {
         super(props);
-
-        this.state = {
-        };
     }
 
     render() {
         return (
-            <ExtTextField {...this.props} />
+            <ExtTextField {...this.props} onChange={(e) => this.props.functions.onChange(e.target.value)} value={this.props.data.value} />
         );
     }
 }

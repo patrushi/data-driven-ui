@@ -26,34 +26,56 @@ function getOrderBy(metadata, data) {
             .map(e => e.metadata.dataSourse && e.metadata.dataSourse.path ? e.metadata.dataSourse.path.reduce((path, a) => path + '/' + a) + e.order: e.metadata.name + e.order);;
 }
 
+function getFilter(settings, metadata, data) {
+    var filters = [];
+    for (var name in data.filters) {
+        if (data.filters[name] !== undefined) {
+            console.log(metadata.filters);
+            var m = metadata.filters[name];
+            console.log(m.dataSourse.func);
+            var f = (m.dataSourse || {}).func || settings.filters[m.type] || settings.filters.default;
+            filters.push(f(name, data.filters[name]));
+        }
+    }
+    console.log('getFilter2', filters);
+    return filters.length == 0
+        ? null
+        : filters;
+}
+
 export function getList(needCount, metadata, data, defaults, callbackFunc) {
     const settings = defaults.dataSourseTypes['odata'];
     const path = metadata.dataSourse.path || settings.basePath + '/' + metadata.dataSourse.shortPath;
     const count = needCount;
     const top = data.paging.perPage;
     const skip = data.paging.perPage * data.paging.page;
-    /* var orderBy = Object.keys(this.getState().order).map(k => this.getState().order[k])
-        .filter(e => e.direction != null)
-        .sort((a,b) => b.orderIndex - a.orderIndex)
-        .map((e) => {return e.orderAttrName != null ? `${e.orderAttrName} ${e.direction}` : `${e.name} ${e.direction}`});
-    if (this.props.additionalOrder) orderBy = [...orderBy, ...this.props.additionalOrder]; */
-    //orderBy = orderBy.length == 0 ? null : orderBy;
-    /* var filter = this.getFilterForQuery();
-    if (this.props.additionalFilter) filter = [...filter, ...this.props.additionalFilter];
-    const expand = this.props.expand; */
-    //const query = buildQuery({ count, top, skip, orderBy, expand, filter });
+    const filter = getFilter(settings, metadata, data);
     const expand = getExpand(metadata);
     const select = metadata.dataSourse.selectAll ? null : getSelect(metadata.columns);
     const orderBy = getOrderBy(metadata, data);
-    const query = buildQuery({ count, select, expand, top, skip, orderBy, format: settings.format });
-    //if (this.props.onStartRequest) this.props.onStartRequest();
+    if (needCount && settings.separateQueryForCount)
+    {
+        fetchQuery(path, { select, expand, filter, top, skip, orderBy, format: settings.format }, callbackFunc);
+        fetchQuery(path, { count, filter, format: settings.format }, callbackFunc);
+    }
+    else {
+        fetchQuery(path, { count, select, expand, filter, top, skip, orderBy, format: settings.format }, callbackFunc);
+    }
+}
+
+function fetchQuery(path, queryProps, callbackFunc) {
+    var query = buildQuery(queryProps); 
     fetch(`${path}${query}`, {})
         .then(response => response.json())
         .then(data => {
-            var value = {items: data.value};
-            if (needCount)
+            var value = {};
+            if (data["@odata.count"] !== undefined)
             {
                 value.count = data["@odata.count"];
+            }
+            if (data.value !== undefined)
+            {
+                value.items = data.value;
             }
             callbackFunc(value);
         })

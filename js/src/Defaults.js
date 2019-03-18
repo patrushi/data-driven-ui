@@ -7,8 +7,14 @@ export default {
     listType: {initFunc: (props) => new List(props)},
     dataSourseTypes: {
         odata: {
-            getList: getList, getLongSelect: getLongSelect, format: 'json', 
-            basePath: 'https://services.odata.org/V3/Northwind/Northwind.svc'
+            getList: getList, 
+            getLongSelect: getLongSelect, 
+            format: 'json', 
+            basePath: 'https://services.odata.org/TripPinRESTierService',
+            separateQueryForCount: true,
+            filters: {
+                default: (name, value) => {return {[name]: value}}
+            }
         },
         default: 'odata'
     },
