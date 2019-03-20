@@ -6,6 +6,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 export default class List extends PureComponent {
     constructor(props) {
@@ -21,6 +22,12 @@ export default class List extends PureComponent {
                 <Table>
                     <TableHead>
                         <TableRow>
+                            {this.props.metadata.selectable ? <TableCell style={{padding: '0px', textAlign: 'center'}}><Checkbox
+                                indeterminate={this.props.data.selected.length > 0 && this.props.data.selected.length < this.props.data.items.length}
+                                checked={this.props.data.selected.length != 0 && this.props.data.selected.length === this.props.data.items.length}
+                                onChange={this.props.functions.selectAll}
+                                color="default"
+                            /></TableCell> : (null)}
                         {this.props.metadata.columns.map((item, idx) => (
                             <TableCell key={item.name} style={{width: Math.round(100/this.props.metadata.columns.length)+'%'}}>
                                 {item.isOrderable 
@@ -34,15 +41,26 @@ export default class List extends PureComponent {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                    {this.props.data.items.map((item, rowIdx) => (
-                        <TableRow key={rowIdx}>
+                    {this.props.data.items.map((item, rowIdx) => {
+                        var key = item[this.props.metadata.key];
+                        return <TableRow key={rowIdx}
+                            hover
+                            onClick={event => this.props.functions.select(key)}
+                            role="checkbox"
+                            aria-checked={this.props.functions.isSelected}
+                            tabIndex={-1}
+                            selected={this.props.functions.isSelected(key)}>
+                        {this.props.metadata.selectable ? <TableCell padding="checkbox">
+                            <Checkbox color="default" checked={this.props.functions.isSelected(key)} onClick={event => this.props.functions.select(key)} />
+                        </TableCell> : (null)}
                         {this.props.metadata.columns.map((metadata, columnIdx) => (
                             <TableCell key={metadata.name}>
                                 {this.props.functions.renderCell(metadata, item, rowIdx, columnIdx)}
                             </TableCell>
                         ))}
                         </TableRow>
-                    ))}
+                    }
+                    )}
                     </TableBody>
                 </Table>
                 {!this.props.metadata.paging

@@ -15,7 +15,8 @@ export default class List extends PureComponent {
             paging: {
                 page: 0,
                 perPage: 10
-            }
+            },
+            selected: []
         };
 
         this.refreshWithDebounce = debounce(this.refresh, 1000);
@@ -86,6 +87,37 @@ export default class List extends PureComponent {
         }
         if (this.props.onChangeItems) this.props.onChangeItems(data);
     }
+
+    select = (id) => {
+        const { selected } = this.state;
+        const selectedIndex = selected.indexOf(id);
+        let newSelected = [];
+
+        if (selectedIndex === -1) {
+            newSelected = newSelected.concat(selected, id);
+        } else if (selectedIndex === 0) {
+            newSelected = newSelected.concat(selected.slice(1));
+        } else if (selectedIndex === selected.length - 1) {
+            newSelected = newSelected.concat(selected.slice(0, -1));
+        } else if (selectedIndex > 0) {
+            newSelected = newSelected.concat(
+                selected.slice(0, selectedIndex),
+                selected.slice(selectedIndex + 1),
+            );
+        }
+
+        this.setState({ selected: newSelected });
+    };
+
+    selectAll = event => {
+        if (event.target.checked) {
+            this.setState(state => ({ selected: this.state.items.map(n => n[this.props.metadata.key]) }));
+            return;
+        }
+        this.setState({ selected: [] });
+    };
+
+    isSelected = id => this.state.selected.indexOf(id) !== -1;
     
     render() {
         const props = {
@@ -97,7 +129,10 @@ export default class List extends PureComponent {
                 changeColumnOrder: this.changeColumnOrder,
                 changePage: this.changePage,
                 changePerPage: this.changePerPage,
-                changeFilter: this.changeFilter
+                changeFilter: this.changeFilter,
+                isSelected: this.isSelected,
+                select: this.select,
+                selectAll: this.selectAll
             },
         };
         const component = this.props.component

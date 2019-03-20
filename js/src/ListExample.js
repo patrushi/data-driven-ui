@@ -11,11 +11,13 @@ export default class ListExample extends PureComponent {
                 {name: 'FirstName', isOrderable: true},
                 {name: 'LastName', title: 'Last Name'},
             ],
+            key: 'FirstName',
             filters: {
                Gender: {type: 'shortselect', options: [{key: 'Male'}, {key: 'Female'}], dataSourse: {refresh: 'debounce', type: 'Microsoft.OData.Service.Sample.TrippinInMemory.Models.PersonGender', func: (name, value) => {return `Gender eq Microsoft.OData.Service.Sample.TrippinInMemory.Models.PersonGender'${value}'`}}},
                FirstName: {dataSourse: {refresh: 'debounce'}}
             },
             paging: {},
+            selectable: {type: 'row&checkbox', },
             dataSourse: {type: 'odata', shortPath: `People`, selectAll: true}
         };
 

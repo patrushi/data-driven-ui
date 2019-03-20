@@ -29,15 +29,12 @@ function getOrderBy(metadata, data) {
 function getFilter(settings, metadata, data) {
     var filters = [];
     for (var name in data.filters) {
-        if (data.filters[name] !== undefined) {
-            console.log(metadata.filters);
+        if (data.filters[name]) {
             var m = metadata.filters[name];
-            console.log(m.dataSourse.func);
             var f = (m.dataSourse || {}).func || settings.filters[m.type] || settings.filters.default;
             filters.push(f(name, data.filters[name]));
         }
     }
-    console.log('getFilter2', filters);
     return filters.length == 0
         ? null
         : filters;
