@@ -52,8 +52,8 @@ export function getList(needCount, metadata, data, defaults, callbackFunc) {
     const orderBy = getOrderBy(metadata, data);
     if (needCount && settings.separateQueryForCount)
     {
-        fetchQuery(path, { select, expand, filter, top, skip, orderBy, format: settings.format }, callbackFunc);
-        fetchQuery(path, { count, filter, format: settings.format }, callbackFunc);
+        var cf = (countValue) => fetchQuery(path, { select, expand, filter, top, skip, orderBy, format: settings.format }, (value) => callbackFunc({...value, count: countValue.count}));
+        fetchQuery(path, { count, filter, format: settings.format }, cf);
     }
     else {
         fetchQuery(path, { count, select, expand, filter, top, skip, orderBy, format: settings.format }, callbackFunc);

@@ -14,7 +14,8 @@ export default {
             basePath: 'https://services.odata.org/TripPinRESTierService',
             separateQueryForCount: true,
             filters: {
-                default: (name, value) => {return {[name]: value}}
+                default: (name, value) => {return {[name]: value}},
+                
             }
         },
         default: 'odata'
