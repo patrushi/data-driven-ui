@@ -15,7 +15,7 @@ export default {
             separateQueryForCount: true,
             filters: {
                 default: (name, value) => {return {[name]: value}},
-                
+                text: (name, value) => {return {[`tolower(${name})`]: { contains: value == null ? null : value.toLowerCase()}}}
             }
         },
         default: 'odata'
