@@ -1,6 +1,4 @@
 import React, { PureComponent } from 'react';
-import LongProcessPanel from '../default-ui/LongProcessPanel.js';
-import FieldPanel from '../default-ui/FieldPanel';
 import debounce from './debounce'; 
 
 export default class List extends PureComponent {
@@ -19,21 +17,21 @@ export default class List extends PureComponent {
             selected: []
         };
 
-        this.refreshWithDebounce = debounce(this.refresh, 1000);
+        this.refreshWithDebounce = debounce(this.refresh, 200);
     }
 
     componentDidMount() {
         this.refresh(true);
     }
 
-    renderColumnTitle = (metadata) => {
-        return !metadata.title ? metadata.name : metadata.title;
+    renderColumnTitle = (meta) => {
+        return !meta.title ? meta.name : meta.title;
     }
-
-    renderCell = (metadata, item, rowIdx, columnIdx) => {
-        return metadata.dataSourse && metadata.dataSourse.path
-            ? this.getValueFromPath(item, metadata.dataSourse.path, 0)
-            : item[metadata.name];
+ 
+    renderCell = (meta, item, rowIdx, columnIdx) => {
+        return meta.dataSourse && meta.dataSourse.path
+            ? this.getValueFromPath(item, meta.dataSourse.path, 0)
+            : item[meta.name];
     }
 
     getValueFromPath = (item, path, i) => {
@@ -42,15 +40,15 @@ export default class List extends PureComponent {
             : this.getValueFromPath(item[path[i]], path, i+1);
     }
 
-    changeColumnOrder = (metadata) => {
-        var currentOrder = this.state.columnOrders[metadata.name];
+    changeColumnOrder = (meta) => {
+        var currentOrder = this.state.columnOrders[meta.name];
         var newOrder = currentOrder === undefined
             ? 'asc'
             : currentOrder === 'asc'
                 ? 'desc'
                 : undefined;
         this.setState({
-            columnOrders: {...this.state.columnOrders, [metadata.name]: newOrder},
+            columnOrders: {...this.state.columnOrders, [meta.name]: newOrder},
             paging: {...this.state.paging, page: 0}
         }, () => this.refresh(false));
     }
@@ -63,18 +61,18 @@ export default class List extends PureComponent {
         this.setState({paging: {...this.state.paging, perPage}}, () => this.refresh(false));
     }
 
-    changeFilter = (metadata, value) => {
+    changeFilter = (meta, value) => {
         this.setState({
-            filters: {...this.state.filters, [metadata.name]: value}
-        }, (metadata.dataSourse || {}).refresh == 'debounce'
+            filters: {...this.state.filters, [meta.name]: value}
+        }, (meta.dataSourse || {}).refresh === 'debounce'
             ? () => this.refreshWithDebounce(true)
             : () => this.refresh(true));
     }
 
     refresh = (needCount) => {
         this.setState({isLoading: true});
-        var dataSourse = this.props.defaults.dataSourseTypes[this.props.metadata.dataSourse.type];
-        dataSourse.getList(needCount, this.props.metadata, this.state, this.props.defaults, this.refreshCallback);
+        var dataSourseMeta = this.props.globalMeta.dataSourseTypes[this.props.meta.dataSourse.type || this.props.globalMeta.dataSourseTypes.default];
+        new dataSourseMeta.class({meta: dataSourseMeta}).getList(needCount, this.props.meta, this.state, this.props.globalMeta, this.refreshCallback);
     }
 
     refreshCallback = (data) => {
@@ -111,7 +109,7 @@ export default class List extends PureComponent {
 
     selectAll = event => {
         if (event.target.checked) {
-            this.setState(state => ({ selected: this.state.items.map(n => n[this.props.metadata.key]) }));
+            this.setState(state => ({ selected: this.state.items.map(n => n[this.props.meta.key]) }));
             return;
         }
         this.setState({ selected: [] });
@@ -135,14 +133,15 @@ export default class List extends PureComponent {
                 selectAll: this.selectAll
             },
         };
-        const component = this.props.component
-            ? this.props.component.render(props)
-            : this.props.defaults.listType.initFunc(props).render();
+
+        const list = React.createElement(this.props.globalMeta.components.list, props);
+
+        const filterPanel = React.createElement(this.props.globalMeta.components.filterPanel, props);
+
+        const longProcessPanel = React.createElement(this.props.globalMeta.components.longProcessPanel, {isLoading: this.state.isLoading}, [filterPanel, list]);
+
         return <React.Fragment>
-                <LongProcessPanel isLoading={this.state.isLoading}>
-                    <FieldPanel {...props} />
-                    {component}
-                </LongProcessPanel>
+                {longProcessPanel}
             </React.Fragment>;
     }
 }

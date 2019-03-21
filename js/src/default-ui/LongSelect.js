@@ -3,10 +3,6 @@ import LongSelectWithStyles from './LongSelectWithStyles';
 import debounce from '../core/debounce'; 
 
 export default class LongSelect extends PureComponent {
-    constructor(props) {
-        super(props);
-    }
-
     loadOptionsFunc = () => {
         var dataSourseMetadata = this.props.metadata.dataSourse;
         var dataSourseType = dataSourseMetadata.type || this.props.defaults.dataSourseTypes.default;

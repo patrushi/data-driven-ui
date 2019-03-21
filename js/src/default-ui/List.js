@@ -22,14 +22,14 @@ export default class List extends PureComponent {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            {this.props.metadata.selectable ? <TableCell style={{padding: '0px', textAlign: 'center'}}><Checkbox
+                            {this.props.meta.selectable ? <TableCell style={{padding: '0px', textAlign: 'center'}}><Checkbox
                                 indeterminate={this.props.data.selected.length > 0 && this.props.data.selected.length < this.props.data.items.length}
                                 checked={this.props.data.selected.length != 0 && this.props.data.selected.length === this.props.data.items.length}
                                 onChange={this.props.functions.selectAll}
                                 color="default"
                             /></TableCell> : (null)}
-                        {this.props.metadata.columns.map((item, idx) => (
-                            <TableCell key={item.name} style={{width: Math.round(100/this.props.metadata.columns.length)+'%'}}>
+                        {this.props.meta.columns.map((item, idx) => (
+                            <TableCell key={item.name} style={{width: Math.round(100/this.props.meta.columns.length)+'%'}}>
                                 {item.isOrderable 
                                     ? <TableSortLabel 
                                         direction={this.props.data.columnOrders[item.name] == 'asc' ? 'desc' : this.props.data.columnOrders[item.name] == 'desc' ? 'asc' : undefined}
@@ -42,7 +42,7 @@ export default class List extends PureComponent {
                     </TableHead>
                     <TableBody>
                     {this.props.data.items.map((item, rowIdx) => {
-                        var key = item[this.props.metadata.key];
+                        var key = item[this.props.meta.key];
                         return <TableRow key={rowIdx}
                             hover
                             onClick={event => this.props.functions.select(key)}
@@ -50,12 +50,12 @@ export default class List extends PureComponent {
                             aria-checked={this.props.functions.isSelected}
                             tabIndex={-1}
                             selected={this.props.functions.isSelected(key)}>
-                        {this.props.metadata.selectable ? <TableCell padding="checkbox">
+                        {this.props.meta.selectable ? <TableCell padding="checkbox">
                             <Checkbox color="default" checked={this.props.functions.isSelected(key)} onClick={event => this.props.functions.select(key)} />
                         </TableCell> : (null)}
-                        {this.props.metadata.columns.map((metadata, columnIdx) => (
-                            <TableCell key={metadata.name}>
-                                {this.props.functions.renderCell(metadata, item, rowIdx, columnIdx)}
+                        {this.props.meta.columns.map((meta, columnIdx) => (
+                            <TableCell key={meta.name}>
+                                {this.props.functions.renderCell(meta, item, rowIdx, columnIdx)}
                             </TableCell>
                         ))}
                         </TableRow>
@@ -63,7 +63,7 @@ export default class List extends PureComponent {
                     )}
                     </TableBody>
                 </Table>
-                {!this.props.metadata.paging
+                {!this.props.meta.paging
                     ? (null)
                     :
                     <TablePagination
@@ -80,8 +80,8 @@ export default class List extends PureComponent {
                         nextIconButtonProps={{
                             'aria-label': 'Next Page',
                         }}
-                        labelRowsPerPage={this.props.metadata.paging.labelRowsPerPage ? this.props.metadata.paging.labelRowsPerPage : "Показывать по: "}
-                        labelDisplayedRows={this.props.metadata.paging.labelDisplayedRows ? this.props.metadata.paging.labelDisplayedRows : ({ from, to, count }) => `${from}-${to} из ${count}`}
+                        labelRowsPerPage={this.props.meta.paging.labelRowsPerPage ? this.props.meta.paging.labelRowsPerPage : "Показывать по: "}
+                        labelDisplayedRows={this.props.meta.paging.labelDisplayedRows ? this.props.meta.paging.labelDisplayedRows : ({ from, to, count }) => `${from}-${to} из ${count}`}
                     />}
             </React.Fragment>
         );

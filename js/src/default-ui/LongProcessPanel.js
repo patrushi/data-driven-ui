@@ -3,10 +3,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 export default class LongProcessPanel extends PureComponent {
 
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <React.Fragment>

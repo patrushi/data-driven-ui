@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react';
 import List from './core/List';
-import Defaults from './Defaults'
+import GlobalMeta from './GlobalMeta'
 
 export default class ListExample extends PureComponent {
     constructor(props) {
         super(props);
 
-        this.metadata = {
+        this.meta = {
             columns: [
                 {name: 'FirstName', isOrderable: true},
                 {name: 'LastName', title: 'Last Name'},
@@ -37,7 +37,7 @@ export default class ListExample extends PureComponent {
     }
 
     render() {
-        return <List metadata={this.metadata} defaults={Defaults} />
+        return <List meta={this.meta} globalMeta={GlobalMeta} />
     }
 }
 
