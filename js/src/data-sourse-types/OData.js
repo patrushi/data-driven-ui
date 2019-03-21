@@ -13,8 +13,8 @@ export default class OData {
             : expand;
     }
 
-    getSelect(columns) {
-        return columns
+    getSelect(meta) {
+        return meta.columns
             .map(e => e.dataSourse && e.dataSourse.path ? e.dataSourse.path.reduce((path, a) => path + '/' + a) : e.name);
     }
 
@@ -35,7 +35,7 @@ export default class OData {
         var filters = [];
         for (var name in data.filters) {
             if (data.filters[name]) {
-                var m = meta.filters[name];
+                var m = meta.filters.filter(e => e.name === name)[0];
                 var f = (m.dataSourse || {}).func || settings.filters[m.type] || settings.filters.default;
                 filters.push(f(name, data.filters[name]));
             }
@@ -53,7 +53,7 @@ export default class OData {
         const skip = data.paging.perPage * data.paging.page;
         const filter = this.getFilter(settings, meta, data);
         const expand = this.getExpand(meta);
-        const select = meta.dataSourse.selectAll ? null : this.getSelect(meta.columns);
+        const select = meta.dataSourse.selectAll ? null : this.getSelect(meta);
         const orderBy = this.getOrderBy(meta, data);
         if (needCount && settings.separateQueryForCount)
         {

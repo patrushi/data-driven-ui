@@ -12,12 +12,12 @@ export default class ListExample extends PureComponent {
                 {name: 'LastName', title: 'Last Name'},
             ],
             key: 'FirstName',
-            filters: {
-               Gender: {type: 'shortselect', options: [{key: 'Male'}, {key: 'Female'}], dataSourse: {refresh: 'debounce', type: 'Microsoft.OData.Service.Sample.TrippinInMemory.Models.PersonGender', func: (name, value) => {return `Gender eq Microsoft.OData.Service.Sample.TrippinInMemory.Models.PersonGender'${value}'`}}},
-               FirstName: {type: 'text', dataSourse: {refresh: 'debounce'}}
-            },
+            filters: [
+               {name: 'Gender', type: 'shortselect', options: [{key: 'Male'}, {key: 'Female'}], dataSourse: {refresh: 'debounce', type: 'Microsoft.OData.Service.Sample.TrippinInMemory.Models.PersonGender', func: (name, value) => {return `Gender eq Microsoft.OData.Service.Sample.TrippinInMemory.Models.PersonGender'${value}'`}}},
+               {name: 'FirstName', type: 'text', dataSourse: {refresh: 'debounce'}}
+            ],
             paging: {},
-            selectable: {type: 'row&checkbox', },
+            selectable: {type: 'row', isMulti: false},
             dataSourse: {type: 'odata', shortPath: `People`, selectAll: true}
         };
 
@@ -36,8 +36,16 @@ export default class ListExample extends PureComponent {
         this.state = {};
     }
 
+    onSelect = (isSelect, lastSelect, allSelect) => {
+        console.log(isSelect, lastSelect, allSelect);
+    }
+
+    onSingleSelect = (select) => {
+        console.log(select);
+    }
+
     render() {
-        return <List meta={this.meta} globalMeta={GlobalMeta} />
+        return <List meta={this.meta} globalMeta={GlobalMeta} onSelect={this.onSelect} onSingleSelect={this.onSingleSelect} />
     }
 }
 

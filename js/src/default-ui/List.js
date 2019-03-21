@@ -22,12 +22,13 @@ export default class List extends PureComponent {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            {this.props.meta.selectable ? <TableCell style={{padding: '0px', textAlign: 'center'}}><Checkbox
+                            {this.props.meta.selectable && (this.props.meta.selectable.type === 'row&checkbox' || this.props.meta.selectable.type === 'checkbox' || (this.props.meta.selectable.type === undefined && this.props.meta.selectable.isMulti)) ? <TableCell style={{padding: '0px', textAlign: 'center'}}>
+                                {this.props.meta.selectable.isMulti ? <Checkbox
                                 indeterminate={this.props.data.selected.length > 0 && this.props.data.selected.length < this.props.data.items.length}
                                 checked={this.props.data.selected.length != 0 && this.props.data.selected.length === this.props.data.items.length}
                                 onChange={this.props.functions.selectAll}
-                                color="default"
-                            /></TableCell> : (null)}
+                                color="default"/> : (null)}
+                            </TableCell> : (null)}
                         {this.props.meta.columns.map((item, idx) => (
                             <TableCell key={item.name} style={{width: Math.round(100/this.props.meta.columns.length)+'%'}}>
                                 {item.isOrderable 
@@ -43,14 +44,17 @@ export default class List extends PureComponent {
                     <TableBody>
                     {this.props.data.items.map((item, rowIdx) => {
                         var key = item[this.props.meta.key];
-                        return <TableRow key={rowIdx}
-                            hover
-                            onClick={event => this.props.functions.select(key)}
-                            role="checkbox"
-                            aria-checked={this.props.functions.isSelected}
-                            tabIndex={-1}
-                            selected={this.props.functions.isSelected(key)}>
-                        {this.props.meta.selectable ? <TableCell padding="checkbox">
+                        var tableRowProps = this.props.meta.selectable && (this.props.meta.selectable.type === 'row&checkbox' || this.props.meta.selectable.type === 'row' || this.props.meta.selectable.type === undefined)
+                            ? {
+                                hover: true,
+                                onClick: event => this.props.functions.select(key),
+                                role: "checkbox",
+                                ariaChecked: this.props.functions.isSelected,
+                                tabIndex: -1,
+                                selected: this.props.functions.isSelected(key)
+                            } : null;
+                        return <TableRow key={rowIdx} {...tableRowProps}>
+                        {this.props.meta.selectable && (this.props.meta.selectable.type === 'row&checkbox' || this.props.meta.selectable.type === 'checkbox' || (this.props.meta.selectable.type === undefined && this.props.meta.selectable.isMulti)) ? <TableCell padding="checkbox">
                             <Checkbox color="default" checked={this.props.functions.isSelected(key)} onClick={event => this.props.functions.select(key)} />
                         </TableCell> : (null)}
                         {this.props.meta.columns.map((meta, columnIdx) => (

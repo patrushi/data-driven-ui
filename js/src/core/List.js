@@ -105,14 +105,17 @@ export default class List extends PureComponent {
         }
 
         this.setState({ selected: newSelected });
+
+        if (this.props.onSelect) this.props.onSelect(selectedIndex === -1, [id], newSelected);
+        if (this.props.onSingleSelect && selectedIndex === -1) this.props.onSingleSelect(id);
     };
 
     selectAll = event => {
-        if (event.target.checked) {
-            this.setState(state => ({ selected: this.state.items.map(n => n[this.props.meta.key]) }));
-            return;
-        }
-        this.setState({ selected: [] });
+        const selected = event.target.checked
+            ? this.state.items.map(n => n[this.props.meta.key])
+            : []
+        this.setState({selected});
+        if (this.props.onSelect) this.props.onSelect(event.target.checked, selected, selected)
     };
 
     isSelected = id => this.state.selected.indexOf(id) !== -1;
@@ -134,11 +137,11 @@ export default class List extends PureComponent {
             },
         };
 
-        const list = React.createElement(this.props.globalMeta.components.list, props);
+        const list = React.createElement(this.props.globalMeta.components.list.component, {...props, key: 'List'});
 
-        const filterPanel = React.createElement(this.props.globalMeta.components.filterPanel, props);
+        const filterPanel = React.createElement(this.props.globalMeta.components.filterPanel.component, {...props, key: 'FilterPanel'});
 
-        const longProcessPanel = React.createElement(this.props.globalMeta.components.longProcessPanel, {isLoading: this.state.isLoading}, [filterPanel, list]);
+        const longProcessPanel = React.createElement(this.props.globalMeta.components.longProcessPanel.component, {isLoading: this.state.isLoading}, [filterPanel, list]);
 
         return <React.Fragment>
                 {longProcessPanel}

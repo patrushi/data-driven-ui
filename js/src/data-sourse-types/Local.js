@@ -1,97 +1,87 @@
-import buildQuery from 'odata-query';
+import {toArray} from '../core/metadataHelper';
 
-function getExpand(metadata) {
-    var expand = metadata.columns.filter(e => e.dataSourse && e.dataSourse.path)
-        .map(e => e.dataSourse.path.slice(0, e.dataSourse.path.length - 1).reduce((path, a) => path + '/' + a));
-    return expand.length == 0
-        ? null
-        : expand;
-}
+export default class Local {
+    constructor(props) {
+        this.props = props;
+    }
 
-function getSelect(columns) {
-    return columns
-        .map(e => e.dataSourse && e.dataSourse.path ? e.dataSourse.path.reduce((path, a) => path + '/' + a) : e.name);
-}
+    getOrderBy(meta, data) {
+        var orderedColumns = [];
+        for (var name in data.columnOrders) {
+            if (data.columnOrders[name] !== undefined) {
+                orderedColumns.push({meta: meta.columns[name], order: data.columnOrders[name] === 'desc' ? ' desc' : ''});
+            }
+        }
+        return orderedColumns.length === 0
+            ? null
+            : orderedColumns
+                .map(e => e.meta.dataSourse && e.meta.dataSourse.path ? e.meta.dataSourse.path.reduce((path, a) => path + '/' + a) + e.order: e.meta.name + e.order);;
+    }
 
-function getOrderBy(metadata, data) {
-    var orderedColumns = [];
-    for (var name in data.columnOrders) {
-        if (data.columnOrders[name] !== undefined) {
-            orderedColumns.push({metadata: metadata.columns.filter(e => e.name == name)[0], order: data.columnOrders[name] == 'desc' ? ' desc' : ''});
+    getFilter(settings, meta, data) {
+        var filters = [];
+        for (var name in data.filters) {
+            if (data.filters[name]) {
+                var m = meta.filters[name];
+                var f = (m.dataSourse || {}).func || settings.filters[m.type] || settings.filters.default;
+                filters.push(f(name, data.filters[name]));
+            }
+        }
+        return filters.length === 0
+            ? null
+            : filters;
+    }
+
+    getList(needCount, meta, data, globalMeta, callbackFunc) {
+        const settings = globalMeta.dataSourseTypes['odata'];
+        const path = meta.dataSourse.path || settings.basePath + '/' + meta.dataSourse.shortPath;
+        const count = needCount;
+        const top = data.paging.perPage;
+        const skip = data.paging.perPage * data.paging.page;
+        const filter = this.getFilter(settings, meta, data);
+        const expand = this.getExpand(meta);
+        const select = meta.dataSourse.selectAll ? null : this.getSelect(meta);
+        const orderBy = this.getOrderBy(meta, data);
+        if (needCount && settings.separateQueryForCount)
+        {
+            var cf = (countValue) => this.fetchQuery(path, { select, expand, filter, top, skip, orderBy, format: settings.format }, (value) => callbackFunc({...value, count: countValue.count}));
+            this.fetchQuery(path, { count, filter, format: settings.format }, cf);
+        }
+        else {
+            this.fetchQuery(path, { count, select, expand, filter, top, skip, orderBy, format: settings.format }, callbackFunc);
         }
     }
-    return orderedColumns.length == 0
-        ? null
-        : orderedColumns
-            .map(e => e.metadata.dataSourse && e.metadata.dataSourse.path ? e.metadata.dataSourse.path.reduce((path, a) => path + '/' + a) + e.order: e.metadata.name + e.order);;
-}
 
-function getFilter(settings, metadata, data) {
-    var filters = [];
-    for (var name in data.filters) {
-        if (data.filters[name] !== undefined) {
-            console.log(metadata.filters);
-            var m = metadata.filters[name];
-            var f = settings.filters[m.type] || settings.filters.default;
-            filters.push(f(name, data.filters[name]));
-        }
+    fetchQuery(path, queryProps, callbackFunc) {
+        var query = buildQuery(queryProps); 
+        fetch(`${path}${query}`, {})
+            .then(response => response.json())
+            .then(data => {
+                var value = {};
+                if (data["@odata.count"] !== undefined)
+                {
+                    value.count = data["@odata.count"];
+                }
+                if (data.value !== undefined)
+                {
+                    value.items = data.value;
+                }
+                callbackFunc(value);
+            })
+            .catch(e => console.log(e));
     }
-    console.log('getFilter2', filters);
-    return filters.length == 0
-        ? null
-        : filters;
-}
 
-export function getList(needCount, metadata, data, defaults, callbackFunc) {
-    const settings = defaults.dataSourseTypes['odata'];
-    const path = metadata.dataSourse.path || settings.basePath + '/' + metadata.dataSourse.shortPath;
-    const count = needCount;
-    const top = data.paging.perPage;
-    const skip = data.paging.perPage * data.paging.page;
-    const filter = getFilter(settings, metadata, data);
-    const expand = getExpand(metadata);
-    const select = metadata.dataSourse.selectAll ? null : getSelect(metadata.columns);
-    const orderBy = getOrderBy(metadata, data);
-    if (needCount && settings.separateQueryForCount)
-    {
-        fetchQuery(path, { select, expand, filter, top, skip, orderBy, format: settings.format }, callbackFunc);
-        fetchQuery(path, { count, filter, format: settings.format }, callbackFunc);
+   getLongSelect(props) {
+        const settings = props.globalMeta.dataSourseTypes['odata'];
+        var meta = props.meta.filters[props.name];
+        const filter = {[`toLower(${meta.dataSourse.value})`]: { contains: props.inputValue == null ? null : props.inputValue.toLowerCase()}}
+        const top = meta.count || 10;
+        const query = buildQuery({ filter, top }); 
+        fetch(`${meta.dataSourse.path || settings.basePath + '/' + meta.dataSourse.shortPath}${query}`, {})
+            .then(response => response.json())
+            .then(data => {
+                props.callback(data.value.map(function (v) { return { label: v[meta.dataSourse.value], value: v[meta.dataSourse.key], additionalData: v } }));
+            })
+            .catch(e => console.log(e));
     }
-    else {
-        fetchQuery(path, { count, select, expand, filter, top, skip, orderBy, format: settings.format }, callbackFunc);
-    }
-}
-
-function fetchQuery(path, queryProps, callbackFunc) {
-    var query = buildQuery(queryProps); 
-    fetch(`${path}${query}`, {})
-        .then(response => response.json())
-        .then(data => {
-            var value = {};
-            if (data["@odata.count"] !== undefined)
-            {
-                value.count = data["@odata.count"];
-            }
-            if (data.value !== undefined)
-            {
-                value.items = data.value;
-            }
-            callbackFunc(value);
-        })
-        .catch(e => console.log(e));
-}
-
-export function getLongSelect(props) {
-    const settings = props.defaults.dataSourseTypes['odata'];
-    var metadata = props.metadata.filters[props.name];
-    var _this = this;
-    const filter = {[`toLower(${metadata.dataSourse.value})`]: { contains: props.inputValue == null ? null : props.inputValue.toLowerCase()}}
-    const top = metadata.count || 10;
-    const query = buildQuery({ filter, top }); 
-    fetch(`${metadata.dataSourse.path || settings.basePath + '/' + metadata.dataSourse.shortPath}${query}`, {})
-        .then(response => response.json())
-        .then(data => {
-            props.callback(data.value.map(function (v) { return { label: v[metadata.dataSourse.value], value: v[metadata.dataSourse.key], additionalData: v } }));
-        })
-        .catch(e => console.log(e));
 }

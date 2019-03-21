@@ -7,9 +7,9 @@ import FilterPanel from './default-ui/FilterPanel';
 
 export default {
     components: {
-        list: List,
-        filterPanel: FilterPanel,
-        longProcessPanel: LongProcessPanel
+        list: {component: List},
+        filterPanel: {component: FilterPanel},
+        longProcessPanel: {component: LongProcessPanel}
     },
     dataSourseTypes: {
         odata: {
@@ -27,8 +27,8 @@ export default {
         default: 'odata'
     },
     filterTypes: {
-        text: (props) => new TextField(props),
-        longselect: (props) => new LongSelect(props),
+        text: {component: TextField},
+        longselect: {component: LongSelect},
         default: 'text'
     }
 }
