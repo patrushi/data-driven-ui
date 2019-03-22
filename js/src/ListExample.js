@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import List from './core/List';
-import GlobalMeta from './GlobalMeta'
+import GlobalMeta from './GlobalMeta';
+import Paper from '@material-ui/core/Paper';
 
 export default class ListExample extends PureComponent {
     constructor(props) {
@@ -35,9 +36,9 @@ export default class ListExample extends PureComponent {
     }
 
     render() {
-        return <div style={{padding: 15}}>
+        return <Paper style={{ margin: 15, padding: 15 }}>
             <List meta={this.meta} globalMeta={GlobalMeta} onSelect={this.onSelect} onSingleSelect={this.onSingleSelect} />
-        </div>
+        </Paper>
     }
 }
 
