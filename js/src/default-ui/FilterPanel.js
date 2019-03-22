@@ -5,13 +5,14 @@ export default class FilterPanel extends PureComponent {
 
     getField = (meta) => {
         var fieldMeta = this.props.globalMeta.filterTypes[meta.type] || this.props.globalMeta.filterTypes[this.props.globalMeta.filterTypes.default];
-        var functions = {
-            onChange: (value) => this.props.functions.changeFilter(meta, value)
-        };
-        let data = {
-            value: this.props.data.filters[meta.name]
-        };
-        var props = {meta, functions, data, label: meta.title || meta.name, ...fieldMeta}
+        var props = {
+            ...meta, 
+            onChange: (value) => this.props.functions.changeFilter(meta, value), 
+            value: this.props.data.filters[meta.name], 
+            label: this.props.globalMeta.filters.label ? meta.title || meta.name : null,
+            placeholder: this.props.globalMeta.filters.placeholder ? meta.title || meta.name : null,
+            ...fieldMeta
+        }
         return React.createElement(fieldMeta.component, props);
     }
 
@@ -38,7 +39,7 @@ export default class FilterPanel extends PureComponent {
                         <Grid container key={rowIdx} spacing={8}>
                             {
                                 filters.map((filter, idx) => (
-                                    <Grid item xs key={idx}>{this.getField(filter)}</Grid>
+                                    <Grid item xs key={idx} style={{display: 'flex', alignItems: 'flex-end'}}>{this.getField(filter)}</Grid>
                                 )).concat(rowIdx+1 === linesCnt ? empty : [])
                             }
                         </Grid>

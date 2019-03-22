@@ -6,6 +6,7 @@ import ShortSelect from './default-ui/ShortSelect';
 import LongProcessPanel from './default-ui/LongProcessPanel.js';
 import FilterPanel from './default-ui/FilterPanel';
 import DateField from './default-ui/DateField';
+import DatePeriodField from './default-ui/DatePeriodField';
 
 import moment from "moment";
 import "moment/locale/ru";
@@ -21,12 +22,12 @@ export default {
         perPage: 10,
         perPageOptions: [10, 100]
     },
-    dataSourseTypes: {
+    dataSourceTypes: {
         odata: {
             class: OData,
             format: 'json',
             debounceInterval: 200,
-            //separateQueryForCount: true,
+            separateQueryForCount: true,
             filters: {
                 string: (name, value) => {return {[name]: value}},
                 text: (name, value) => {return {[`tolower(${name})`]: { contains: value == null ? null : value.toLowerCase()}}},
@@ -42,6 +43,11 @@ export default {
         longselect: {component: LongSelect},
         shortselect: {component: ShortSelect},
         date: {component: DateField, invalidDateMessage: 'Неверный формат даты'},
+        dateperiod: {component: DatePeriodField},
         default: 'text'
+    },
+    filters: {
+        //label: true,
+        placeholder: true
     }
 }

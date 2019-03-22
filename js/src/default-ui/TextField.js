@@ -3,11 +3,14 @@ import ExtTextField from '@material-ui/core/TextField';
 
 export default class TextField extends PureComponent {
     render() {
+        let {component, dataSource, name, type, onChange, ...rest} = this.props;
         return (
-            <ExtTextField onChange={(e) => this.props.functions.onChange(e.target.value)} value={this.props.data.value}
-            id="standard-full-width"
-            fullWidth
-            label={this.props.label}
+            <ExtTextField 
+                {...rest}
+                onChange={(e) => this.props.onChange(e.target.value)}
+                id="standard-full-width"
+                fullWidth
+                InputLabelProps={{shrink: true}}
             />
         );
     }

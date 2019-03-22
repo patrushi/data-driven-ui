@@ -2,17 +2,23 @@ import React, { PureComponent } from 'react';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 
+let defaultValue = "<>";
+
 export default class ShortSelect extends PureComponent {
     render() {
+        let {component, dataSource, name, type, value, onChange, ...rest} = this.props;
         return (
-            <TextField onChange={(e) => this.props.functions.onChange(e.target.value)} value={this.props.data.value}
+            <TextField 
+                {...rest}
+                onChange={(e) => this.props.onChange(e.target.value == defaultValue ? null : e.target.value)}
+                value={this.props.value || defaultValue}
                 id="standard-full-width"
                 fullWidth
                 select
-                label={this.props.label}
-                InputLabelProps={{shrink:this.props.data.value ? true : false}}
+                InputLabelProps={{shrink: true}}
             >
-                {this.props.meta.options.map(option => (
+                <MenuItem key={defaultValue} value={defaultValue}></MenuItem>
+                {this.props.options.map(option => (
                     <MenuItem key={option.key} value={option.key}>
                     {option.value || option.key}
                     </MenuItem>

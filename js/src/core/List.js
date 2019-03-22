@@ -33,8 +33,8 @@ export default class List extends PureComponent {
     }
  
     renderCell = (meta, item, rowIdx, columnIdx) => {
-        return meta.dataSourse && meta.dataSourse.path
-            ? this.getValueFromPath(item, meta.dataSourse.path, 0)
+        return meta.dataSource && meta.dataSource.path
+            ? this.getValueFromPath(item, meta.dataSource.path, 0)
             : item[meta.name];
     }
 
@@ -66,17 +66,19 @@ export default class List extends PureComponent {
     }
 
     changeFilter = (meta, value) => {
+        if (this.state.filters[meta.name] == value) return;
+
         this.setState({
             filters: {...this.state.filters, [meta.name]: value}
-        }, (meta.dataSourse || {}).refresh === 'debounce'
+        }, (meta.dataSource || {}).refresh === 'debounce'
             ? () => this.refreshWithDebounce(true)
             : () => this.refresh(true));
     }
 
     refresh = (needCount) => {
         this.setState({isLoading: true});
-        var dataSourseMeta = this.props.globalMeta.dataSourseTypes[this.props.meta.dataSourse.type || this.props.globalMeta.dataSourseTypes.default];
-        new dataSourseMeta.class({meta: dataSourseMeta}).getList(needCount, this.props.meta, this.state, this.props.globalMeta, this.refreshCallback);
+        var dataSourceMeta = this.props.globalMeta.dataSourceTypes[this.props.meta.dataSource.type || this.props.globalMeta.dataSourceTypes.default];
+        new dataSourceMeta.class({meta: dataSourceMeta}).getList(needCount, this.props.meta, this.state, this.props.globalMeta, this.refreshCallback);
     }
 
     refreshCallback = (data) => {

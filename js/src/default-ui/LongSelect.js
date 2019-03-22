@@ -4,10 +4,10 @@ import debounce from '../core/debounce';
 
 export default class LongSelect extends PureComponent {
     loadOptionsFunc = () => {
-        var dataSourseMetadata = this.props.metadata.dataSourse;
-        var dataSourseType = dataSourseMetadata.type || this.props.defaults.dataSourseTypes.default;
-        var dataSourse = this.props.defaults.dataSourseTypes[dataSourseType];
-        return debounce((inputValue, callback) => dataSourse.getLongSelect({...this.props, inputValue, callback}), 200);
+        var dataSourceMetadata = this.props.metadata.dataSource;
+        var dataSourceType = dataSourceMetadata.type || this.props.defaults.dataSourceTypes.default;
+        var dataSource = this.props.defaults.dataSourceTypes[dataSourceType];
+        return debounce((inputValue, callback) => dataSource.getLongSelect({...this.props, inputValue, callback}), 200);
     }
 
     render() {
