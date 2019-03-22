@@ -10,12 +10,16 @@ export default class List extends PureComponent {
             filters: {},
             count: 100,
             items: [],
-            paging: {
-                page: 0,
-                perPage: 10
-            },
             selected: []
         };
+
+        if (props.meta.paging) {
+            this.state.paging = {
+                page: props.meta.paging.page || (props.globalMeta.paging && props.globalMeta.paging.page) || 0,
+                perPage: props.meta.paging.perPage || (props.globalMeta.paging && props.globalMeta.paging.perPage) || 10,
+                perPageOptions: props.meta.paging.perPageOptions || (props.globalMeta.paging && props.globalMeta.paging.perPageOptions) || [10, 100]
+            }
+        }
 
         this.refreshWithDebounce = debounce(this.refresh, 200);
     }
@@ -86,31 +90,41 @@ export default class List extends PureComponent {
         if (this.props.onChangeItems) this.props.onChangeItems(data);
     }
 
-    select = (id) => {
+    select = (id, event) => {
+        event.stopPropagation();
+
         const { selected } = this.state;
         const selectedIndex = selected.indexOf(id);
         let newSelected = [];
 
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, id);
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1));
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1));
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(
-                selected.slice(0, selectedIndex),
-                selected.slice(selectedIndex + 1),
-            );
+        if (this.props.meta.selectable.isMulti) {
+            if (selectedIndex === -1) {
+                newSelected = newSelected.concat(selected, id);
+            } else if (selectedIndex === 0) {
+                newSelected = newSelected.concat(selected.slice(1));
+            } else if (selectedIndex === selected.length - 1) {
+                newSelected = newSelected.concat(selected.slice(0, -1));
+            } else if (selectedIndex > 0) {
+                newSelected = newSelected.concat(
+                    selected.slice(0, selectedIndex),
+                    selected.slice(selectedIndex + 1),
+                );
+            }
+        } else {
+            if (selectedIndex === -1) {
+                newSelected = [id];
+            } else {
+                newSelected = [];
+            }
         }
 
         this.setState({ selected: newSelected });
-
         if (this.props.onSelect) this.props.onSelect(selectedIndex === -1, [id], newSelected);
-        if (this.props.onSingleSelect && selectedIndex === -1) this.props.onSingleSelect(id);
+        if (this.props.onSingleSelect) this.props.onSingleSelect(selectedIndex === -1 ? id : null);
     };
 
     selectAll = event => {
+        if (!this.props.meta.selectable.isMulti) return;
         const selected = event.target.checked
             ? this.state.items.map(n => n[this.props.meta.key])
             : []

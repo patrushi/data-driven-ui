@@ -17,7 +17,7 @@ export default class ListExample extends PureComponent {
                {name: 'FirstName', type: 'text', dataSourse: {refresh: 'debounce'}}
             ],
             paging: {},
-            selectable: {type: 'row', isMulti: false},
+            selectable: {type: 'row&checkbox', isMulti: false},
             dataSourse: {type: 'odata', shortPath: `People`, selectAll: true}
         };
 

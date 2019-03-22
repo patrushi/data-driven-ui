@@ -11,6 +11,10 @@ export default {
         filterPanel: {component: FilterPanel},
         longProcessPanel: {component: LongProcessPanel}
     },
+    paging: {
+        perPage: 10,
+        perPageOptions: [10, 100]
+    },
     dataSourseTypes: {
         odata: {
             class: OData,

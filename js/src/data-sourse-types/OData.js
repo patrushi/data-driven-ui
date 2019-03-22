@@ -18,11 +18,16 @@ export default class OData {
             .map(e => e.dataSourse && e.dataSourse.path ? e.dataSourse.path.reduce((path, a) => path + '/' + a) : e.name);
     }
 
+    getByName = (list, name) => {
+        return list.filter(e => e.name === name)[0];
+    }
+
     getOrderBy(meta, data) {
         var orderedColumns = [];
         for (var name in data.columnOrders) {
+            var columnMeta = this.getByName(meta.columns, name);
             if (data.columnOrders[name] !== undefined) {
-                orderedColumns.push({meta: meta.columns.filter(e => e.name === name)[0], order: data.columnOrders[name] === 'desc' ? ' desc' : ''});
+                orderedColumns.push({meta: columnMeta, order: data.columnOrders[name] === 'desc' ? ' desc' : ''});
             }
         }
         return orderedColumns.length === 0
@@ -35,7 +40,7 @@ export default class OData {
         var filters = [];
         for (var name in data.filters) {
             if (data.filters[name]) {
-                var m = meta.filters.filter(e => e.name === name)[0];
+                var m = this.getByName(meta.filters, name);
                 var f = (m.dataSourse || {}).func || settings.filters[m.type] || settings.filters.default;
                 filters.push(f(name, data.filters[name]));
             }
@@ -49,8 +54,8 @@ export default class OData {
         const settings = globalMeta.dataSourseTypes['odata'];
         const path = meta.dataSourse.path || settings.basePath + '/' + meta.dataSourse.shortPath;
         const count = needCount;
-        const top = data.paging.perPage;
-        const skip = data.paging.perPage * data.paging.page;
+        const top = data.paging && data.paging.perPage;
+        const skip = data.paging && data.paging.perPage * data.paging.page;
         const filter = this.getFilter(settings, meta, data);
         const expand = this.getExpand(meta);
         const select = meta.dataSourse.selectAll ? null : this.getSelect(meta);
