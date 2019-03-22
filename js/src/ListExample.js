@@ -14,15 +14,33 @@ export default class ListExample extends PureComponent {
             ],
             key: 'FirstName',
             filters: [
-               {name: 'Gender', type: 'shortselect', options: [{key: 'Male'}, {key: 'Female'}], dataSourse: {type: 'Microsoft.OData.Service.Sample.TrippinInMemory.Models.PersonGender', func: (name, value) => {return `Gender eq Microsoft.OData.Service.Sample.TrippinInMemory.Models.PersonGender'${value}'`}}},
+               {name: 'Gender', type: 'shortselect', options: [{key: 'Male'}, {key: 'Female'}], dataSourse: {type: 'Microsoft.OData.Service.Sample.TrippinInMemory.Models.PersonGender', func: (name, value) => {return `${name} eq Microsoft.OData.Service.Sample.TrippinInMemory.Models.PersonGender'${value}'`}}},
                {name: 'FirstName', type: 'text', dataSourse: {refresh: 'debounce'}},
-               {name: 'LastName', type: 'text', dataSourse: {refresh: 'debounce'}}
+               {name: 'LastName', type: 'text', dataSourse: {refresh: 'debounce'}},
+               {name: 'Date', type: 'date'}
             ],
             //filtersLayout: {type: 'default', perLine: 2},
             paging: {},
             selectable: {type: 'row&checkbox', isMulti: false},
             dataSourse: {type: 'odata', shortPath: `People`, selectAll: true}
         };
+
+        this.meta = {
+            columns: [
+                {name: 'Name', title: 'Название', isOrderable: true},
+                //{name: 'State', title: 'Состояние', dataSourse: {path: [, 'Name']}},
+                //{name: 'PartialPlan', title: 'Частный план', dataSourse: {path: [, 'Name']}},
+                {name: 'PlannedDateStart', title: 'Дата начала', type: 'date'},
+                {name: 'PlannedDateEnd', title: 'Дата конца', type: 'date'}
+            ],
+            filters: [
+                {name: 'PartialPlan', title: 'Частный план', type: 'longlist'},
+                {name: 'State', title: 'Состояние', type: 'shortlist'},
+                {name: 'PlannedDateStart', title: 'Дата начала', type: 'date'},
+            ],
+            paging: {},
+            dataSourse: {type: 'odata', path: `https://dev2.modeus.me/periodplanning/api/CourseUnitRealization`, selectAll: true}
+        }
 
         this.state = {};
     }

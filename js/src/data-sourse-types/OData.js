@@ -41,7 +41,7 @@ export default class OData {
         for (var name in data.filters) {
             if (data.filters[name]) {
                 var m = this.getByName(meta.filters, name);
-                var f = (m.dataSourse || {}).func || settings.filters[m.type] || settings.filters.default;
+                var f = (m.dataSourse || {}).func || settings.filters[m.type] || settings.filters[settings.filters.default];
                 filters.push(f(name, data.filters[name]));
             }
         }

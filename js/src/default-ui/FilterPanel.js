@@ -11,7 +11,7 @@ export default class FilterPanel extends PureComponent {
         let data = {
             value: this.props.data.filters[meta.name]
         };
-        var props = {meta, functions, data, label: meta.title || meta.name}
+        var props = {meta, functions, data, label: meta.title || meta.name, ...fieldMeta}
         return React.createElement(fieldMeta.component, props);
     }
 
@@ -30,7 +30,7 @@ export default class FilterPanel extends PureComponent {
             var empty = [];
             if (linesCnt > 1) for (let i = 0; i < perLine * linesCnt - this.props.meta.filters.length; i++)
             {
-                empty.push(<Grid item xs />);
+                empty.push(<Grid item xs key={100+i} />);
             }
             return <React.Fragment>
                 {
