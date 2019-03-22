@@ -10,14 +10,14 @@ export default class FilterPanel extends PureComponent {
         let data = {
             value: this.props.data.filters[meta.name]
         };
-        var props = {...this.props, functions, data}
+        var props = {meta, functions, data, label: meta.title || meta.name}
         return React.createElement(fieldMeta.component, props);
     }
 
     render() {
         return <React.Fragment>
             {this.props.meta.filters.map((item, idx) => (
-                <div key={idx}>{item.title || item.name}: {this.getField(item)}</div>
+                <div key={idx}>{this.getField(item)}</div>
             ))}
         </React.Fragment>;
     }

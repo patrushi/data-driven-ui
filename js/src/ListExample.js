@@ -45,7 +45,9 @@ export default class ListExample extends PureComponent {
     }
 
     render() {
-        return <List meta={this.meta} globalMeta={GlobalMeta} onSelect={this.onSelect} onSingleSelect={this.onSingleSelect} />
+        return <div style={{padding: 15}}>
+            <List meta={this.meta} globalMeta={GlobalMeta} onSelect={this.onSelect} onSingleSelect={this.onSingleSelect} />
+        </div>
     }
 }
 

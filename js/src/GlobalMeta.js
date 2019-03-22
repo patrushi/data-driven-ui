@@ -2,6 +2,7 @@ import OData from './data-sourse-types/OData';
 import List from './default-ui/List';
 import TextField from './default-ui/TextField';
 import LongSelect from './default-ui/LongSelect';
+import ShortSelect from './default-ui/ShortSelect';
 import LongProcessPanel from './default-ui/LongProcessPanel.js';
 import FilterPanel from './default-ui/FilterPanel';
 
@@ -33,6 +34,7 @@ export default {
     filterTypes: {
         text: {component: TextField},
         longselect: {component: LongSelect},
+        shortselect: {component: ShortSelect},
         default: 'text'
     }
 }
