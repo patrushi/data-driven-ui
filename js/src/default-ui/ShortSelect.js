@@ -10,7 +10,7 @@ export default class ShortSelect extends PureComponent {
         return (
             <TextField 
                 {...rest}
-                onChange={(e) => this.props.onChange(e.target.value == defaultValue ? null : e.target.value)}
+                onChange={(e) => this.props.onChange(e.target.value === defaultValue ? null : e.target.value)}
                 value={this.props.value || defaultValue}
                 id="standard-full-width"
                 fullWidth

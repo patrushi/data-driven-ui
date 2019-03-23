@@ -34,7 +34,7 @@ export default {
                 date: (name, value) => {return `${name} eq ${value == null ? null : moment(value._d).format("YYYY-MM-DD") + "T00:00:00Z"}`},
                 default: 'string'
             },
-            basePath: 'https://services.odata.org/TripPinRESTierService'
+            basePath: 'https://services.odata.org/V4/Northwind/Northwind.svc/'
         },
         default: 'odata'
     },
