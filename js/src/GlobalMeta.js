@@ -54,7 +54,7 @@ export default {
         default: 'text'
     },
     columnTypes: {
-        date: {renderFunc: (name, value) => {console.log(value); return moment(value).format("DD.MM.YYYY")}}
+        date: {renderFunc: (name, value) => {return moment(value).format("DD.MM.YYYY")}}
     },
     types: {
         Date: {columnType: 'date'}
@@ -62,8 +62,5 @@ export default {
     filters: {
         //label: true,
         placeholder: true
-    },
-    formats: {
-        date: "DD/MM/YYYY"
     }
 }

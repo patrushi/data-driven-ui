@@ -5,7 +5,7 @@ import {Clear as ClearIcon} from "@material-ui/icons";
 
 export default class TextField extends PureComponent {
     render() {
-        let { component, dataSource, name, type, onChange, value, ...rest } = this.props;
+        let { component, dataSource, name, type, onChange, value, notClearable, ...rest } = this.props;
         return (
             <ExtTextField
                 {...rest}
@@ -14,13 +14,13 @@ export default class TextField extends PureComponent {
                 id="standard-full-width"
                 fullWidth
                 InputLabelProps={{ shrink: true }}
-                InputProps={{
+                InputProps={!notClearable ? {
                     endAdornment: (
-                        <IconButton onClick={() => onChange(null)} style={{margin: 0, padding: 0}}>
+                        <IconButton onClick={() => onChange(null)} style={{padding: '3px'}}>
                             <ClearIcon />
                         </IconButton>
                     )
-                }}
+                } : undefined}
             />
         );
     }
