@@ -29,6 +29,26 @@ export default class ListExample extends PureComponent {
             dataSource: {type: 'odata', shortPath: `Orders`, selectAll: true}
         };
 
+        this.metaDetail = {
+            columns: [
+                {name: 'OrderID', isOrderable: true},
+                {name: 'ProductID'},
+                {name: 'UnitPrice', type: 'number'},
+                {name: 'Quantity', type: 'number'},
+                {name: 'Discount', type: 'number'},
+            ],
+            /* filters: [
+               //{name: 'Gender', type: 'shortselect', options: [{key: 'Male'}, {key: 'Female'}], dataSource: {type: 'Microsoft.OData.Service.Sample.TrippinInMemory.Models.PersonGender', func: (name, value) => {return `${name} eq Microsoft.OData.Service.Sample.TrippinInMemory.Models.PersonGender'${value}'`}}},
+               {name: 'ShipCountry', type: 'text', dataSource: {refresh: 'debounce'}},
+               //{name: 'OrderDate', type: 'date'},
+               {name: 'OrderDate', type: 'dateperiod'},
+            ],
+             *///filtersLayout: {type: 'default', perLine: 2},
+            paging: {},
+            selectable: {type: 'row&checkbox', isMulti: true},
+            dataSource: {type: 'odata', shortPath: `Order_Details`, selectAll: true}
+        };
+
 /*         OrderID	10248
 CustomerID	"VINET"
 EmployeeID	5
@@ -44,20 +64,26 @@ ShipRegion	null
 ShipPostalCode	"51100"
 ShipCountry	"France" */
 
-        this.state = {};
+        this.state = {
+            selected: [],
+            listDetailRef: null
+        };
     }
 
-    onSelect = (isSelect, lastSelect, allSelect) => {
+    onSelect = (isSelect, lastSelectKeys, allSelectKeys, lastSelectItems, allSelectItems) => {
         //console.log(isSelect, lastSelect, allSelect);
     }
 
-    onSingleSelect = (select) => {
-        //console.log(select);
+    onSingleSelect = (selectKey) => {
+        console.log(selectKey);
+        this.metaDetail.dataSource.filters = [{OrderID: selectKey}];
+        if (this.state.listDetailRef) this.state.listDetailRef.refresh(true);
     }
 
     render() {
         return <Paper style={{ margin: 15, padding: 15 }}>
             <List meta={this.meta} globalMeta={GlobalMeta} onSelect={this.onSelect} onSingleSelect={this.onSingleSelect} />
+            <List meta={this.metaDetail} setRef={(ref) => this.setState({listDetailRef: ref})} globalMeta={GlobalMeta} onSelect={this.onSelect} onSingleSelect={this.onSingleSelect} />
         </Paper>
     }
 }

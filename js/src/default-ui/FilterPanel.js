@@ -17,6 +17,8 @@ export default class FilterPanel extends PureComponent {
     }
 
     render() {
+        if (!this.props.meta.filters) return null;
+
         var {filtersLayout} = this.props.meta;
 
         if (!filtersLayout || !filtersLayout.type || filtersLayout.type === 'default')

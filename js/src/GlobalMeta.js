@@ -1,3 +1,4 @@
+import React from 'react';
 import OData from './data-sourse-types/OData';
 import List from './default-ui/List';
 import TextField from './default-ui/TextField';
@@ -54,7 +55,8 @@ export default {
         default: 'text'
     },
     columnTypes: {
-        date: {renderFunc: (name, value) => {return moment(value).format("DD.MM.YYYY")}}
+        date: {renderFunc: (name, value) => {return moment(value).format("DD.MM.YYYY")}},
+        number: {renderFunc: (name, value) => {return <div style={{width: '100%', textAlign: 'right'}}>{value}</div>}}
     },
     types: {
         Date: {columnType: 'date'}

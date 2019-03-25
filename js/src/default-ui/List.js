@@ -43,7 +43,7 @@ export default class List extends PureComponent {
                     </TableHead>
                     <TableBody>
                     {this.props.data.items.map((item, rowIdx) => {
-                        var key = item[this.props.meta.key];
+                        var key = this.props.meta.key ? item[this.props.meta.key] : rowIdx;
                         var tableRowProps = this.props.meta.selectable && (this.props.meta.selectable.type === 'row&checkbox' || this.props.meta.selectable.type === 'row' || this.props.meta.selectable.type === undefined)
                             ? {
                                 hover: true,

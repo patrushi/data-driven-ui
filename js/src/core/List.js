@@ -25,7 +25,12 @@ export default class List extends PureComponent {
     }
 
     componentDidMount() {
+        if (this.props.setRef) this.props.setRef(this);
         this.refresh(true);
+    }
+
+    componentWillUnmount() {
+        if (this.props.setRef) this.props.setRef(null);
     }
 
     renderColumnTitle = (meta) => {
