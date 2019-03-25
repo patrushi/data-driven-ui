@@ -33,9 +33,21 @@ export default class List extends PureComponent {
     }
  
     renderCell = (meta, item, rowIdx, columnIdx) => {
-        return meta.dataSource && meta.dataSource.path
+        let value = meta.dataSource && meta.dataSource.path
             ? this.getValueFromPath(item, meta.dataSource.path, 0)
             : item[meta.name];
+        
+        var type = meta.type;
+
+        var columnTypeMeta = this.props.globalMeta.columnTypes[type];
+
+        if (columnTypeMeta) {
+            if (columnTypeMeta.renderFunc) {
+                value = columnTypeMeta.renderFunc(meta.name, value);
+            }
+        }
+
+        return value;
     }
 
     getValueFromPath = (item, path, i) => {

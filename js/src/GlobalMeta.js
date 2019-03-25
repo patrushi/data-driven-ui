@@ -53,8 +53,17 @@ export default {
         dateperiod: {component: DatePeriodField},
         default: 'text'
     },
+    columnTypes: {
+        date: {renderFunc: (name, value) => {console.log(value); return moment(value).format("DD.MM.YYYY")}}
+    },
+    types: {
+        Date: {columnType: 'date'}
+    },
     filters: {
         //label: true,
         placeholder: true
+    },
+    formats: {
+        date: "DD/MM/YYYY"
     }
 }

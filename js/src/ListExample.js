@@ -11,9 +11,9 @@ export default class ListExample extends PureComponent {
             columns: [
                 {name: 'OrderID', isOrderable: true},
                 {name: 'CustomerID'},
-                {name: 'OrderDate'},
-                {name: 'RequiredDate'},
-                {name: 'ShippedDate'},
+                {name: 'OrderDate', type: 'date'},
+                {name: 'RequiredDate', type: 'date'},
+                {name: 'ShippedDate', type: 'date'},
                 {name: 'ShipCountry'},
             ],
             key: 'OrderID',
