@@ -32,7 +32,7 @@ export default class ListExample extends PureComponent {
         this.metaDetail = {
             columns: [
                 {name: 'OrderID', isOrderable: true},
-                {name: 'ProductID'},
+                {name: 'ProductID', title: 'Product', dataSource: {path: ['Product', 'ProductName']}},
                 {name: 'UnitPrice', type: 'number'},
                 {name: 'Quantity', type: 'number'},
                 {name: 'Discount', type: 'number'},
