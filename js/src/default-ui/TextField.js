@@ -1,16 +1,27 @@
 import React, { PureComponent } from 'react';
 import ExtTextField from '@material-ui/core/TextField';
+import { IconButton } from "@material-ui/core";
+import {Clear as ClearIcon} from "@material-ui/icons";
 
 export default class TextField extends PureComponent {
     render() {
-        let {component, dataSource, name, type, onChange, ...rest} = this.props;
+        let { component, dataSource, name, type, onChange, value, ...rest } = this.props;
+        console.log(rest);
         return (
-            <ExtTextField 
+            <ExtTextField
                 {...rest}
-                onChange={(e) => this.props.onChange(e.target.value)}
+                value={value || ''}
+                onChange={(e) => onChange(e.target.value)}
                 id="standard-full-width"
                 fullWidth
-                InputLabelProps={{shrink: true}}
+                InputLabelProps={{ shrink: true }}
+                InputProps={{
+                    endAdornment: (
+                        <IconButton onClick={() => onChange(null)} style={{margin: 0, padding: 0}}>
+                            <ClearIcon />
+                        </IconButton>
+                    )
+                }}
             />
         );
     }
