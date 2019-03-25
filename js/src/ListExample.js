@@ -20,6 +20,7 @@ export default class ListExample extends PureComponent {
             filters: [
                //{name: 'Gender', type: 'shortselect', options: [{key: 'Male'}, {key: 'Female'}], dataSource: {type: 'Microsoft.OData.Service.Sample.TrippinInMemory.Models.PersonGender', func: (name, value) => {return `${name} eq Microsoft.OData.Service.Sample.TrippinInMemory.Models.PersonGender'${value}'`}}},
                {name: 'ShipCountry', type: 'text', dataSource: {refresh: 'debounce'}},
+               //{name: 'OrderDate', type: 'date'},
                {name: 'OrderDate', type: 'dateperiod'},
             ],
             //filtersLayout: {type: 'default', perLine: 2},

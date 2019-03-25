@@ -19,7 +19,7 @@ export default class DateField extends PureComponent {
                         label={this.props.label || ' '}
                         value={this.props.value || null}
                         format={this.props.format || "DD/MM/YYYY"}
-                        onChange={this.props.onChange}
+                        onChange={(d) => this.props.onChange(d._d)}
                         autoComplete="off"
                         disableOpenOnEnter={true}
                         InputLabelProps={{shrink: true}}

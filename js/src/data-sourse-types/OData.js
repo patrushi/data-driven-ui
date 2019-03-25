@@ -72,6 +72,7 @@ export default class OData {
 
     fetchQuery(path, queryProps, callbackFunc) {
         var query = buildQuery(queryProps); 
+        console.log(query);
         fetch(`${path}${query}`, {})
             .then(response => response.json())
             .then(data => {

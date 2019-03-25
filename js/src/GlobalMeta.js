@@ -27,11 +27,18 @@ export default {
             class: OData,
             format: 'json',
             debounceInterval: 200,
-            separateQueryForCount: true,
+            //separateQueryForCount: true,
             filters: {
                 string: (name, value) => {return {[name]: value}},
-                text: (name, value) => {return {[`tolower(${name})`]: { contains: value == null ? null : value.toLowerCase()}}},
-                date: (name, value) => {return `${name} eq ${value == null ? null : moment(value._d).format("YYYY-MM-DD") + "T00:00:00Z"}`},
+                text: (name, value) => {return value == null ? null : {[`tolower(${name})`]: { contains: value.toLowerCase()}}},
+                date: (name, value) => {return value == null ? null : `${name} eq ${moment(value).format("YYYY-MM-DD") + "T00:00:00Z"}`},
+                dateperiod: (name, value) => {
+                    if (value == null || (value.from == null && value.till == null)) return null;
+                    let r = [];
+                    if (value.from != null) r.push(`${name} ge ${moment(value.from).format("YYYY-MM-DD") + "T00:00:00Z"}`);
+                    if (value.till != null) r.push(`${name} le ${moment(value.till).format("YYYY-MM-DD") + "T00:00:00Z"}`);
+                    return r;
+                },
                 default: 'string'
             },
             basePath: 'https://services.odata.org/V4/Northwind/Northwind.svc/'
