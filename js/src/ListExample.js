@@ -26,7 +26,7 @@ export default class ListExample extends PureComponent {
             //filtersLayout: {type: 'default', perLine: 2},
             paging: {},
             selectable: {type: 'row&checkbox', isMulti: false},
-            dataSource: {type: 'odata', shortPath: `Orders`, selectAll: true}
+            dataSource: {type: 'odata', shortPath: `Orders`, selectAll: false}
         };
 
         this.metaDetail = {
@@ -46,7 +46,7 @@ export default class ListExample extends PureComponent {
              *///filtersLayout: {type: 'default', perLine: 2},
             paging: {},
             selectable: {type: 'row&checkbox', isMulti: true},
-            dataSource: {type: 'odata', shortPath: `Order_Details`, selectAll: true}
+            dataSource: {type: 'odata', shortPath: `Order_Details`, selectAll: false}
         };
 
 /*         OrderID	10248
@@ -75,7 +75,6 @@ ShipCountry	"France" */
     }
 
     onSingleSelect = (selectKey) => {
-        console.log(selectKey);
         this.metaDetail.dataSource.filters = [{OrderID: selectKey}];
         if (this.state.listDetailRef) this.state.listDetailRef.refresh(true);
     }

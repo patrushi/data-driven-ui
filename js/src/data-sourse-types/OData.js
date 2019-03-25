@@ -48,7 +48,6 @@ export default class OData {
         if (meta.dataSource.filters) {
             filters = [...filters, meta.dataSource.filters];
         }
-        console.log(meta.dataSource, filters);
         return filters.length === 0
             ? null
             : filters;
