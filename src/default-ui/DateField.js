@@ -37,10 +37,10 @@ export default function DateField(props) {
                 InputProps={!notClearable ? {
                     endAdornment:
                         <React.Fragment>
-                            <IconButton onClick={openPicker} style={{padding: '3px'}}>
+                            <IconButton onClick={openPicker} style={{padding: '3px'}} disabled={props.disabled}>
                                 <CalendarIcon />
                             </IconButton>
-                            <IconButton onClick={() => onChange(null)} style={{padding: '3px'}}>
+                            <IconButton onClick={() => onChange(null)} style={{padding: '3px'}} disabled={props.disabled}>
                                 <ClearIcon />
                             </IconButton>
                         </React.Fragment>
