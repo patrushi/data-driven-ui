@@ -82,7 +82,7 @@ ShipCountry	"France" */
     render() {
         return <Paper style={{ margin: 15, padding: 15 }}>
             <List meta={this.meta} globalMeta={GlobalMeta} onSelect={this.onSelect} onSingleSelect={this.onSingleSelect} />
-            <List meta={this.metaDetail} setRef={(ref) => this.setState({listDetailRef: ref})} globalMeta={GlobalMeta} onSelect={this.onSelect} onSingleSelect={this.onSingleSelect} />
+            <List meta={this.metaDetail} setRef={(ref) => this.setState({listDetailRef: ref})} globalMeta={GlobalMeta} />
         </Paper>
     }
 }
