@@ -98,6 +98,14 @@ export default class List extends PureComponent {
         new dataSourceMeta.class({meta: dataSourceMeta}).getList(needCount, this.props.meta, this.state, this.props.globalMeta, this.refreshCallback);
     }
 
+    getKey = (item, idx) => {
+        return this.props.meta.key
+            ? item[this.props.meta.key]
+            : this.props.meta.keyFunc
+                ? this.props.meta.keyFunc(item)
+                : idx;
+    }
+
     refreshCallback = (data) => {
         if (data.count !== undefined && data.items !== undefined) {
             this.setState({count: data.count, items: data.items, isLoading: false});
@@ -145,7 +153,7 @@ export default class List extends PureComponent {
     selectAll = event => {
         if (!this.props.meta.selectable.isMulti) return;
         const selected = event.target.checked
-            ? this.state.items.map(n => n[this.props.meta.key])
+            ? this.state.items.map((n, i) => this.getKey(n, i))
             : []
         this.setState({selected});
         if (this.props.onSelect) this.props.onSelect(event.target.checked, selected, selected)
@@ -166,7 +174,8 @@ export default class List extends PureComponent {
                 changeFilter: this.changeFilter,
                 isSelected: this.isSelected,
                 select: this.select,
-                selectAll: this.selectAll
+                selectAll: this.selectAll,
+                getKey: this.getKey
             },
         };
 

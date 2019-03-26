@@ -37,6 +37,7 @@ export default class ListExample extends PureComponent {
                 {name: 'Quantity', type: 'number'},
                 {name: 'Discount', type: 'number'},
             ],
+            keyFunc: e => `${e.OrderID}_${e.ProductID}`,
             /* filters: [
                //{name: 'Gender', type: 'shortselect', options: [{key: 'Male'}, {key: 'Female'}], dataSource: {type: 'Microsoft.OData.Service.Sample.TrippinInMemory.Models.PersonGender', func: (name, value) => {return `${name} eq Microsoft.OData.Service.Sample.TrippinInMemory.Models.PersonGender'${value}'`}}},
                {name: 'ShipCountry', type: 'text', dataSource: {refresh: 'debounce'}},
