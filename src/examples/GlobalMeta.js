@@ -1,13 +1,13 @@
 import React from 'react';
-import OData from './data-sourse-types/OData';
-import List from './default-ui/List';
-import TextField from './default-ui/TextField';
-import LongSelect from './default-ui/LongSelect';
-import ShortSelect from './default-ui/ShortSelect';
-import LongProcessPanel from './default-ui/LongProcessPanel.js';
-import FilterPanel from './default-ui/FilterPanel';
-import DateField from './default-ui/DateField';
-import DatePeriodField from './default-ui/DatePeriodField';
+import OData from '../data-sourse-types/OData';
+import List from '../default-ui/List';
+import TextField from '../default-ui/TextField';
+import LongSelect from '../default-ui/LongSelect';
+import ShortSelect from '../default-ui/ShortSelect';
+import LongProcessPanel from '../default-ui/LongProcessPanel.js';
+import FilterPanel from '../default-ui/FilterPanel';
+import DateField from '../default-ui/DateField';
+import DatePeriodField from '../default-ui/DatePeriodField';
 
 import moment from "moment";
 import "moment/locale/ru";

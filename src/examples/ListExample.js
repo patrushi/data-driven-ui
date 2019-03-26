@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import List from './core/List';
+import List from '../core/List';
 import GlobalMeta from './GlobalMeta';
 import Paper from '@material-ui/core/Paper';
 
@@ -26,7 +26,7 @@ export default class ListExample extends PureComponent {
             //filtersLayout: {type: 'default', perLine: 2},
             paging: {},
             selectable: {type: 'row&checkbox', isMulti: false},
-            dataSource: {type: 'odata', shortPath: `Orders`, selectAll: false}
+            dataSource: {type: 'odata', shortPath: `Orders`, selectAll: true}
         };
 
         this.metaDetail = {
@@ -46,7 +46,7 @@ export default class ListExample extends PureComponent {
              *///filtersLayout: {type: 'default', perLine: 2},
             paging: {},
             selectable: {type: 'row&checkbox', isMulti: true},
-            dataSource: {type: 'odata', shortPath: `Order_Details`, selectAll: false}
+            dataSource: {type: 'odata', shortPath: `Order_Details`, selectAll: true}
         };
 
 /*         OrderID	10248
