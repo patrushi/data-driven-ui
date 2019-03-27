@@ -166,7 +166,7 @@ const components = {
     ValueContainer,
 };
 
-export class LongSelect extends PureComponent {
+export class SelectWithStyles extends PureComponent {
     render() {
         const { classes, theme } = this.props;
 
@@ -181,7 +181,7 @@ export class LongSelect extends PureComponent {
         };
         
         return (
-            <AsyncSelect
+            <div style={this.props.fullWidth ? {width: '100%'} : {}}><AsyncSelect
                 classes={classes}
                 styles={selectStyles}
                 textFieldProps={{
@@ -192,9 +192,9 @@ export class LongSelect extends PureComponent {
                 }}
                 {...this.props}
                 components={{...components, ...this.props.components}}
-            />
+            /></div>
         );
     }
 }
 
-export default withStyles(styles, { withTheme: true })(LongSelect);
+export default withStyles(styles, { withTheme: true })(SelectWithStyles);

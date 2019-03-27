@@ -5,8 +5,7 @@ import { IconButton } from "@material-ui/core";
 import { Clear as ClearIcon, InsertInvitation as CalendarIcon } from "@material-ui/icons";
 
 export default function DateField(props) {
-
-    let { component, dataSource, name, type, onChange, label, value, format, notClearable, ...rest } = props;
+    let { meta, globalMeta, componentMeta, component, onChange, value, notClearable, format, label, ...rest } = props;
 
     const pickerRef = useRef(null);
 

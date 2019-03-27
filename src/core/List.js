@@ -26,7 +26,7 @@ export default class List extends PureComponent {
 
     componentDidMount() {
         if (this.props.setRef) this.props.setRef(this);
-        this.refresh(true);
+        if (!this.props.notAutoRefresh) this.refresh(true);
     }
 
     componentWillUnmount() {

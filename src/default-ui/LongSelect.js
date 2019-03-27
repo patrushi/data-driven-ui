@@ -1,18 +1,17 @@
 import React, { PureComponent } from 'react';
-import LongSelectWithStyles from './LongSelectWithStyles';
+import SelectWithStyles from './SelectWithStyles';
 import debounce from '../core/debounce'; 
 
 export default class LongSelect extends PureComponent {
     loadOptionsFunc = () => {
-        var dataSourceMetadata = this.props.metadata.dataSource;
-        var dataSourceType = dataSourceMetadata.type || this.props.defaults.dataSourceTypes.default;
-        var dataSource = this.props.defaults.dataSourceTypes[dataSourceType];
-        return debounce((inputValue, callback) => dataSource.getLongSelect({...this.props, inputValue, callback}), 200);
+        var dataSourceMeta = this.props.globalMeta.dataSourceTypes[this.props.meta.dataSource.type || this.props.globalMeta.dataSourceTypes.default];
+        return debounce((inputValue, callback) => new dataSourceMeta.class({meta: dataSourceMeta}).getLongSelect(this.props, inputValue, callback), 200);
     }
 
     render() {
         return (
-            <LongSelectWithStyles {...this.props} 
+            <SelectWithStyles {...this.props}
+                fullWidth
                 loadOptions={this.loadOptionsFunc()} />
         );
     }

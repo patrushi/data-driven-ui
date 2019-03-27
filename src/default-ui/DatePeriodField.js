@@ -4,7 +4,7 @@ import { Remove as RemoveIcon } from "@material-ui/icons";
 
 export default class DatePeriodField extends PureComponent {
     render() {
-        let {component, dataSource, name, type, onChange, label, placeholder, value, ...rest} = this.props;
+        let {label, placeholder, onChange, value, ...rest} = this.props;
         if (!value) value = {};
         return (
             <React.Fragment>

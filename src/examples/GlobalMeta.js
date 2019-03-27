@@ -42,7 +42,7 @@ export default {
                 },
                 default: 'string'
             },
-            basePath: 'https://services.odata.org/V4/Northwind/Northwind.svc/'
+            basePath: 'https://services.odata.org/V4/Northwind/Northwind.svc'
         },
         default: 'odata'
     },

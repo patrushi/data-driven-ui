@@ -36,12 +36,12 @@ export default class OData {
                 .map(e => e.meta.dataSource && e.meta.dataSource.path ? e.meta.dataSource.path.reduce((path, a) => path + '/' + a) + e.order: e.meta.name + e.order);;
     }
 
-    getFilter(settings, meta, data) {
+    getFilter(meta, data) {
         var filters = [];
         for (var name in data.filters) {
             if (data.filters[name]) {
                 var m = this.getByName(meta.filters, name);
-                var f = (m.dataSource || {}).func || settings.filters[m.type] || settings.filters[settings.filters.default];
+                var f = (m.dataSource || {}).func || this.props.meta.filters[m.type] || this.props.meta.filters[this.props.meta.filters.default];
                 filters.push(f(name, data.filters[name]));
             }
         }
@@ -54,22 +54,21 @@ export default class OData {
     }
 
     getList(needCount, meta, data, globalMeta, callbackFunc) {
-        const settings = globalMeta.dataSourceTypes['odata'];
-        const path = meta.dataSource.path || settings.basePath + '/' + meta.dataSource.shortPath;
+        const path = meta.dataSource.path || this.props.meta.basePath + '/' + meta.dataSource.shortPath;
         const count = needCount;
         const top = data.paging && data.paging.perPage;
         const skip = data.paging && data.paging.perPage * data.paging.page;
-        const filter = this.getFilter(settings, meta, data);
+        const filter = this.getFilter(meta, data);
         const expand = this.getExpand(meta);
         const select = meta.dataSource.selectAll ? null : this.getSelect(meta);
         const orderBy = this.getOrderBy(meta, data);
-        if (needCount && settings.separateQueryForCount)
+        if (needCount && this.props.meta.separateQueryForCount)
         {
-            var cf = (countValue) => this.fetchQuery(path, { select, expand, filter, top, skip, orderBy, format: settings.format }, (value) => callbackFunc({...value, count: countValue.count}));
-            this.fetchQuery(path, { count, filter, format: settings.format }, cf);
+            var cf = (countValue) => this.fetchQuery(path, { select, expand, filter, top, skip, orderBy, format: this.props.meta.format }, (value) => callbackFunc({...value, count: countValue.count}));
+            this.fetchQuery(path, { count, filter, format: this.props.meta.format }, cf);
         }
         else {
-            this.fetchQuery(path, { count, select, expand, filter, top, skip, orderBy, format: settings.format }, callbackFunc);
+            this.fetchQuery(path, { count, select, expand, filter, top, skip, orderBy, format: this.props.meta.format }, callbackFunc);
         }
     }
 
@@ -92,16 +91,15 @@ export default class OData {
             .catch(e => console.log(e));
     }
 
-   getLongSelect(props) {
-        const settings = props.globalMeta.dataSourceTypes['odata'];
-        var meta = props.meta.filters[props.name];
-        const filter = {[`toLower(${meta.dataSource.value})`]: { contains: props.inputValue == null ? null : props.inputValue.toLowerCase()}}
-        const top = meta.count || 10;
-        const query = buildQuery({ filter, top }); 
-        fetch(`${meta.dataSource.path || settings.basePath + '/' + meta.dataSource.shortPath}${query}`, {})
+   getLongSelect(props, inputValue, callback) {
+        const filter = {[`toLower(${props.componentMeta.dataSource.value})`]: { contains: inputValue == null ? null : inputValue.toLowerCase()}}
+        const top = props.componentMeta.dataSource.count || 10;
+        const format = this.props.meta.format;
+        const query = buildQuery({ filter, top, format }); 
+        fetch(`${props.componentMeta.dataSource.path || this.props.basePath + '/' + props.componentMeta.dataSource.shortPath}${query}`, {})
             .then(response => response.json())
             .then(data => {
-                props.callback(data.value.map(function (v) { return { label: v[meta.dataSource.value], value: v[meta.dataSource.key], additionalData: v } }));
+                callback(data.value.map(function (v) { return { label: v[props.componentMeta.dataSource.value], value: v[props.componentMeta.dataSource.key], additionalData: v } }));
             })
             .catch(e => console.log(e));
     }

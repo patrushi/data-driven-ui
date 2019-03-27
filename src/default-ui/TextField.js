@@ -5,7 +5,7 @@ import {Clear as ClearIcon} from "@material-ui/icons";
 
 export default class TextField extends PureComponent {
     render() {
-        let { component, dataSource, name, type, onChange, value, notClearable, ...rest } = this.props;
+        let { meta, globalMeta, componentMeta, component, onChange, value, notClearable, ...rest } = this.props;
         return (
             <ExtTextField
                 {...rest}

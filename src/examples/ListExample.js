@@ -38,13 +38,11 @@ export default class ListExample extends PureComponent {
                 {name: 'Discount', type: 'number'},
             ],
             keyFunc: e => `${e.OrderID}_${e.ProductID}`,
-            /* filters: [
-               //{name: 'Gender', type: 'shortselect', options: [{key: 'Male'}, {key: 'Female'}], dataSource: {type: 'Microsoft.OData.Service.Sample.TrippinInMemory.Models.PersonGender', func: (name, value) => {return `${name} eq Microsoft.OData.Service.Sample.TrippinInMemory.Models.PersonGender'${value}'`}}},
-               {name: 'ShipCountry', type: 'text', dataSource: {refresh: 'debounce'}},
-               //{name: 'OrderDate', type: 'date'},
-               {name: 'OrderDate', type: 'dateperiod'},
+            filters: [
+               {name: 'ProductID', type: 'longselect', dataSource: {}},
+               {name: 'UnitPrice', type: 'longselect', dataSource: {}},
             ],
-             *///filtersLayout: {type: 'default', perLine: 2},
+            filtersLayout: {type: 'default', perLine: 2},
             paging: {},
             selectable: {type: 'row&checkbox', isMulti: true},
             dataSource: {type: 'odata', shortPath: `Order_Details`, selectAll: true}
@@ -83,7 +81,7 @@ ShipCountry	"France" */
     render() {
         return <Paper style={{ margin: 15, padding: 15 }}>
             <List meta={this.meta} globalMeta={GlobalMeta} onSelect={this.onSelect} onSingleSelect={this.onSingleSelect} />
-            <List meta={this.metaDetail} setRef={(ref) => this.setState({listDetailRef: ref})} globalMeta={GlobalMeta} />
+            <List meta={this.metaDetail} notAutoRefresh={true} setRef={(ref) => this.setState({listDetailRef: ref})} globalMeta={GlobalMeta} />
         </Paper>
     }
 }

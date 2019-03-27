@@ -6,7 +6,9 @@ export default class FilterPanel extends PureComponent {
     getField = (meta) => {
         var fieldMeta = this.props.globalMeta.filterTypes[meta.type] || this.props.globalMeta.filterTypes[this.props.globalMeta.filterTypes.default];
         var props = {
-            ...meta, 
+            meta: this.props.meta,
+            globalMeta: this.props.globalMeta,
+            componentMeta: meta, 
             onChange: (value) => this.props.functions.changeFilter(meta, value), 
             value: this.props.data.filters[meta.name], 
             label: this.props.globalMeta.filters.label ? meta.title || meta.name : null,
