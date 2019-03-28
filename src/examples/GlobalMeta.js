@@ -40,6 +40,11 @@ export default {
                     if (value.till != null) r.push(`${name} le ${moment(value.till).format("YYYY-MM-DD") + "T00:00:00Z"}`);
                     return r;
                 },
+                longselect: (name, value) => {
+                    return Array.isArray(value)
+                        ? {or: value.map(function (e) {return { [name]: e.value };})}
+                        : {[name]: value.value}
+                },
                 default: 'string'
             },
             basePath: 'https://services.odata.org/V4/Northwind/Northwind.svc'

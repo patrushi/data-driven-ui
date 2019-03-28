@@ -92,11 +92,11 @@ export default class OData {
     }
 
    getLongSelect(props, inputValue, callback) {
-        const filter = {[`toLower(${props.componentMeta.dataSource.value})`]: { contains: inputValue == null ? null : inputValue.toLowerCase()}}
+        const filter = {[`tolower(${props.componentMeta.dataSource.value})`]: { contains: inputValue == null ? null : inputValue.toLowerCase()}}
         const top = props.componentMeta.dataSource.count || 10;
         const format = this.props.meta.format;
         const query = buildQuery({ filter, top, format }); 
-        fetch(`${props.componentMeta.dataSource.path || this.props.basePath + '/' + props.componentMeta.dataSource.shortPath}${query}`, {})
+        fetch(`${props.componentMeta.dataSource.path || this.props.meta.basePath + '/' + props.componentMeta.dataSource.shortPath}${query}`, {})
             .then(response => response.json())
             .then(data => {
                 callback(data.value.map(function (v) { return { label: v[props.componentMeta.dataSource.value], value: v[props.componentMeta.dataSource.key], additionalData: v } }));

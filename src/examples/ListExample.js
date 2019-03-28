@@ -39,7 +39,7 @@ export default class ListExample extends PureComponent {
             ],
             keyFunc: e => `${e.OrderID}_${e.ProductID}`,
             filters: [
-               {name: 'ProductID', type: 'longselect', dataSource: {}},
+               {name: 'ProductID', type: 'longselect', dataSource: {shortPath: 'Products', key: 'ProductID', value: 'ProductName'}, isMulti: true},
                {name: 'UnitPrice', type: 'longselect', dataSource: {}},
             ],
             filtersLayout: {type: 'default', perLine: 2},

@@ -9,10 +9,14 @@ export default class LongSelect extends PureComponent {
     }
 
     render() {
+        let {componentMeta, value, onChange} = this.props;
         return (
-            <SelectWithStyles {...this.props}
+            <SelectWithStyles {...componentMeta}
+                onChange={onChange}
+                value={value}
                 fullWidth
-                loadOptions={this.loadOptionsFunc()} />
+                loadOptions={this.loadOptionsFunc()}
+                />
         );
     }
 }
