@@ -83,7 +83,6 @@ export default class List extends PureComponent {
     }
 
     changeFilter = (meta, value) => {
-        console.log(meta.name, value);
         if (this.state.filters[meta.name] === value) return;
 
         this.setState({
