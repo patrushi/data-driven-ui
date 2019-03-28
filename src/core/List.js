@@ -8,7 +8,6 @@ export default class List extends PureComponent {
         this.state = {
             columnOrders: [],
             filters: {},
-            count: 100,
             items: [],
             selected: []
         };

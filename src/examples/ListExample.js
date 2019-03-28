@@ -43,7 +43,7 @@ export default class ListExample extends PureComponent {
                {name: 'UnitPrice', type: 'longselect', dataSource: {}},
             ],
             filtersLayout: {type: 'default', perLine: 2},
-            paging: {},
+            paging: {showIfSingle: false},
             selectable: {type: 'row&checkbox', isMulti: true},
             dataSource: {type: 'odata', shortPath: `Order_Details`, selectAll: true}
         };

@@ -66,7 +66,7 @@ export default class List extends PureComponent {
                     )}
                     </TableBody>
                 </Table>
-                {!this.props.meta.paging
+                {!this.props.meta.paging || (!this.props.data.count) || (this.props.meta.paging.showIfSingle === false && this.props.data.count <= this.props.data.paging.perPage)
                     ? (null)
                     :
                     <TablePagination
