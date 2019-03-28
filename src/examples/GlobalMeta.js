@@ -1,5 +1,7 @@
 import React from 'react';
 import OData from '../data-sourse-types/OData';
+import Local from '../data-sourse-types/Local';
+import {Storages} from './Storages';
 import List from '../default-ui/List';
 import TextField from '../default-ui/TextField';
 import LongSelect from '../default-ui/LongSelect';
@@ -40,6 +42,7 @@ export default {
                     if (value.till != null) r.push(`${name} le ${moment(value.till).format("YYYY-MM-DD") + "T00:00:00Z"}`);
                     return r;
                 },
+                number: (name, value) => {return {[name]: Number(value)}},
                 longselect: (name, value) => {
                     return Array.isArray(value)
                         ? {or: value.map(function (e) {return { [name]: e.value };})}
@@ -48,6 +51,15 @@ export default {
                 default: 'string'
             },
             basePath: 'https://services.odata.org/V4/Northwind/Northwind.svc'
+        },
+        local: {
+            class: Local,
+            storages: Storages,
+            expands: {
+                Order_Details: [
+                    {name: 'Product', source: 'Products', func: (i1, i2) => i1.ProductID === i2.ProductID}
+                ]
+            }
         },
         default: 'odata'
     },

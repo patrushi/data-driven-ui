@@ -9,7 +9,7 @@ export default class ListExample extends PureComponent {
 
         this.meta = {
             columns: [
-                {name: 'OrderID', isOrderable: true},
+                {name: 'OrderID', orderable: true},
                 {name: 'CustomerID'},
                 {name: 'OrderDate', type: 'date'},
                 {name: 'RequiredDate', type: 'date'},
@@ -17,6 +17,7 @@ export default class ListExample extends PureComponent {
                 {name: 'ShipCountry'},
             ],
             key: 'OrderID',
+            orderable: true,
             filters: [
                //{name: 'Gender', type: 'shortselect', options: [{key: 'Male'}, {key: 'Female'}], dataSource: {type: 'Microsoft.OData.Service.Sample.TrippinInMemory.Models.PersonGender', func: (name, value) => {return `${name} eq Microsoft.OData.Service.Sample.TrippinInMemory.Models.PersonGender'${value}'`}}},
                {name: 'ShipCountry', type: 'text', dataSource: {refresh: 'debounce'}},
@@ -26,26 +27,29 @@ export default class ListExample extends PureComponent {
             //filtersLayout: {type: 'default', perLine: 2},
             paging: {},
             selectable: {type: 'row&checkbox', isMulti: false},
-            dataSource: {type: 'odata', shortPath: `Orders`, selectAll: true}
+            //dataSource: {type: 'odata', shortPath: `Orders`, selectAll: true}
+            dataSource: {type: 'local', storage: `Orders`}
         };
 
         this.metaDetail = {
             columns: [
                 {name: 'OrderID', isOrderable: true},
-                {name: 'ProductID', title: 'Product', dataSource: {path: ['Product', 'ProductName']}},
+                {name: 'ProductID', title: 'Product', filter: {}, dataSource: {path: ['Product', 'ProductName']}},
                 {name: 'UnitPrice', type: 'number'},
                 {name: 'Quantity', type: 'number'},
                 {name: 'Discount', type: 'number'},
             ],
             keyFunc: e => `${e.OrderID}_${e.ProductID}`,
+            orderable: true,
             filters: [
                {name: 'ProductID', type: 'longselect', dataSource: {shortPath: 'Products', key: 'ProductID', value: 'ProductName'}, isMulti: true},
-               {name: 'UnitPrice', type: 'longselect', dataSource: {}},
+               {name: 'UnitPrice', type: 'number'},
             ],
             filtersLayout: {type: 'default', perLine: 2},
             paging: {showIfSingle: false},
             selectable: {type: 'row&checkbox', isMulti: true},
-            dataSource: {type: 'odata', shortPath: `Order_Details`, selectAll: true}
+            //dataSource: {type: 'odata', shortPath: `Order_Details`, selectAll: true}
+            dataSource: {type: 'local', storage: `Order_Details`}
         };
 
 /*         OrderID	10248

@@ -55,7 +55,7 @@ export default class List extends PureComponent {
     }
 
     getValueFromPath = (item, path, i) => {
-        return i+1 >= path.length
+        return i+1 >= path.length || !item[path[i]]
             ? item[path[i]]
             : this.getValueFromPath(item[path[i]], path, i+1);
     }
