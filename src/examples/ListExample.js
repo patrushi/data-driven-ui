@@ -27,15 +27,14 @@ export default class ListExample extends PureComponent {
             //filtersLayout: {type: 'default', perLine: 2},
             paging: {},
             selectable: {type: 'row&checkbox', isMulti: false},
-            //dataSource: {type: 'odata', shortPath: `Orders`, selectAll: true}
-            dataSource: {type: 'local', storage: `Orders`}
+            dataSource: {type: 'odata', shortPath: `Orders`, selectAll: true}
+            //dataSource: {type: 'local', storage: `Orders`}
         };
 
         this.metaDetail = {
             columns: [
                 {name: 'OrderID', isOrderable: true},
                 {name: 'ProductID', title: 'Product', dataSource: {path: ['Product', 'ProductName']}},// filter: {name: 'ProductID', func: item => item.ProductID, replace: true}},
-                {name: 'ProductID2', title: 'ProductID', dataSource: {path: ['ProductID']}},
                 {name: 'UnitPrice', type: 'number', filter: {}},
                 {name: 'Quantity', type: 'number'},
                 {name: 'Discount', type: 'number'},
@@ -49,8 +48,8 @@ export default class ListExample extends PureComponent {
             filtersLayout: {type: 'default', perLine: 2},
             paging: {showIfSingle: false},
             selectable: {type: 'row&checkbox', isMulti: true},
-            //dataSource: {type: 'odata', shortPath: `Order_Details`, selectAll: true}
-            dataSource: {type: 'local', storage: `Order_Details`}
+            dataSource: {type: 'odata', shortPath: `Order_Details`, selectAll: true}
+            //dataSource: {type: 'local', storage: `Order_Details`}
         };
 
 /*         OrderID	10248
