@@ -16,7 +16,7 @@ export default class Local {
             for (let i in items) {
                 for (let e in expands) {
                     let expand = expands[e];
-                    items[i][expand.name] = this.props.meta.storages[expand.source].filter(item => expand.func(item, items[i]))[0];
+                    items[i][expand.name] = this.props.meta.storages[expand.expandStorage].filter(item => expand.func(item, items[i]))[0];
                 }
             }
         }

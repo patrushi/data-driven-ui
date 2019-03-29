@@ -57,7 +57,7 @@ export default {
             storages: Storages,
             expands: {
                 Order_Details: [
-                    {name: 'Product', source: 'Products', func: (i1, i2) => i1.ProductID === i2.ProductID}
+                    {name: 'Product', expandStorage: 'Products', func: (expandItem, item) => expandItem.ProductID === item.ProductID}
                 ]
             }
         },
