@@ -159,6 +159,22 @@ export default class List extends PureComponent {
     };
 
     isSelected = id => this.state.selected.indexOf(id) !== -1;
+
+    onCellClick = (meta, item, rowIdx, columnIdx) => {
+        if (meta.filter !== undefined) {
+            let filterName = meta.filter.name || meta.name;
+            let func = meta.filter.func || (item => item[meta.name]);
+            let value = func(item);
+            let filterMeta = this.props.meta.filters.filter(e => e.name === filterName)[0];
+            this.changeFilter(filterMeta, filterMeta.isMulti
+                ? meta.filter.replace || !this.state.filters[filterName] ? [value] : [...this.state.filters[filterName], value]
+                : value);
+        }
+    }
+
+    canCellClick = (meta, item, rowIdx, columnIdx) => {
+        return meta.filter !== undefined;
+    }
     
     render() {
         const props = {
@@ -174,7 +190,9 @@ export default class List extends PureComponent {
                 isSelected: this.isSelected,
                 select: this.select,
                 selectAll: this.selectAll,
-                getKey: this.getKey
+                getKey: this.getKey,
+                onCellClick: this.onCellClick,
+                canCellClick: this.canCellClick
             },
         };
 

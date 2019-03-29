@@ -91,7 +91,7 @@ export default class OData {
             .catch(e => console.log(e));
     }
 
-   getLongSelect(props, inputValue, callback) {
+    getLongSelect(props, inputValue, callback) {
         const filter = {[`tolower(${props.componentMeta.dataSource.value})`]: { contains: inputValue == null ? null : inputValue.toLowerCase()}}
         const top = props.componentMeta.dataSource.count || 10;
         const format = this.props.meta.format;

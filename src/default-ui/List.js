@@ -56,11 +56,13 @@ export default class List extends PureComponent {
                         {this.props.meta.selectable && (this.props.meta.selectable.type === 'row&checkbox' || this.props.meta.selectable.type === 'checkbox' || (this.props.meta.selectable.type === undefined && this.props.meta.selectable.isMulti)) ? <TableCell padding="checkbox">
                             <Checkbox color="default" checked={this.props.functions.isSelected(key)} onClick={event => this.props.functions.select(key, event)} />
                         </TableCell> : (null)}
-                        {this.props.meta.columns.map((meta, columnIdx) => (
-                            <TableCell key={meta.name} onClick={this.props.functions.onCellClick}>
-                                {this.props.functions.renderCell(meta, item, rowIdx, columnIdx)}
-                            </TableCell>
-                        ))}
+                        {this.props.meta.columns.map((meta, columnIdx) => {
+                            var canCellClick = this.props.functions.canCellClick(meta, item, rowIdx, columnIdx);
+                            return (
+                            <TableCell key={meta.name} style={canCellClick ? {cursor: 'pointer'} : undefined} onClick={canCellClick ? () => this.props.functions.onCellClick(meta, item, rowIdx, columnIdx) : undefined}>
+                                    {this.props.functions.renderCell(meta, item, rowIdx, columnIdx)}
+                                </TableCell>
+                            )})}
                         </TableRow>
                     }
                     )}
