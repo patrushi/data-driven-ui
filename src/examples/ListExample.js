@@ -35,6 +35,7 @@ export default class ListExample extends PureComponent {
             columns: [
                 {name: 'OrderID', isOrderable: true},
                 {name: 'ProductID', title: 'Product', filter: {}, dataSource: {path: ['Product', 'ProductName']}},
+                {name: 'ProductID2', title: 'ProductID', dataSource: {path: ['ProductID']}},
                 {name: 'UnitPrice', type: 'number'},
                 {name: 'Quantity', type: 'number'},
                 {name: 'Discount', type: 'number'},
