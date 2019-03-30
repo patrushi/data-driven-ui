@@ -59,7 +59,7 @@ export default class List extends PureComponent {
                         {this.props.meta.columns.map((meta, columnIdx) => {
                             var canCellClick = this.props.functions.canCellClick(meta, item, rowIdx, columnIdx);
                             return (
-                            <TableCell key={meta.name} style={canCellClick ? {cursor: 'pointer'} : undefined} onClick={canCellClick ? () => this.props.functions.onCellClick(meta, item, rowIdx, columnIdx) : undefined}>
+                            <TableCell key={meta.name} style={canCellClick ? {cursor: 'pointer'} : undefined} onClick={canCellClick ? (event) => this.props.functions.onCellClick(meta, item, rowIdx, columnIdx, event) : undefined}>
                                     {this.props.functions.renderCell(meta, item, rowIdx, columnIdx)}
                                 </TableCell>
                             )})}

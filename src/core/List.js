@@ -160,15 +160,14 @@ export default class List extends PureComponent {
 
     isSelected = id => this.state.selected.indexOf(id) !== -1;
 
-    onCellClick = (meta, item, rowIdx, columnIdx) => {
+    onCellClick = (meta, item, rowIdx, columnIdx, event) => {
         if (meta.filter !== undefined) {
+            event.stopPropagation();
             let filterName = meta.filter.name || meta.name;
             let func = meta.filter.func || (item => item[meta.name]);
             let value = func(item);
             let filterMeta = this.props.meta.filters.filter(e => e.name === filterName)[0];
-            this.changeFilter(filterMeta, filterMeta.isMulti
-                ? meta.filter.replace || !this.state.filters[filterName] ? [value] : [...this.state.filters[filterName], value]
-                : value);
+            this.changeFilter(filterMeta, filterMeta.isMulti ? [value] : value);
         }
     }
 
