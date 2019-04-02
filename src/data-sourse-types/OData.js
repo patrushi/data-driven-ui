@@ -24,10 +24,10 @@ export default class OData {
 
     getOrderBy(meta, data) {
         var orderedColumns = [];
-        for (var name in data.columnOrders) {
+        for (var name in data.orders) {
             var columnMeta = this.getByName(meta.columns, name);
-            if (data.columnOrders[name] !== undefined) {
-                orderedColumns.push({meta: columnMeta, order: data.columnOrders[name] === 'desc' ? ' desc' : ''});
+            if (data.orders[name] !== undefined) {
+                orderedColumns.push({meta: columnMeta, order: data.orders[name] === 'desc' ? ' desc' : ''});
             }
         }
         return orderedColumns.length === 0

@@ -33,8 +33,8 @@ export default class List extends PureComponent {
                             <TableCell key={item.name} style={{width: Math.round(100/this.props.meta.columns.length)+'%'}}>
                                 {item.orderable || (item.orderable === undefined && this.props.meta.orderable) 
                                     ? <TableSortLabel 
-                                        direction={this.props.data.columnOrders[item.name] === 'asc' ? 'desc' : this.props.data.columnOrders[item.name] === 'desc' ? 'asc' : undefined}
-                                        active={!(this.props.data.columnOrders[item.name] === undefined)}
+                                        direction={this.props.data.orders[item.name] === 'asc' ? 'desc' : this.props.data.orders[item.name] === 'desc' ? 'asc' : undefined}
+                                        active={!(this.props.data.orders[item.name] === undefined)}
                                         onClick={() => this.props.functions.changeColumnOrder(item)}>{this.props.functions.renderColumnTitle(item)}</TableSortLabel>
                                     : this.props.functions.renderColumnTitle(item)}
                             </TableCell>

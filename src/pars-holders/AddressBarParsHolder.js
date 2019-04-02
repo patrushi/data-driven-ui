@@ -14,11 +14,11 @@ export default class AddressBarParsHolder {
             if (data.paging.perPage !== 10) pars.perPage = data.paging.perPage;
         }
 
-        // columnOrders
-        if (data.columnOrders) {
-            pars.orders = Object.keys(data.columnOrders)
-                .filter(k => data.columnOrders[k] !== undefined)
-                .map(k => k + (data.columnOrders[k] === 'desc' ? ' desc' : ''))
+        // orders
+        if (data.orders) {
+            pars.orders = Object.keys(data.orders)
+                .filter(k => data.orders[k] !== undefined)
+                .map(k => k + (data.orders[k] === 'desc' ? ' desc' : ''))
                 .join(',');
         }
 
@@ -47,14 +47,14 @@ export default class AddressBarParsHolder {
         // paging
         data.paging = {page: isNaN(pars.page) ? 0 : Number(pars.page), perPage: isNaN(pars.perPage) ? 10 : Number(pars.perPage)};
         
-        // columnOrders
+        // orders
         if (pars.orders) {
-            let columnOrders = {};
+            let orders = {};
             pars.orders.split(',').forEach(i => {
                 let c = i.split(' ');
-                columnOrders[c[0]] = c[1] === undefined ? 'asc' : c[1]
+                orders[c[0]] = c[1] === undefined ? 'asc' : c[1]
             });
-            if (columnOrders !== {}) data.columnOrders = columnOrders;
+            if (orders !== {}) data.orders = orders;
         }
 
         // filters

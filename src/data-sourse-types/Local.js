@@ -28,11 +28,11 @@ export default class Local {
             }
         }
 
-        if (data.columnOrders) {
+        if (data.orders) {
             let orderFunc = (a, b) => {
-                for (let name in data.columnOrders) {
-                    if (!data.columnOrders[name]) continue;
-                    let sign = data.columnOrders[name] === 'asc' ? -1 : 1;
+                for (let name in data.orders) {
+                    if (!data.orders[name]) continue;
+                    let sign = data.orders[name] === 'asc' ? -1 : 1;
                     if (a[name] < b[name]) return sign;
                     if (a[name] > b[name]) return -sign;
                 }

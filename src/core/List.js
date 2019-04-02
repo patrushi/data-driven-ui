@@ -6,7 +6,7 @@ export default class List extends PureComponent {
         super(props);
 
         this.state = {
-            columnOrders: [],
+            orders: [],
             filters: {},
             items: [],
             selected: []
@@ -83,14 +83,14 @@ export default class List extends PureComponent {
     }
 
     changeColumnOrder = (meta) => {
-        var currentOrder = this.state.columnOrders[meta.name];
+        var currentOrder = this.state.orders[meta.name];
         var newOrder = currentOrder === undefined
             ? 'asc'
             : currentOrder === 'asc'
                 ? 'desc'
                 : undefined;
         this.setState({
-            columnOrders: {...this.state.columnOrders, [meta.name]: newOrder},
+            orders: {...this.state.orders, [meta.name]: newOrder},
             paging: {...this.state.paging, page: 0}
         }, () => this.refresh(false));
     }
