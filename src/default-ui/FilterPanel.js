@@ -13,7 +13,7 @@ export default class FilterPanel extends PureComponent {
             value: this.props.data.filters[meta.name], 
             label: this.props.globalMeta.filters.label ? meta.title || meta.name : null,
             placeholder: this.props.globalMeta.filters.placeholder ? meta.title || meta.name : null,
-            ...fieldMeta
+            ...fieldMeta.props
         }
         return React.createElement(fieldMeta.component, props);
     }
@@ -43,7 +43,7 @@ export default class FilterPanel extends PureComponent {
                         <Grid container key={rowIdx} spacing={8}>
                             {
                                 filters.map((filter, idx) => (
-                                    <Grid item xs key={idx} style={{display: 'flex', alignItems: 'flex-end'}}>{this.getField(filter)}</Grid>
+                                    <Grid item xs key={idx} style={{display: 'flex', alignItems: 'flex-begin'}}>{this.getField(filter)}</Grid>
                                 )).concat(rowIdx+1 === linesCnt ? empty : [])
                             }
                         </Grid>

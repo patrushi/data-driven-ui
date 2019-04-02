@@ -10,13 +10,14 @@ export default class DatePeriodField extends PureComponent {
             <React.Fragment>
                 <DateField 
                     {...rest}
-                    label={label || ' '}
+                    label={label}
                     value={value.from}
                     placeholder={placeholder}
                     onChange={v => onChange({from: v, till: value.till})} />
-                <RemoveIcon />
+                <RemoveIcon style={label ? {marginTop: '16px'} : undefined} />
                 <DateField
                     {...rest}
+                    label={label ? ' ' : undefined}
                     value={value.till}
                     onChange={v => onChange({from: value.from, till: v})} />
             </React.Fragment>

@@ -81,10 +81,10 @@ export default {
     },
     filterTypes: {
         text: {component: TextField},
-        longselect: {component: LongSelect},
+        longselect: {component: LongSelect, props: {loadingMessage: () => "...", noOptionsMessage: () => "По заданному тексту не найдено значений ..."}},
         shortselect: {component: ShortSelect},
-        date: {component: DateField, invalidDateMessage: 'Неверный формат даты'},
-        dateperiod: {component: DatePeriodField},
+        date: {component: DateField, props: {invalidDateMessage: 'Неверный формат даты'}},
+        dateperiod: {component: DatePeriodField, props: {invalidDateMessage: 'Неверный формат даты'}},
         default: 'text'
     },
     columnTypes: {

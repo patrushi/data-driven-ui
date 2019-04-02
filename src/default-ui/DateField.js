@@ -25,7 +25,7 @@ export default function DateField(props) {
                 onlyCalendar
                 keyboard
                 clearable={!notClearable}
-                label={label || ' '}
+                label={label}
                 value={value || null}
                 format={format || "DD.MM.YYYY"}
                 onChange={(d) => onChange(d._d)}
