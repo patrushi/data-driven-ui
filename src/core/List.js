@@ -123,6 +123,11 @@ export default class List extends PureComponent {
     }
 
     refreshCallback = (data) => {
+        if (!data) {
+            this.setState({isLoading: false});
+            return;
+        }
+
         if (data.count !== undefined && data.items !== undefined) {
             this.setState({count: data.count, items: data.items, isLoading: false});
         } else if (data.count !== undefined) {
@@ -231,8 +236,11 @@ export default class List extends PureComponent {
 
         const longProcessPanel = React.createElement(this.props.globalMeta.components.longProcessPanel.component, {isLoading: this.state.isLoading}, [filterPanel, list]);
 
+        const errorPanel = React.createElement(this.props.globalMeta.components.errorPanel.component)
+
         return <React.Fragment>
                 {longProcessPanel}
+                {errorPanel}
             </React.Fragment>;
     }
 }

@@ -74,33 +74,27 @@ export default class OData {
 
     fetchQuery(path, queryProps, callbackFunc) {
         var query = buildQuery(queryProps); 
-        fetch(`${path}${query}`, {})
-            .then(response => response.json())
-            .then(data => {
-                var value = {};
-                if (data["@odata.count"] !== undefined)
-                {
-                    value.count = data["@odata.count"];
-                }
-                if (data.value !== undefined)
-                {
-                    value.items = data.value;
-                }
-                callbackFunc(value);
-            })
-            .catch(e => console.log(e));
+        this.props.meta.get(`${path}${query}`, data => {
+            var value = {};
+            if (data["@odata.count"] !== undefined)
+            {
+                value.count = data["@odata.count"];
+            }
+            if (data.value !== undefined)
+            {
+                value.items = data.value;
+            }
+            callbackFunc(value);
+        }, () => {callbackFunc(null)});
     }
 
     getLongSelect(props, inputValue, callback) {
         const filter = {[`tolower(${props.componentMeta.dataSource.value})`]: { contains: inputValue == null ? null : inputValue.toLowerCase()}}
         const top = props.componentMeta.dataSource.count || 10;
         const format = this.props.meta.format;
-        const query = buildQuery({ filter, top, format }); 
-        fetch(`${props.componentMeta.dataSource.path || this.props.meta.basePath + '/' + props.componentMeta.dataSource.shortPath}${query}`, {})
-            .then(response => response.json())
-            .then(data => {
-                callback(data.value.map(function (v) { return { label: v[props.componentMeta.dataSource.value], value: v[props.componentMeta.dataSource.key], additionalData: v } }));
-            })
-            .catch(e => console.log(e));
+        const query = buildQuery({ filter, top, format });
+        this.props.meta.get(`${props.componentMeta.dataSource.path || this.props.meta.basePath + '/' + props.componentMeta.dataSource.shortPath}${query}`, data => {
+            callback(data.value.map(function (v) { return { label: v[props.componentMeta.dataSource.value], value: v[props.componentMeta.dataSource.key], additionalData: v } }));
+        });
     }
 }

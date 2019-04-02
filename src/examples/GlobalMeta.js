@@ -4,6 +4,8 @@ import OData from '../data-sourse-types/OData';
 import Local from '../data-sourse-types/Local';
 import {Storages} from './Storages';
 
+import {get} from '../data-sourse-types/Fetch'
+
 import AddressBarParsHolder from '../pars-holders/AddressBarParsHolder';
 
 import List from '../default-ui/List';
@@ -15,6 +17,8 @@ import FilterPanel from '../default-ui/FilterPanel';
 import DateField from '../default-ui/DateField';
 import DatePeriodField from '../default-ui/DatePeriodField';
 
+import ErrorPanel, { errorHandler } from '../default-ui/ErrorPanel';
+
 import moment from "moment";
 import "moment/locale/ru";
 moment.locale("ru");
@@ -23,7 +27,8 @@ export default {
     components: {
         list: {component: List},
         filterPanel: {component: FilterPanel},
-        longProcessPanel: {component: LongProcessPanel}
+        longProcessPanel: {component: LongProcessPanel},
+        errorPanel: {component: ErrorPanel}
     },
     paging: {
         perPage: 10,
@@ -60,7 +65,8 @@ export default {
                 },
                 default: 'string'
             },
-            basePath: 'https://services.odata.org/V4/Northwind/Northwind.svc'
+            basePath: 'https://services.odata.org/V4/Northwind/Northwind.svc',
+            get: (url, callback, errorCallback) => get(url, {}, callback, (error) => {errorHandler(error); if (errorCallback) errorCallback(error);})
         },
         local: {
             class: Local,

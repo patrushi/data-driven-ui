@@ -54,21 +54,6 @@ export class ListExample extends PureComponent {
             //dataSource: {type: 'local', storage: `Order_Details`}
         };
 
-/*         OrderID	10248
-CustomerID	"VINET"
-EmployeeID	5
-OrderDate	"1996-07-04T00:00:00"
-RequiredDate	"1996-08-01T00:00:00"
-ShippedDate	"1996-07-16T00:00:00"
-ShipVia	3
-Freight	"32.3800"
-ShipName	"Vins et alcools Chevalier"
-ShipAddress	"59 rue de l'Abbaye"
-ShipCity	"Reims"
-ShipRegion	null
-ShipPostalCode	"51100"
-ShipCountry	"France" */
-
         this.state = {
             selected: [],
             listDetailRef: null
