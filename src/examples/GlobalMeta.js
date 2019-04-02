@@ -36,7 +36,11 @@ export default {
     },
     parsHolderTypes: {
         addressBar: {
-            class: AddressBarParsHolder
+            class: AddressBarParsHolder,
+            filters: {
+                string: {serialize: (value) => JSON.stringify(value), deserialize: (value) => JSON.parse(value)},
+                default: 'string'
+            }
         },
         default: 'addressBar'
     },

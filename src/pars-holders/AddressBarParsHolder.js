@@ -24,9 +24,11 @@ export default class AddressBarParsHolder {
 
         // filters
         if (data.filters) {
-            for (let k in data.filters) {
-                if (data.filters[k]) {
-                    pars[k] = JSON.stringify(data.filters[k]);
+            for (let name in data.filters) {
+                if (data.filters[name]) {
+                    let filterMeta = meta.filters.filter(f => f.name === name)[0];
+                    let globalFilterMeta = this.props.globalMeta.filters[filterMeta.type] || this.props.globalMeta.filters[this.props.globalMeta.filters.default];
+                    pars[name] = globalFilterMeta.serialize(data.filters[name]);
                 }
             }
         }
@@ -61,7 +63,9 @@ export default class AddressBarParsHolder {
             for (let k in meta.filters) {
                 let name = meta.filters[k].name;
                 if (pars[name]) {
-                    data.filters[name] = JSON.parse(pars[name]);
+                    let filterMeta = meta.filters.filter(f => f.name === name)[0];
+                    let globalFilterMeta = this.props.globalMeta.filters[filterMeta.type] || this.props.globalMeta.filters[this.props.globalMeta.filters.default];
+                    data.filters[name] = globalFilterMeta.deserialize(pars[name]);
                 }
             }
         }

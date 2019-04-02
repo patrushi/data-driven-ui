@@ -24,8 +24,8 @@ export default class List extends PureComponent {
 
         if (this.props.meta.parsHolder)
         {
-            let parsHolderMeta = this.props.globalMeta.parsHolderTypes[this.props.meta.parsHolder.type || this.props.globalMeta.parsHolderTypes.default];
-            this.parsHolder = new parsHolderMeta.class({meta: this.props.meta.parsHolder});
+            let globalMeta = this.props.globalMeta.parsHolderTypes[this.props.meta.parsHolder.type || this.props.globalMeta.parsHolderTypes.default];
+            this.parsHolder = new globalMeta.class({meta: this.props.meta.parsHolder, globalMeta: globalMeta});
         }
     }
 
