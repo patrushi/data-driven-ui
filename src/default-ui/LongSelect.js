@@ -3,9 +3,22 @@ import SelectWithStyles from './SelectWithStyles';
 import debounce from '../core/debounce'; 
 
 export default class LongSelect extends PureComponent {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+        };
+
+        if (this.props.meta.dataSource) {
+            let globalMeta = this.props.globalMeta.dataSourceTypes[this.props.meta.dataSource.type || this.props.globalMeta.dataSourceTypes.default];
+            this.dataSource = new globalMeta.class({meta: this.props.meta.dataSource, globalMeta: globalMeta});
+        }
+    }
+
     loadOptionsFunc = () => {
-        var dataSourceMeta = this.props.globalMeta.dataSourceTypes[this.props.meta.dataSource.type || this.props.globalMeta.dataSourceTypes.default];
-        return debounce((inputValue, callback) => new dataSourceMeta.class({meta: dataSourceMeta}).getLongSelect(this.props, inputValue, callback), 200);
+        if (this.dataSource) {
+            return debounce((inputValue, callback) => this.dataSource.getLongSelect(this.props, inputValue, callback), 200);
+        }
     }
 
     render() {

@@ -27,6 +27,12 @@ export default class List extends PureComponent {
             let globalMeta = this.props.globalMeta.parsHolderTypes[this.props.meta.parsHolder.type || this.props.globalMeta.parsHolderTypes.default];
             this.parsHolder = new globalMeta.class({meta: this.props.meta.parsHolder, globalMeta: globalMeta});
         }
+
+        if (this.props.meta.dataSource)
+        {
+            let globalMeta = this.props.globalMeta.dataSourceTypes[this.props.meta.dataSource.type || this.props.globalMeta.dataSourceTypes.default];
+            this.dataSource = new globalMeta.class({meta: this.props.meta.dataSource, globalMeta: globalMeta});
+        }
     }
 
     componentDidMount() {
@@ -110,8 +116,9 @@ export default class List extends PureComponent {
     refresh = (needCount) => {
         this.setState({isLoading: true});
         this.serializePars();
-        var dataSourceMeta = this.props.globalMeta.dataSourceTypes[this.props.meta.dataSource.type || this.props.globalMeta.dataSourceTypes.default];
-        new dataSourceMeta.class({meta: dataSourceMeta}).getList(needCount, this.props.meta, this.state, this.props.globalMeta, this.refreshCallback);
+        if (this.dataSource) {
+            this.dataSource.getList(needCount, this.props.meta, this.state, this.props.globalMeta, this.refreshCallback);
+        }
     }
 
     getKey = (item, idx) => {

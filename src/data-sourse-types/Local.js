@@ -8,14 +8,14 @@ export default class Local {
     }
 
     getList(needCount, meta, data, globalMeta, callbackFunc) {
-        let items = this.props.meta.storages[meta.dataSource.storage];
+        let items = this.props.globalMeta.storages[meta.dataSource.storage];
 
-        let expands = this.props.meta.expands && this.props.meta.expands[meta.dataSource.storage];
+        let expands = this.props.globalMeta.expands && this.props.globalMeta.expands[meta.dataSource.storage];
         if (expands) {
             for (let i in items) {
                 for (let e in expands) {
                     let expand = expands[e];
-                    items[i][expand.name] = this.props.meta.storages[expand.expandStorage].filter(item => expand.func(item, items[i]))[0];
+                    items[i][expand.name] = this.props.globalMeta.storages[expand.expandStorage].filter(item => expand.func(item, items[i]))[0];
                 }
             }
         }
@@ -23,7 +23,9 @@ export default class Local {
         if (data.filters) {
             for (var name in data.filters) {
                 let filterMeta = meta.filters.filter(e => e.name === name)[0];
-                items = items.filter(i => i.ShipCountry === data.filters[name]);
+                let globalFilterMeta = this.props.globalMeta.filters[filterMeta.type] || this.props.globalMeta.filters[this.props.globalMeta.filters.default];
+                console.log(this.props.globalMeta.filters, globalFilterMeta);
+                items = items.filter(i => globalFilterMeta(i[name], data.filters[name]));
             }
         }
 
@@ -39,5 +41,14 @@ export default class Local {
             items: items,
             count: needCount ? count : undefined
         });
+    }
+
+    getLongSelect(props, inputValue, callback) {
+        console.log(props);
+        const top = props.componentMeta.dataSource.count || 10;
+        let items = this.props.globalMeta.storages[props.componentMeta.dataSource.shortPath];
+        items = items.filter(i => i[props.componentMeta.dataSource.value].toLowerCase().indexOf(inputValue.toLowerCase()) !== -1);
+        items = items.slice(0, top);
+        callback(items.map(function (v) { return { label: v[props.componentMeta.dataSource.value], value: v[props.componentMeta.dataSource.key], additionalData: v } }));
     }
 }

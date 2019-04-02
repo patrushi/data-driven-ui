@@ -81,7 +81,15 @@ export default {
                 ]
             },
             filters: {
-                string: (itemValue, filterValue) => {return itemValue === filterValue},
+                string: (itemValue, filterValue) => itemValue === filterValue,
+                text: (itemValue, filterValue) => itemValue.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1,
+                longselect: (itemValue, filterValue) => {
+                    return (!filterValue || (Array.isArray(filterValue) && filterValue.length === 0)) 
+                        ? true 
+                        : Array.isArray(filterValue)
+                            ? filterValue.some(e => e.value === itemValue)
+                            : filterValue.value === itemValue;
+                },
                 default: 'string'
             },
         },

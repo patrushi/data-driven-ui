@@ -41,7 +41,7 @@ export default class OData {
         for (var name in data.filters) {
             if (data.filters[name]) {
                 var m = this.getByName(meta.filters, name);
-                var f = (m.dataSource || {}).func || this.props.meta.filters[m.type] || this.props.meta.filters[this.props.meta.filters.default];
+                var f = (m.dataSource || {}).func || this.props.globalMeta.filters[m.type] || this.props.globalMeta.filters[this.props.globalMeta.filters.default];
                 filters.push(f(name, data.filters[name]));
             }
         }
@@ -54,7 +54,7 @@ export default class OData {
     }
 
     getList(needCount, meta, data, globalMeta, callbackFunc) {
-        const path = meta.dataSource.path || this.props.meta.basePath + '/' + meta.dataSource.shortPath;
+        const path = meta.dataSource.path || this.props.globalMeta.basePath + '/' + meta.dataSource.shortPath;
         const count = needCount;
         const top = data.paging && data.paging.perPage;
         const skip = data.paging && data.paging.perPage * data.paging.page;
@@ -62,19 +62,19 @@ export default class OData {
         const expand = this.getExpand(meta);
         const select = meta.dataSource.selectAll ? null : this.getSelect(meta);
         const orderBy = this.getOrderBy(meta, data);
-        if (needCount && this.props.meta.separateQueryForCount)
+        if (needCount && this.props.globalMeta.separateQueryForCount)
         {
-            var cf = (countValue) => this.fetchQuery(path, { select, expand, filter, top, skip, orderBy, format: this.props.meta.format }, (value) => callbackFunc({...value, count: countValue.count}));
-            this.fetchQuery(path, { count, filter, format: this.props.meta.format }, cf);
+            var cf = (countValue) => this.fetchQuery(path, { select, expand, filter, top, skip, orderBy, format: this.props.globalMeta.format }, (value) => callbackFunc({...value, count: countValue.count}));
+            this.fetchQuery(path, { count, filter, format: this.props.globalMeta.format }, cf);
         }
         else {
-            this.fetchQuery(path, { count, select, expand, filter, top, skip, orderBy, format: this.props.meta.format }, callbackFunc);
+            this.fetchQuery(path, { count, select, expand, filter, top, skip, orderBy, format: this.props.globalMeta.format }, callbackFunc);
         }
     }
 
     fetchQuery(path, queryProps, callbackFunc) {
         var query = buildQuery(queryProps);
-        this.props.meta.get(`${path}${query}`, data => {
+        this.props.globalMeta.get(`${path}${query}`, data => {
             var value = {};
             if (data["@odata.count"] !== undefined)
             {
@@ -91,9 +91,9 @@ export default class OData {
     getLongSelect(props, inputValue, callback) {
         const filter = {[`tolower(${props.componentMeta.dataSource.value})`]: { contains: inputValue == null ? null : inputValue.toLowerCase()}}
         const top = props.componentMeta.dataSource.count || 10;
-        const format = this.props.meta.format;
+        const format = this.props.globalMeta.format;
         const query = buildQuery({ filter, top, format });
-        this.props.meta.get(`${props.componentMeta.dataSource.path || this.props.meta.basePath + '/' + props.componentMeta.dataSource.shortPath}${query}`, data => {
+        this.props.globalMeta.get(`${props.componentMeta.dataSource.path || this.props.globalMeta.basePath + '/' + props.componentMeta.dataSource.shortPath}${query}`, data => {
             callback(data.value.map(function (v) { return { label: v[props.componentMeta.dataSource.value], value: v[props.componentMeta.dataSource.key], additionalData: v } }));
         });
     }
