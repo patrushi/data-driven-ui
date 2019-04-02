@@ -2,7 +2,7 @@ import React from 'react';
 
 import OData from '../data-sourse-types/OData';
 import Local from '../data-sourse-types/Local';
-//import {Storages} from './Storages';
+import {Storages} from './Storages';
 
 import {get} from '../data-sourse-types/Fetch'
 
@@ -74,12 +74,16 @@ export default {
         },
         local: {
             class: Local,
-            //storages: Storages,
+            storages: Storages,
             expands: {
                 Order_Details: [
                     {name: 'Product', expandStorage: 'Products', func: (expandItem, item) => expandItem.ProductID === item.ProductID}
                 ]
-            }
+            },
+            filters: {
+                string: (itemValue, filterValue) => {return itemValue === filterValue},
+                default: 'string'
+            },
         },
         default: 'odata'
     },

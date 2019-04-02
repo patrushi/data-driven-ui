@@ -28,9 +28,9 @@ export class ListExample extends PureComponent {
             //filtersLayout: {type: 'default', perLine: 2},
             paging: {},
             selectable: {type: 'row&checkbox', isMulti: false},
-            dataSource: {type: 'odata', shortPath: `Orders`, selectAll: true},
-            parsHolder: {type: 'addressBar', prefix: '', history: this.props.history}
-            //dataSource: {type: 'local', storage: `Orders`}
+            parsHolder: {type: 'addressBar', prefix: '', history: this.props.history},
+            //dataSource: {type: 'odata', shortPath: `Orders`, selectAll: true},
+            dataSource: {type: 'local', storage: `Orders`}
         };
 
         this.metaDetail = {
@@ -50,8 +50,8 @@ export class ListExample extends PureComponent {
             filtersLayout: {type: 'default', perLine: 2},
             paging: {showIfSingle: false},
             selectable: {type: 'row&checkbox', isMulti: true},
-            dataSource: {type: 'odata', shortPath: `Order_Details`, selectAll: true}
-            //dataSource: {type: 'local', storage: `Order_Details`}
+            //dataSource: {type: 'odata', shortPath: `Order_Details`, selectAll: true}
+            dataSource: {type: 'local', storage: `Order_Details`}
         };
 
         this.state = {
