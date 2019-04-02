@@ -7,17 +7,65 @@ export default class AddressBarParsHolder {
 
     serializePars = (meta, data) => {
         var pars = {};
+
+        // paging
         if (data.paging) {
             if (data.paging.page) pars.page = data.paging.page;
             if (data.paging.perPage !== 10) pars.perPage = data.paging.perPage;
         }
-        return pars;
+
+        // columnOrders
+        if (data.columnOrders) {
+            pars.orders = Object.keys(data.columnOrders)
+                .filter(k => data.columnOrders[k] !== undefined)
+                .map(k => k + (data.columnOrders[k] === 'desc' ? ' desc' : ''))
+                .join(',');
+        }
+
+        // filters
+        if (data.filters) {
+            for (let k in data.filters) {
+                if (data.filters[k]) {
+                    pars[k] = JSON.stringify(data.filters[k]);
+                }
+            }
+        }
+
+        let outPars = {};
+        for (let k in pars) {
+            if (pars[k]) outPars[k] = pars[k];
+        }
+        return outPars;
     }
 
     deserializePars = (meta, pars) => {
         if (!pars) return null;
-        var data = {};
+        let data = {};
+
+        // paging
         data.paging = {page: isNaN(pars.page) ? 0 : Number(pars.page), perPage: isNaN(pars.perPage) ? 10 : Number(pars.perPage)};
+        
+        // columnOrders
+        if (pars.orders) {
+            let columnOrders = {};
+            pars.orders.split(',').forEach(i => {
+                let c = i.split(' ');
+                columnOrders[c[0]] = c[1] === undefined ? 'asc' : c[1]
+            });
+            if (columnOrders !== {}) data.columnOrders = columnOrders;
+        }
+
+        // filters
+        if (meta.filters) {
+            data.filters = {};
+            for (let k in meta.filters) {
+                let name = meta.filters[k].name;
+                if (pars[name]) {
+                    data.filters[name] = JSON.parse(pars[name]);
+                }
+            }
+        }
+
         return data;
     }
 

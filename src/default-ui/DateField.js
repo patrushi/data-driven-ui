@@ -39,7 +39,7 @@ export default function DateField(props) {
                             <IconButton onClick={openPicker} style={{padding: '3px'}} disabled={props.disabled}>
                                 <CalendarIcon />
                             </IconButton>
-                            <IconButton onClick={() => onChange(null)} style={{padding: '3px'}} disabled={props.disabled}>
+                            <IconButton onClick={() => onChange(undefined)} style={{padding: '3px'}} disabled={props.disabled}>
                                 <ClearIcon />
                             </IconButton>
                         </React.Fragment>

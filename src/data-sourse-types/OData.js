@@ -33,7 +33,7 @@ export default class OData {
         return orderedColumns.length === 0
             ? null
             : orderedColumns
-                .map(e => e.meta.dataSource && e.meta.dataSource.path ? e.meta.dataSource.path.reduce((path, a) => path + '/' + a) + e.order: e.meta.name + e.order);;
+                .map(e => e.meta.dataSource && e.meta.dataSource.path ? e.meta.dataSource.path.reduce((path, a) => path + '/' + a) + e.order: e.meta.name + e.order);
     }
 
     getFilter(meta, data) {

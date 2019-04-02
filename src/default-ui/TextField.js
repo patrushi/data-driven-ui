@@ -16,7 +16,7 @@ export default class TextField extends PureComponent {
                 InputLabelProps={{ shrink: true }}
                 InputProps={!notClearable ? {
                     endAdornment: (
-                        <IconButton onClick={() => onChange(null)} style={{padding: '3px'}}>
+                        <IconButton onClick={() => onChange(undefined)} style={{padding: '3px'}}>
                             <ClearIcon />
                         </IconButton>
                     )
