@@ -58,7 +58,7 @@ export default class Local {
     getLongSelect(props, inputValue, callback) {
         console.log(props);
         const top = props.componentMeta.dataSource.count || 10;
-        let items = this.props.globalMeta.storages[props.componentMeta.dataSource.shortPath];
+        let items = [...this.props.globalMeta.storages[props.componentMeta.dataSource.shortPath]];
         items = items.filter(i => i[props.componentMeta.dataSource.value].toLowerCase().indexOf(inputValue.toLowerCase()) !== -1);
         items = items.slice(0, top);
         callback(items.map(function (v) { return { label: v[props.componentMeta.dataSource.value], value: v[props.componentMeta.dataSource.key], additionalData: v } }));
