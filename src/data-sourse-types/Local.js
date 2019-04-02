@@ -1,5 +1,3 @@
-var Enumerable = require('linq');
-
 export default class Local {
     constructor(props) {
         this.props = props;
@@ -25,9 +23,11 @@ export default class Local {
         if (data.filters) {
             for (var name in data.filters) {
                 let filterMeta = meta.filters.filter(e => e.name === name)[0];
-                items = Enumerable.from(items).where(i => i.ShipCountry === data.filters[name]).toArray();
+                items = items.filter(i => i.ShipCountry === data.filters[name]);
             }
         }
+
+        let count = items.length;
 
         if (data.paging) {
             var from = data.paging.page * data.paging.perPage;
@@ -37,7 +37,7 @@ export default class Local {
         
         callbackFunc({
             items: items,
-            count: needCount ? this.props.meta.storages[meta.dataSource.storage].length : undefined
+            count: needCount ? count : undefined
         });
     }
 }
