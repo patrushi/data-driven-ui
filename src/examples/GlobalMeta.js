@@ -1,7 +1,11 @@
 import React from 'react';
+
 import OData from '../data-sourse-types/OData';
 import Local from '../data-sourse-types/Local';
 import {Storages} from './Storages';
+
+import AddressBarParsHolder from '../pars-holders/AddressBarParsHolder';
+
 import List from '../default-ui/List';
 import TextField from '../default-ui/TextField';
 import LongSelect from '../default-ui/LongSelect';
@@ -24,6 +28,12 @@ export default {
     paging: {
         perPage: 10,
         perPageOptions: [10, 100]
+    },
+    parsHolderTypes: {
+        addressBar: {
+            class: AddressBarParsHolder
+        },
+        default: 'addressBar'
     },
     dataSourceTypes: {
         odata: {

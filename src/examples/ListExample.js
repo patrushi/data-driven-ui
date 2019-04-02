@@ -2,8 +2,9 @@ import React, { PureComponent } from 'react';
 import List from '../core/List';
 import GlobalMeta from './GlobalMeta';
 import Paper from '@material-ui/core/Paper';
+import { withRouter } from "react-router-dom";
 
-export default class ListExample extends PureComponent {
+export class ListExample extends PureComponent {
     constructor(props) {
         super(props);
 
@@ -27,7 +28,8 @@ export default class ListExample extends PureComponent {
             //filtersLayout: {type: 'default', perLine: 2},
             paging: {},
             selectable: {type: 'row&checkbox', isMulti: false},
-            dataSource: {type: 'odata', shortPath: `Orders`, selectAll: true}
+            dataSource: {type: 'odata', shortPath: `Orders`, selectAll: true},
+            parsHolder: {type: 'addressBar', prefix: '', history: this.props.history}
             //dataSource: {type: 'local', storage: `Orders`}
         };
 
@@ -84,8 +86,10 @@ ShipCountry	"France" */
 
     render() {
         return <Paper style={{ margin: 15, padding: 15 }}>
-            <List meta={this.meta} globalMeta={GlobalMeta} onSelect={this.onSelect} onSingleSelect={this.onSingleSelect} />
+            <List meta={this.meta} globalMeta={GlobalMeta} onSelect={this.onSelect} onSingleSelect={this.onSingleSelect} parentProps={this.props} />
             <List meta={this.metaDetail} notAutoRefresh={true} setRef={(ref) => this.setState({listDetailRef: ref})} globalMeta={GlobalMeta} />
         </Paper>
     }
 }
+
+export default withRouter(ListExample);

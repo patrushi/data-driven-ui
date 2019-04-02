@@ -21,11 +21,27 @@ export default class List extends PureComponent {
         }
 
         this.refreshWithDebounce = debounce(this.refresh, 200);
+
+        if (this.props.meta.parsHolder)
+        {
+            let parsHolderMeta = this.props.globalMeta.parsHolderTypes[this.props.meta.parsHolder.type || this.props.globalMeta.parsHolderTypes.default];
+            this.parsHolder = new parsHolderMeta.class({meta: this.props.meta.parsHolder});
+        }
     }
 
     componentDidMount() {
         if (this.props.setRef) this.props.setRef(this);
-        if (!this.props.notAutoRefresh) this.refresh(true);
+        let _this = this;
+        this.deserializePars(() => {
+            if (!_this.props.notAutoRefresh) _this.refresh(true);
+        })
+    }
+
+    componentDidUpdate() {
+        let _this = this;
+        this.deserializePars(() => {
+            if (!_this.props.notAutoRefresh) _this.refresh(true);
+        });
     }
 
     componentWillUnmount() {
@@ -93,6 +109,7 @@ export default class List extends PureComponent {
 
     refresh = (needCount) => {
         this.setState({isLoading: true});
+        this.serializePars();
         var dataSourceMeta = this.props.globalMeta.dataSourceTypes[this.props.meta.dataSource.type || this.props.globalMeta.dataSourceTypes.default];
         new dataSourceMeta.class({meta: dataSourceMeta}).getList(needCount, this.props.meta, this.state, this.props.globalMeta, this.refreshCallback);
     }
@@ -173,6 +190,19 @@ export default class List extends PureComponent {
 
     canCellClick = (meta, item, rowIdx, columnIdx) => {
         return meta.filter !== undefined;
+    }
+
+    serializePars = () => {
+        if (!this.parsHolder) return;
+        let pars = this.parsHolder.serializePars(this.props.meta, this.state);
+        this.parsHolder.savePars(pars);
+    }
+
+    deserializePars = (setStateCallback) => {
+        if (!this.parsHolder) return;
+        var pars = this.parsHolder.loadPars();
+        var newState = this.parsHolder.deserializePars(this.props.meta, pars);
+        if (newState) this.setState(newState, setStateCallback);
     }
     
     render() {
