@@ -236,7 +236,7 @@ export default class List extends PureComponent {
 
         const longProcessPanel = React.createElement(this.props.globalMeta.components.longProcessPanel.component, {isLoading: this.state.isLoading}, [filterPanel, list]);
 
-        const errorPanel = React.createElement(this.props.globalMeta.components.errorPanel.component)
+        const errorPanel = React.createElement(this.props.globalMeta.components.errorPanel.component, this.props.globalMeta.components.errorPanel.props)
 
         return <React.Fragment>
                 {longProcessPanel}

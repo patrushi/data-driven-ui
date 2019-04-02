@@ -73,7 +73,7 @@ export default class OData {
     }
 
     fetchQuery(path, queryProps, callbackFunc) {
-        var query = buildQuery(queryProps); 
+        var query = buildQuery(queryProps);
         this.props.meta.get(`${path}${query}`, data => {
             var value = {};
             if (data["@odata.count"] !== undefined)
