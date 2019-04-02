@@ -8,7 +8,7 @@ export default class Local {
     }
 
     getList(needCount, meta, data, globalMeta, callbackFunc) {
-        let items = this.props.globalMeta.storages[meta.dataSource.storage];
+        let items = [...this.props.globalMeta.storages[meta.dataSource.storage]];
 
         let expands = this.props.globalMeta.expands && this.props.globalMeta.expands[meta.dataSource.storage];
         if (expands) {
@@ -24,9 +24,21 @@ export default class Local {
             for (var name in data.filters) {
                 let filterMeta = meta.filters.filter(e => e.name === name)[0];
                 let globalFilterMeta = this.props.globalMeta.filters[filterMeta.type] || this.props.globalMeta.filters[this.props.globalMeta.filters.default];
-                console.log(this.props.globalMeta.filters, globalFilterMeta);
                 items = items.filter(i => globalFilterMeta(i[name], data.filters[name]));
             }
+        }
+
+        if (data.columnOrders) {
+            let orderFunc = (a, b) => {
+                for (let name in data.columnOrders) {
+                    if (!data.columnOrders[name]) continue;
+                    let sign = data.columnOrders[name] === 'asc' ? -1 : 1;
+                    if (a[name] < b[name]) return sign;
+                    if (a[name] > b[name]) return -sign;
+                }
+                return 0;
+            }
+            items = items.sort(orderFunc); 
         }
 
         let count = items.length;

@@ -81,8 +81,8 @@ export default {
                 ]
             },
             filters: {
-                string: (itemValue, filterValue) => itemValue === filterValue,
-                text: (itemValue, filterValue) => itemValue.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1,
+                string: (itemValue, filterValue) => !filterValue ? true : itemValue === filterValue,
+                text: (itemValue, filterValue) => !filterValue ? true : itemValue.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1,
                 longselect: (itemValue, filterValue) => {
                     return (!filterValue || (Array.isArray(filterValue) && filterValue.length === 0)) 
                         ? true 
