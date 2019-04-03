@@ -190,27 +190,22 @@ export default class List extends PureComponent {
     isSelected = id => this.state.selected.indexOf(id) !== -1;
 
     onCellClick = (meta, item, rowIdx, columnIdx, event) => {
-        if (meta.filter !== undefined) {
-            event.stopPropagation();
-            let filterName = meta.filter.name || meta.name;
-            let filterCurrentValue = this.state.filters[filterName];
-            let func = meta.filter.func || (value => value); //(item => {return [{name: filterName, value: item[meta.name]}]});
-            let filterValues = func(item[meta.name], item, event, filterCurrentValue);
-            if (Array.isArray(filterValues)) {
-                for (let k in filterValues) {
-                    let filterValue = filterValues[k];
-                    let filterMeta = this.props.meta.filters.filter(e => e.name === filterValue.name)[0];
-                    this.changeFilter(filterMeta, filterMeta.isMulti ? [filterValue.value] : filterValue.value);
-                }
-            } else {
-                let filterMeta = this.props.meta.filters.filter(e => e.name === filterName)[0];
-                this.changeFilter(filterMeta, filterMeta.isMulti ? [filterValues] : filterValues);
-            }
-        }
+        if (meta.filter === false || !this.props.globalMeta.columns.filter || !this.props.meta.filters.some(e => e.name === meta.name)) return;
+
+        event.stopPropagation();
+
+        let metaFilter = meta.filter ?  meta.filter : {};
+        let filterName = metaFilter.name || meta.name;
+        let filterMeta = this.props.meta.filters.filter(e => e.name === filterName)[0];
+        let filterMetaType = this.props.globalMeta.filterTypes[filterMeta.type] || this.props.globalMeta.filterTypes[this.props.globalMeta.filterTypes.default];
+        let filterCurrentValue = this.state.filters[filterName];
+        let func = metaFilter.setFromColumn || filterMetaType.setFromColumn || (value => value);
+        let filterValues = func(item[meta.name], item, event, filterCurrentValue);
+        this.changeFilter(filterMeta, filterMeta.isMulti ? [filterValues] : filterValues);
     }
 
     canCellClick = (meta, item, rowIdx, columnIdx) => {
-        return meta.filter !== undefined;
+        return meta.filter || (this.props.globalMeta.columns.filter && this.props.meta.filters.some(e => e.name === meta.name));;
     }
 
     serializePars = () => {

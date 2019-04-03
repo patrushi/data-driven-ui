@@ -13,7 +13,7 @@ export class ListExample extends PureComponent {
             columns: [
                 {name: 'OrderID', orderable: true},
                 {name: 'CustomerID'},
-                {name: 'OrderDate', type: 'date', filter: {func: (value, item, event, current) => {return event.altKey ? {from: current && current.from, till: moment(value)} : {from: moment(value), till: current && current.till}}}},
+                {name: 'OrderDate', type: 'date'},
                 {name: 'RequiredDate', type: 'date'},
                 {name: 'ShippedDate', type: 'date'},
                 {name: 'ShipCountry'},
@@ -38,7 +38,7 @@ export class ListExample extends PureComponent {
             columns: [
                 {name: 'OrderID', isOrderable: true},
                 {name: 'ProductID', title: 'Product', dataSource: {path: ['Product', 'ProductName']}},// filter: {name: 'ProductID', func: item => item.ProductID, replace: true}},
-                {name: 'UnitPrice', type: 'number', filter: {}},
+                {name: 'UnitPrice', type: 'number'},
                 {name: 'Quantity', type: 'number'},
                 {name: 'Discount', type: 'number'},
             ],
