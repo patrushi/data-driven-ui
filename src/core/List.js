@@ -195,7 +195,7 @@ export default class List extends PureComponent {
 
         if (filterSetFromColumn.altKey && !event.altKey) return;
 
-        event.stopPropagation();
+        if (filterSetFromColumn.stopPropagation !== false) event.stopPropagation();
 
         let metaFilter = meta.filter ?  meta.filter : {};
         let filterName = metaFilter.name || meta.name;
