@@ -89,8 +89,12 @@ export default class OData {
     }
 
     getLongSelect(props, inputValue, callback) {
-        const filter = {[`tolower(${props.componentMeta.dataSource.value})`]: { contains: inputValue == null ? null : inputValue.toLowerCase()}}
-        const top = props.componentMeta.dataSource.count || 10;
+        if (Array.isArray(inputValue)) {
+            var filter = {or: inputValue.map(function (e) {return { [props.componentMeta.dataSource.key]: e };})}
+        } else {
+            var filter = {[`tolower(${props.componentMeta.dataSource.value})`]: { contains: inputValue == null ? null : inputValue.toLowerCase()}}
+            var top = props.componentMeta.dataSource.count || 10;
+        }
         const format = this.props.globalMeta.format;
         const query = buildQuery({ filter, top, format });
         this.props.globalMeta.get(`${props.componentMeta.dataSource.path || this.props.globalMeta.basePath + '/' + props.componentMeta.dataSource.shortPath}${query}`, data => {

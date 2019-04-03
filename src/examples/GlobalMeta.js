@@ -64,8 +64,8 @@ export default {
                 number: (name, value) => {return {[name]: Number(value)}},
                 longselect: (name, value) => {
                     return Array.isArray(value)
-                        ? {or: value.map(function (e) {return { [name]: e.value };})}
-                        : {[name]: value.value}
+                        ? {or: value.map(function (e) {return { [name]: e };})}
+                        : {[name]: value}
                 },
                 default: 'string'
             },
@@ -93,8 +93,8 @@ export default {
                     return (!filterValue || (Array.isArray(filterValue) && filterValue.length === 0)) 
                         ? true 
                         : Array.isArray(filterValue)
-                            ? filterValue.some(e => e.value === itemValue)
-                            : filterValue.value === itemValue;
+                            ? filterValue.some(e => e === itemValue)
+                            : filterValue === itemValue;
                 },
                 default: 'string'
             },

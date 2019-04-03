@@ -6,13 +6,26 @@ export default class LongSelect extends PureComponent {
     constructor(props) {
         super(props);
 
-        this.state = {
-        };
+        this.value = undefined;
+        this.key = undefined;
 
         if (this.props.meta.dataSource) {
             let globalMeta = this.props.globalMeta.dataSourceTypes[this.props.meta.dataSource.type || this.props.globalMeta.dataSourceTypes.default];
             this.dataSource = new globalMeta.class({meta: this.props.meta.dataSource, globalMeta: globalMeta});
         }
+    }
+
+    setValue = (value) => {
+        this.value = value;
+        this.key = value == null 
+            ? null
+            : Array.isArray(value) 
+                ? value.map(e => e.value)
+                : value.value;
+    }
+
+    setKey = (key) => {
+        this.key = key;
     }
 
     loadOptionsFunc = () => {
@@ -21,12 +34,58 @@ export default class LongSelect extends PureComponent {
         }
     }
 
+    compareValue = (v1, v2) => {
+        if (v1 === null || v2 === null || v1 === v2) {
+            return v1 === v2;
+        }
+        else if (Array.isArray(v1) && Array.isArray(v2)) {
+            return v1.length === v2.length && v1.sort().every(function (value, index) { return value === v2.sort()[index] });
+        }
+        else {
+            return v1 === v2;
+        }
+    }
+
+    setValueFromProps = (value) => {
+        if (!value || (Array.isArray(value) && value.length === 0)) {
+            this.setValue(null);
+        } else if ((typeof(value) === 'object' && !Array.isArray(value)) || (Array.isArray(value) && typeof(value[0]) === 'object')) {
+            this.setValue(value);
+        } else {
+            if (this.compareValue(this.key, value)) {
+                return;
+            }
+            var _this = this;
+
+            this.setKey(value);
+            this.dataSource.getLongSelect(this.props, Array.isArray(value) ? value : [value], data => {
+                _this.setValue(data);
+            });
+        }
+    }
+
+    onChange = (value) => {
+        this.setValue(value);
+        if (this.props.onChange) {
+            this.props.onChange(this.key);
+        }
+    }
+
+    componentDidMount = () => {
+        this.setValueFromProps(this.props.value);
+    }
+
+    componentDidUpdate = () => {
+        this.setValueFromProps(this.props.value);
+    }
+
     render() {
         let {componentMeta, value, onChange, ...rest} = this.props;
+
         return (
             <SelectWithStyles {...componentMeta}
-                onChange={onChange}
-                value={value}
+                onChange={this.onChange}
+                value={this.value}
                 fullWidth
                 loadOptions={this.loadOptionsFunc()}
                 {...rest}
