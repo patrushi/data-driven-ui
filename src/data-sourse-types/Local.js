@@ -28,6 +28,13 @@ export default class Local {
             }
         }
 
+        if (meta.dataSource.extraFilters) {
+            for (let k in meta.dataSource.extraFilters) {
+                let kv = Object.entries(meta.dataSource.extraFilters[k])[0];
+                items = items.filter(i => i[kv[0]] === kv[1]);
+            }
+        }
+
         if (data.orders) {
             let orderFunc = (a, b) => {
                 for (let name in data.orders) {

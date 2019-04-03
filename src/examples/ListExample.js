@@ -29,8 +29,8 @@ export class ListExample extends PureComponent {
             paging: {},
             selectable: {type: 'row&checkbox', isMulti: false},
             parsHolder: {type: 'addressBar', prefix: '', history: this.props.history},
-            dataSource: {type: 'odata', shortPath: `Orders`, selectAll: true},
-            //dataSource: {type: 'local', storage: `Orders`}
+            //dataSource: {type: 'odata', shortPath: `Orders`, selectAll: true},
+            dataSource: {type: 'local', storage: `Orders`}
         };
 
         this.metaDetail = {
@@ -50,8 +50,8 @@ export class ListExample extends PureComponent {
             filtersLayout: {type: 'default', perLine: 2},
             paging: {showIfSingle: false},
             selectable: {type: 'row&checkbox', isMulti: true},
-            dataSource: {type: 'odata', shortPath: `Order_Details`, selectAll: true}
-            //dataSource: {type: 'local', storage: `Order_Details`}
+            //dataSource: {type: 'odata', shortPath: `Order_Details`, selectAll: true}
+            dataSource: {type: 'local', storage: `Order_Details`}
         };
 
         this.state = {
@@ -65,7 +65,7 @@ export class ListExample extends PureComponent {
     }
 
     onSingleSelect = (selectKey) => {
-        this.metaDetail.dataSource.filters = [{OrderID: selectKey}];
+        this.metaDetail.dataSource.extraFilters = [{OrderID: selectKey}];
         if (this.state.listDetailRef) this.state.listDetailRef.refresh(true);
     }
 

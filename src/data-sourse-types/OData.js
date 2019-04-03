@@ -45,8 +45,8 @@ export default class OData {
                 filters.push(f(name, data.filters[name]));
             }
         }
-        if (meta.dataSource.filters) {
-            filters = [...filters, meta.dataSource.filters];
+        if (meta.dataSource.extraFilters) {
+            filters = [...filters, meta.dataSource.extraFilters];
         }
         return filters.length === 0
             ? null
@@ -89,10 +89,11 @@ export default class OData {
     }
 
     getLongSelect(props, inputValue, callback) {
+        let filter = null;
         if (Array.isArray(inputValue)) {
-            var filter = {or: inputValue.map(function (e) {return { [props.componentMeta.dataSource.key]: e };})}
+            filter = {or: inputValue.map(function (e) {return { [props.componentMeta.dataSource.key]: e };})}
         } else {
-            var filter = {[`tolower(${props.componentMeta.dataSource.value})`]: { contains: inputValue == null ? null : inputValue.toLowerCase()}}
+            filter = {[`tolower(${props.componentMeta.dataSource.value})`]: { contains: inputValue == null ? null : inputValue.toLowerCase()}}
             var top = props.componentMeta.dataSource.count || 10;
         }
         const format = this.props.globalMeta.format;
