@@ -121,6 +121,6 @@ export default {
         placeholder: true
     },
     columns: {
-        filter: true
+        filterSetFromColumn: {default: true, altKey: true}
     }
 }

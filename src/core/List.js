@@ -190,7 +190,10 @@ export default class List extends PureComponent {
     isSelected = id => this.state.selected.indexOf(id) !== -1;
 
     onCellClick = (meta, item, rowIdx, columnIdx, event) => {
-        if (meta.filter === false || !this.props.globalMeta.columns.filter || !this.props.meta.filters.some(e => e.name === meta.name)) return;
+        let filterSetFromColumn = this.props.globalMeta.columns.filterSetFromColumn;
+        if (meta.filter === false || !filterSetFromColumn || !filterSetFromColumn.default || !this.props.meta.filters.some(e => e.name === meta.name)) return;
+
+        if (filterSetFromColumn.altKey && !event.altKey) return;
 
         event.stopPropagation();
 
@@ -205,7 +208,8 @@ export default class List extends PureComponent {
     }
 
     canCellClick = (meta, item, rowIdx, columnIdx) => {
-        return meta.filter || (this.props.globalMeta.columns.filter && this.props.meta.filters.some(e => e.name === meta.name));;
+        let filterSetFromColumn = this.props.globalMeta.columns.filterSetFromColumn;
+        return meta.filter || (filterSetFromColumn && filterSetFromColumn.default && this.props.meta.filters.some(e => e.name === meta.name));
     }
 
     serializePars = () => {
