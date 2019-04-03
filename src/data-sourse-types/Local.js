@@ -9,19 +9,20 @@ export default class Local {
 
     getList(needCount, meta, data, globalMeta, callbackFunc) {
         let items = [...this.props.globalMeta.storages[meta.dataSource.storage]];
-
         let expands = this.props.globalMeta.expands && this.props.globalMeta.expands[meta.dataSource.storage];
         if (expands) {
             for (let i in items) {
                 for (let e in expands) {
-                    let expand = expands[e];
-                    items[i][expand.name] = this.props.globalMeta.storages[expand.expandStorage].filter(item => expand.func(item, items[i]))[0];
+                    const expand = expands[e];
+                    const li = items[i];
+                    const f = (item) => expand.func(item, li);
+                    items[i][expand.name] = this.props.globalMeta.storages[expand.expandStorage].filter(f)[0];
                 }
             }
         }
 
         if (data.filters) {
-            for (var name in data.filters) {
+            for (let name in data.filters) {
                 let filterMeta = meta.filters.filter(e => e.name === name)[0];
                 let globalFilterMeta = this.props.globalMeta.filters[filterMeta.type] || this.props.globalMeta.filters[this.props.globalMeta.filters.default];
                 items = items.filter(i => globalFilterMeta(i[name], data.filters[name]));

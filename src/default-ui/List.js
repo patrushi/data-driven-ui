@@ -85,8 +85,7 @@ export default class List extends PureComponent {
                         nextIconButtonProps={{
                             'aria-label': 'Next Page',
                         }}
-                        labelRowsPerPage={this.props.meta.paging.labelRowsPerPage ? this.props.meta.paging.labelRowsPerPage : "Показывать по: "}
-                        labelDisplayedRows={this.props.meta.paging.labelDisplayedRows ? this.props.meta.paging.labelDisplayedRows : ({ from, to, count }) => `${from}-${to} из ${count}`}
+                        {...this.props.globalMeta.paging.props}
                     />}
             </React.Fragment>
         );

@@ -32,7 +32,11 @@ export default {
     },
     paging: {
         perPage: 10,
-        perPageOptions: [10, 100]
+        perPageOptions: [10, 100],
+        props: {
+            labelRowsPerPage: "Показывать по: ",
+            labelDisplayedRows: ({ from, to, count }) => `${from}-${to} из ${count}`
+        }
     },
     parsHolderTypes: {
         addressBar: {

@@ -30,7 +30,10 @@ export class ListExample extends PureComponent {
             selectable: {type: 'row&checkbox', isMulti: false},
             parsHolder: {type: 'addressBar', prefix: '', history: this.props.history},
             //dataSource: {type: 'odata', shortPath: `Orders`, selectAll: true},
-            dataSource: {type: 'local', storage: `Orders`}
+            dataSource: {type: 'local', storage: `Orders`},
+            actions: [
+                {type: 'delete'}
+            ]
         };
 
         this.metaDetail = {
@@ -51,7 +54,11 @@ export class ListExample extends PureComponent {
             paging: {showIfSingle: false},
             selectable: {type: 'row&checkbox', isMulti: true},
             //dataSource: {type: 'odata', shortPath: `Order_Details`, selectAll: true}
-            dataSource: {type: 'local', storage: `Order_Details`}
+            dataSource: {type: 'local', storage: `Order_Details`},
+            actions: [
+                {type: 'delete', isMulti: true},
+                {type: 'openCard'}
+            ]
         };
 
         this.state = {
