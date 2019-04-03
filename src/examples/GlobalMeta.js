@@ -85,7 +85,7 @@ export default {
                 text: (itemValue, filterValue) => !filterValue ? true : !itemValue ? false : itemValue.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1,
                 dateperiod: (itemValue, filterValue) => !filterValue || (!filterValue.from && !filterValue.till) 
                     ? true
-                    : !itemValue || (filterValue.from && filterValue.from > itemValue) || (filterValue.till && filterValue.till < itemValue) 
+                    : !itemValue || (filterValue.from && filterValue.from > moment(itemValue)) || (filterValue.till && filterValue.till < moment(itemValue)) 
                         ? false
                         : true,
                 number: (itemValue, filterValue) => !filterValue ? true : itemValue === filterValue,
