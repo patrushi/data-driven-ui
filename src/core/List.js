@@ -193,10 +193,18 @@ export default class List extends PureComponent {
         if (meta.filter !== undefined) {
             event.stopPropagation();
             let filterName = meta.filter.name || meta.name;
-            let func = meta.filter.func || (item => item[meta.name]);
-            let value = func(item);
-            let filterMeta = this.props.meta.filters.filter(e => e.name === filterName)[0];
-            this.changeFilter(filterMeta, filterMeta.isMulti ? [value] : value);
+            let func = meta.filter.func || (value => value); //(item => {return [{name: filterName, value: item[meta.name]}]});
+            let filterValues = func(item[meta.name], item, event);
+            if (Array.isArray(filterValues)) {
+                for (let k in filterValues) {
+                    let filterValue = filterValues[k];
+                    let filterMeta = this.props.meta.filters.filter(e => e.name === filterValue.name)[0];
+                    this.changeFilter(filterMeta, filterMeta.isMulti ? [filterValue.value] : filterValue.value);
+                }
+            } else {
+                let filterMeta = this.props.meta.filters.filter(e => e.name === filterName)[0];
+                this.changeFilter(filterMeta, filterMeta.isMulti ? [filterValues] : filterValues);
+            }
         }
     }
 

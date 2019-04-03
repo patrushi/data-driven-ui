@@ -3,6 +3,7 @@ import List from '../core/List';
 import GlobalMeta from './GlobalMeta';
 import Paper from '@material-ui/core/Paper';
 import { withRouter } from "react-router-dom";
+import moment from "moment";
 
 export class ListExample extends PureComponent {
     constructor(props) {
@@ -12,7 +13,7 @@ export class ListExample extends PureComponent {
             columns: [
                 {name: 'OrderID', orderable: true},
                 {name: 'CustomerID'},
-                {name: 'OrderDate', type: 'date'},
+                {name: 'OrderDate', type: 'date', filter: {func: (value, item, event) => {return event.altKey ? {from: undefined, till: moment(value)} : {from: moment(value), till: undefined}}}},
                 {name: 'RequiredDate', type: 'date'},
                 {name: 'ShippedDate', type: 'date'},
                 {name: 'ShipCountry'},

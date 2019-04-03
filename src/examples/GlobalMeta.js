@@ -82,7 +82,15 @@ export default {
             },
             filters: {
                 string: (itemValue, filterValue) => !filterValue ? true : itemValue === filterValue,
-                text: (itemValue, filterValue) => !filterValue ? true : itemValue.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1,
+                text: (itemValue, filterValue) => !filterValue ? true : !itemValue ? false : itemValue.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1,
+                dateperiod: (itemValue, filterValue) => {
+                    if (!filterValue || (!filterValue.from && !filterValue.till)) return true;
+                    if (!itemValue) return false;
+                    if (filterValue.from && filterValue.from > itemValue) return false;
+                    if (filterValue.till && filterValue.till < itemValue) return false;
+                    return true;
+                },
+                number: (itemValue, filterValue) => !filterValue ? true : itemValue === filterValue,
                 longselect: (itemValue, filterValue) => {
                     return (!filterValue || (Array.isArray(filterValue) && filterValue.length === 0)) 
                         ? true 
