@@ -106,12 +106,12 @@ export default {
         default: 'odata'
     },
     filterTypes: {
-        text: {component: TextField},
+        string: {component: TextField, debounce: true},
         longselect: {component: LongSelect, props: {loadingMessage: () => "...", noOptionsMessage: () => "По заданному тексту не найдено значений ..."}},
         shortselect: {component: ShortSelect},
         date: {component: DateField, props: {invalidDateMessage: 'Неверный формат даты'}},
         dateperiod: {component: DatePeriodField, props: {invalidDateMessage: 'Неверный формат даты'}, setFromColumn: (value, item, event, current) => {return event.altKey ? {from: current && current.from, till: moment(value)} : {from: moment(value), till: current && current.till}}},
-        default: 'text'
+        default: 'string'
     },
     columnTypes: {
         date: {renderFunc: (name, value) => {return moment(value).format("DD.MM.YYYY")}},

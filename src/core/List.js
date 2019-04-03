@@ -59,9 +59,11 @@ export default class List extends PureComponent {
     }
  
     renderCell = (meta, item, rowIdx, columnIdx) => {
-        let value = meta.dataSource && meta.dataSource.path
-            ? this.getValueFromPath(item, meta.dataSource.path, 0)
-            : item[meta.name];
+        let value = meta.render
+            ? meta.render(meta, item, rowIdx, columnIdx)
+            : meta.dataSource && meta.dataSource.path
+                ? this.getValueFromPath(item, meta.dataSource.path, 0)
+                : item[meta.name];
         
         var type = meta.type;
 
@@ -74,6 +76,32 @@ export default class List extends PureComponent {
         }
 
         return value;
+    }
+
+    getCellStyle = (meta, item, rowIdx, columnIdx) => {
+        let style = meta.style 
+            ? meta.style(meta, item, rowIdx, columnIdx)
+            : {};
+
+        if (this.canCellClick(meta, item, rowIdx, columnIdx)) {
+            style = {...style, cursor: 'pointer'}
+        }
+
+        if (this.props.meta.row.styleForCells) {
+            style = {...style, ...this.props.meta.row.style(item, rowIdx)}
+        }
+                            
+        return style;
+    }
+
+    getRowStyle = (item, rowIdx) => {
+        let style = this.props.meta.row.style && !this.props.meta.row.styleForCells
+            ? this.props.meta.row.style(item, rowIdx)
+            : {};
+
+        console.log(style);
+
+        return style;
     }
 
     getValueFromPath = (item, path, i) => {
@@ -106,9 +134,11 @@ export default class List extends PureComponent {
     changeFilter = (meta, value) => {
         if (this.state.filters[meta.name] === value) return;
 
+        let globalMetaFilter = this.props.globalMeta.filterTypes[meta.type] || this.props.globalMeta.filterTypes[this.props.globalMeta.filterTypes.default]
+
         this.setState({
             filters: {...this.state.filters, [meta.name]: value}
-        }, (meta.dataSource || {}).refresh === 'debounce'
+        }, globalMetaFilter.debounce
             ? () => this.refreshWithDebounce(true)
             : () => this.refresh(true));
     }
@@ -121,12 +151,18 @@ export default class List extends PureComponent {
         }
     }
 
-    getKey = (item, idx) => {
+    getRowKey = (item, idx) => {
         return this.props.meta.key
             ? item[this.props.meta.key]
             : this.props.meta.keyFunc
                 ? this.props.meta.keyFunc(item)
                 : idx;
+    }
+
+    getColumnKey = (meta, idx) => {
+        return meta.name 
+            ? meta.name
+            : idx;
     }
 
     refreshCallback = (data) => {
@@ -181,7 +217,7 @@ export default class List extends PureComponent {
     selectAll = event => {
         if (!this.props.meta.selectable.isMulti) return;
         const selected = event.target.checked
-            ? this.state.items.map((n, i) => this.getKey(n, i))
+            ? this.state.items.map((n, i) => this.getRowKey(n, i))
             : []
         this.setState({selected});
         if (this.props.onSelect) this.props.onSelect(event.target.checked, selected, selected)
@@ -239,9 +275,12 @@ export default class List extends PureComponent {
                 isSelected: this.isSelected,
                 select: this.select,
                 selectAll: this.selectAll,
-                getKey: this.getKey,
+                getRowKey: this.getRowKey,
+                getColumnKey: this.getColumnKey,
                 onCellClick: this.onCellClick,
-                canCellClick: this.canCellClick
+                canCellClick: this.canCellClick,
+                getCellStyle: this.getCellStyle,
+                getRowStyle: this.getRowStyle
             },
         };
 

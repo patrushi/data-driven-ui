@@ -30,7 +30,7 @@ export default class List extends PureComponent {
                                 color="default"/> : (null)}
                             </TableCell> : (null)}
                         {this.props.meta.columns.map((item, idx) => (
-                            <TableCell key={item.name} style={{width: Math.round(100/this.props.meta.columns.length)+'%'}}>
+                            <TableCell key={this.props.functions.getColumnKey(item, idx)} style={{width: Math.round(100/this.props.meta.columns.length)+'%'}}>
                                 {item.orderable || (item.orderable === undefined && this.props.meta.orderable) 
                                     ? <TableSortLabel 
                                         direction={this.props.data.orders[item.name] === 'asc' ? 'desc' : this.props.data.orders[item.name] === 'desc' ? 'asc' : undefined}
@@ -43,7 +43,7 @@ export default class List extends PureComponent {
                     </TableHead>
                     <TableBody>
                     {this.props.data.items.map((item, rowIdx) => {
-                        var key = this.props.functions.getKey(item, rowIdx);
+                        var key = this.props.functions.getRowKey(item, rowIdx);
                         var tableRowProps = this.props.meta.selectable && (this.props.meta.selectable.type === 'row&checkbox' || this.props.meta.selectable.type === 'row' || this.props.meta.selectable.type === undefined)
                             ? {
                                 hover: true,
@@ -52,14 +52,14 @@ export default class List extends PureComponent {
                                 tabIndex: -1,
                                 selected: this.props.functions.isSelected(key)
                             } : null;
-                        return <TableRow key={rowIdx} {...tableRowProps}>
+                        return <TableRow key={rowIdx} {...tableRowProps} style={this.props.functions.getRowStyle(item, rowIdx)}>
                         {this.props.meta.selectable && (this.props.meta.selectable.type === 'row&checkbox' || this.props.meta.selectable.type === 'checkbox' || (this.props.meta.selectable.type === undefined && this.props.meta.selectable.isMulti)) ? <TableCell padding="checkbox">
                             <Checkbox color="default" checked={this.props.functions.isSelected(key)} onClick={event => this.props.functions.select(key, event)} />
                         </TableCell> : (null)}
                         {this.props.meta.columns.map((meta, columnIdx) => {
-                            var canCellClick = this.props.functions.canCellClick(meta, item, rowIdx, columnIdx);
+                            let canCellClick = this.props.functions.canCellClick(meta, item, rowIdx, columnIdx);
                             return (
-                            <TableCell key={meta.name} style={canCellClick ? {cursor: 'pointer'} : undefined} onClick={canCellClick ? (event) => this.props.functions.onCellClick(meta, item, rowIdx, columnIdx, event) : undefined}>
+                            <TableCell style={this.props.functions.getCellStyle(meta, item, rowIdx, columnIdx)} key={this.props.functions.getColumnKey(meta, columnIdx)} onClick={canCellClick ? (event) => this.props.functions.onCellClick(meta, item, rowIdx, columnIdx, event) : undefined}>
                                     {this.props.functions.renderCell(meta, item, rowIdx, columnIdx)}
                                 </TableCell>
                             )})}
