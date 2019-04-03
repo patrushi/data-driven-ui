@@ -79,7 +79,7 @@ export class ListExample extends PureComponent {
     render() {
         return <Paper style={{ margin: 15, padding: 15 }}>
             <List meta={this.meta} globalMeta={GlobalMeta} onSelect={this.onSelect} onSingleSelect={this.onSingleSelect} parentProps={this.props} />
-            <List meta={this.metaDetail} autoRefresh={false} setRef={(ref) => this.setState({listDetailRef: ref})} globalMeta={GlobalMeta} />
+            <List meta={this.metaDetail} globalMeta={GlobalMeta} autoRefresh={false} setRef={(ref) => this.setState({listDetailRef: ref})} />
         </Paper>
     }
 }
