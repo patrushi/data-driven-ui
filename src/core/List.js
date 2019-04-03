@@ -39,14 +39,14 @@ export default class List extends PureComponent {
         if (this.props.setRef) this.props.setRef(this);
         let _this = this;
         this.deserializePars(() => {
-            if (!_this.props.notAutoRefresh) _this.refresh(true);
+            if (_this.props.autoRefresh !== false) _this.refresh(true);
         })
     }
 
     componentDidUpdate() {
         let _this = this;
         this.deserializePars(() => {
-            if (!_this.props.notAutoRefresh) _this.refresh(true);
+            if (_this.props.autoRefresh !== false) _this.refresh(true);
         });
     }
 
