@@ -193,8 +193,9 @@ export default class List extends PureComponent {
         if (meta.filter !== undefined) {
             event.stopPropagation();
             let filterName = meta.filter.name || meta.name;
+            let filterCurrentValue = this.state.filters[filterName];
             let func = meta.filter.func || (value => value); //(item => {return [{name: filterName, value: item[meta.name]}]});
-            let filterValues = func(item[meta.name], item, event);
+            let filterValues = func(item[meta.name], item, event, filterCurrentValue);
             if (Array.isArray(filterValues)) {
                 for (let k in filterValues) {
                     let filterValue = filterValues[k];

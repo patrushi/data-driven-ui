@@ -13,7 +13,7 @@ export class ListExample extends PureComponent {
             columns: [
                 {name: 'OrderID', orderable: true},
                 {name: 'CustomerID'},
-                {name: 'OrderDate', type: 'date', filter: {func: (value, item, event) => {return event.altKey ? {from: undefined, till: moment(value)} : {from: moment(value), till: undefined}}}},
+                {name: 'OrderDate', type: 'date', filter: {func: (value, item, event, current) => {return event.altKey ? {from: current && current.from, till: moment(value)} : {from: moment(value), till: current && current.till}}}},
                 {name: 'RequiredDate', type: 'date'},
                 {name: 'ShippedDate', type: 'date'},
                 {name: 'ShipCountry'},
