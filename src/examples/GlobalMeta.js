@@ -19,6 +19,8 @@ import DatePeriodField from '../default-ui/DatePeriodField';
 
 import ErrorPanel, { errorHandler } from '../default-ui/ErrorPanel';
 
+import {modifierKeys} from '../core/modifier-keys';
+
 import moment from "moment";
 import "moment/locale/ru";
 moment.locale("ru");
@@ -111,7 +113,7 @@ export default {
         shortselect: {component: ShortSelect},
         date: {component: DateField, props: {invalidDateMessage: 'Неверный формат даты'}},
         dateperiod: {component: DatePeriodField, props: {invalidDateMessage: 'Неверный формат даты'}, 
-            setFromColumn: (value, item, event, current) => {console.log(event.nativeEvent); return event.altLeft ? {from: current && current.from, till: moment(value)} : {from: moment(value), till: current && current.till}}},
+            setFromColumn: (value, item, event, current) => {return modifierKeys.altRight ? {from: current && current.from, till: moment(value)} : {from: moment(value), till: current && current.till}}},
         default: 'string'
     },
     columnTypes: {
