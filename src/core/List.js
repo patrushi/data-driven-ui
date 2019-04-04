@@ -87,7 +87,7 @@ export default class List extends PureComponent {
             style = {...style, cursor: 'pointer'}
         }
 
-        if (this.props.meta.row.styleForCells) {
+        if (this.props.meta.row && this.props.meta.row.styleForCells) {
             style = {...style, ...this.props.meta.row.style(item, rowIdx)}
         }
                             
@@ -95,11 +95,9 @@ export default class List extends PureComponent {
     }
 
     getRowStyle = (item, rowIdx) => {
-        let style = this.props.meta.row.style && !this.props.meta.row.styleForCells
+        let style = this.props.meta.row && this.props.meta.row.style && !this.props.meta.row.styleForCells
             ? this.props.meta.row.style(item, rowIdx)
             : {};
-
-        console.log(style);
 
         return style;
     }
