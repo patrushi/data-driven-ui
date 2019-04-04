@@ -72,6 +72,6 @@ export default class Local {
             items = items.filter(i => i[props.componentMeta.dataSource.value].toLowerCase().indexOf(inputValue.toLowerCase()) !== -1);
             items = items.slice(0, top);
         }
-        callback(items.map(function (v) { return { label: v[props.componentMeta.dataSource.value], value: v[props.componentMeta.dataSource.key], additionalData: v } }));
+        callback(items.map(function (v) { return { label: v[props.componentMeta.dataSource.value], value: v[props.componentMeta.dataSource.key], extraData: v } }));
     }
 }

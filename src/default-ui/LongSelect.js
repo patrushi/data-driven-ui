@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
 import SelectWithStyles from './SelectWithStyles';
-import debounce from '../core/debounce'; 
+import debounce from '../core/debounce';
+import MenuItem from '@material-ui/core/MenuItem';
 
 export default class LongSelect extends PureComponent {
     constructor(props) {
         super(props);
-
         this.value = undefined;
         this.key = undefined;
 
@@ -80,7 +80,34 @@ export default class LongSelect extends PureComponent {
     }
 
     render() {
-        let {componentMeta, value, onChange, ...rest} = this.props;
+        let {componentMeta, value, onChange, extraData, components, ...rest} = this.props;
+
+        if (extraData) {
+            if (components === undefined) components = {};
+            components.Option = (props) => {
+                console.log(props);
+                return (
+                    <MenuItem
+                        buttonRef={props.innerRef}
+                        selected={props.isFocused}
+                        component="div"
+                        style={{
+                            fontWeight: props.isSelected ? 500 : 400,
+                            maxHeight: '100px',
+                            height: 'auto'
+                        }}
+                        {...props.innerProps}
+                    >
+                        <div>
+                            {props.children}
+                            {props.data && props.data.extraData ? <div style={{fontSize: 10}}>
+                                {extraData(props.data.extraData)}
+                            </div> : (null)}
+                        </div>                
+                    </MenuItem>
+                );
+            }
+        }
 
         return (
             <SelectWithStyles {...componentMeta}
@@ -88,6 +115,7 @@ export default class LongSelect extends PureComponent {
                 value={this.value}
                 fullWidth
                 loadOptions={this.loadOptionsFunc()}
+                components={components}
                 {...rest}
                 />
         );

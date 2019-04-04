@@ -3,6 +3,7 @@ import List from '../core/List';
 import GlobalMeta from './GlobalMeta';
 import Paper from '@material-ui/core/Paper';
 import { withRouter } from "react-router-dom";
+//import ProductFilter from './ProductFilter';
 
 export class ListExample extends PureComponent {
     constructor(props) {
@@ -52,7 +53,7 @@ export class ListExample extends PureComponent {
             keyFunc: e => `${e.OrderID}_${e.ProductID}`,
             orderable: true,
             filters: [
-               {name: 'ProductID', type: 'longselect', dataSource: {shortPath: 'Products', key: 'ProductID', value: 'ProductName'}, isMulti: true},
+               {name: 'ProductID', type: 'longselect', /*component: ProductFilter,*/ props: {extraData: (extraData) => {return <div style={{color: 'red'}}>QuantityPerUnit: {extraData.QuantityPerUnit}</div>}}, dataSource: {shortPath: 'Products', key: 'ProductID', value: 'ProductName'}, isMulti: false},
                {name: 'UnitPrice', type: 'number'},
             ],
             filtersLayout: {type: 'default', perLine: 2},

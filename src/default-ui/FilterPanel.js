@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 export default class FilterPanel extends PureComponent {
 
     getField = (meta) => {
-        var fieldMeta = this.props.globalMeta.filterTypes[meta.type] || this.props.globalMeta.filterTypes[this.props.globalMeta.filterTypes.default];
+        var globalMeta = this.props.globalMeta.filterTypes[meta.type] || this.props.globalMeta.filterTypes[this.props.globalMeta.filterTypes.default];
         var props = {
             meta: this.props.meta,
             globalMeta: this.props.globalMeta,
@@ -13,9 +13,11 @@ export default class FilterPanel extends PureComponent {
             value: this.props.data.filters[meta.name], 
             label: this.props.globalMeta.filters.label ? meta.title || meta.name : null,
             placeholder: this.props.globalMeta.filters.placeholder ? meta.title || meta.name : null,
-            ...fieldMeta.props
+            ...globalMeta.props,
+            ...meta.props
         }
-        return React.createElement(fieldMeta.component, props);
+        let component = meta.component || globalMeta.component;
+        return React.createElement(component, props);
     }
 
     render() {
