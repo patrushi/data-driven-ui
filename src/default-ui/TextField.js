@@ -4,6 +4,9 @@ import { IconButton } from "@material-ui/core";
 import {Clear as ClearIcon} from "@material-ui/icons";
 
 export default class TextField extends PureComponent {
+    componentDidMount() {
+        console.log('TextField did mount', this.props.name);
+    }
     render() {
         let { meta, globalMeta, componentMeta, component, onChange, value, notClearable, ...rest } = this.props;
         return (

@@ -9,6 +9,7 @@ import {get} from '../data-sourse-types/Fetch'
 import AddressBarParsHolder from '../pars-holders/AddressBarParsHolder';
 
 import List from '../default-ui/List';
+import Card from '../default-ui/Card';
 import TextField from '../default-ui/TextField';
 import LongSelect from '../default-ui/LongSelect';
 import ShortSelect from '../default-ui/ShortSelect';
@@ -28,6 +29,7 @@ moment.locale("ru");
 export default {
     components: {
         list: {component: List},
+        card: {component: Card},
         filterPanel: {component: FilterPanel},
         longProcessPanel: {component: LongProcessPanel},
         errorPanel: {component: ErrorPanel, props: {title: 'Что-то пошло не так ...'}}
@@ -116,6 +118,10 @@ export default {
             setFromColumn: (value, item, event, current) => {return modifierKeys.altRight ? {from: current && current.from, till: moment(value)} : {from: moment(value), till: current && current.till}}},
         default: 'string'
     },
+    fieldTypes: {
+        string: {component: TextField},
+        default: 'string'
+    },
     columnTypes: {
         date: {renderFunc: (name, value) => {return moment(value).format("DD.MM.YYYY")}},
         number: {renderFunc: (name, value) => {return <div style={{width: '100%', textAlign: 'right'}}>{value}</div>}}
@@ -126,6 +132,10 @@ export default {
     filters: {
         //label: true,
         placeholder: true
+    },
+    fields: {
+        label: true,
+        //placeholder: true
     },
     columns: {
         filterSetFromColumn: {default: true, altKey: true}
