@@ -9,8 +9,6 @@ import Chip from '@material-ui/core/Chip';
 import MenuItem from '@material-ui/core/MenuItem';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { emphasize } from '@material-ui/core/styles/colorManipulator';
-import { IconButton } from "@material-ui/core";
-import {Clear as ClearIcon} from "@material-ui/icons";
 
 const styles = theme => ({
     root: {
