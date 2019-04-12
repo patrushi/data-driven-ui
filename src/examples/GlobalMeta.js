@@ -20,11 +20,14 @@ import DatePeriodField from '../default-ui/DatePeriodField';
 
 import ErrorPanel, { errorHandler } from '../default-ui/ErrorPanel';
 
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import {modifierKeys} from '../core/modifier-keys';
 
 import moment from "moment";
 import "moment/locale/ru";
 moment.locale("ru");
+
 
 export default {
     components: {
@@ -111,7 +114,7 @@ export default {
     },
     filterTypes: {
         string: {component: TextField, debounce: true},
-        longselect: {component: LongSelect, props: {loadingMessage: () => "...", noOptionsMessage: () => "По заданному тексту не найдено значений ..."}},
+        longselect: {component: LongSelect, props: {loadingMessage: () => <CircularProgress style={{margin: 5}} />, noOptionsMessage: () => "По заданному тексту не найдено значений ..."}},
         shortselect: {component: ShortSelect},
         date: {component: DateField, props: {invalidDateMessage: 'Неверный формат даты'}},
         dateperiod: {component: DatePeriodField, props: {invalidDateMessage: 'Неверный формат даты'}, 
@@ -121,7 +124,7 @@ export default {
     fieldTypes: {
         string: {component: TextField},
         date: {component: DateField},
-        longselect: {component: LongSelect, props: {loadingMessage: () => "...", noOptionsMessage: () => "По заданному тексту не найдено значений ..."}},
+        longselect: {component: LongSelect, props: {loadingMessage: () => <CircularProgress style={{margin: 5}} />, noOptionsMessage: () => "По заданному тексту не найдено значений ..."}},
         default: 'string'
     },
     columnTypes: {
