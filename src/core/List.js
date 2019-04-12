@@ -12,11 +12,12 @@ export default class List extends PureComponent {
             selected: []
         };
 
-        if (props.meta.paging) {
+        if (props.meta.list.paging) {
+            let paging = props.meta.list.paging;
             this.state.paging = {
-                page: props.meta.paging.page || (props.globalMeta.paging && props.globalMeta.paging.page) || 0,
-                perPage: props.meta.paging.perPage || (props.globalMeta.paging && props.globalMeta.paging.perPage) || 10,
-                perPageOptions: props.meta.paging.perPageOptions || (props.globalMeta.paging && props.globalMeta.paging.perPageOptions) || [10, 100]
+                page: paging.page || (props.globalMeta.paging && props.globalMeta.paging.page) || 0,
+                perPage: paging.perPage || (props.globalMeta.paging && props.globalMeta.paging.perPage) || 10,
+                perPageOptions: paging.perPageOptions || (props.globalMeta.paging && props.globalMeta.paging.perPageOptions) || [10, 100]
             }
         }
 
@@ -27,7 +28,7 @@ export default class List extends PureComponent {
             let globalMeta = this.props.globalMeta.parsHolderTypes[this.props.meta.parsHolder.type || this.props.globalMeta.parsHolderTypes.default];
             this.parsHolder = new globalMeta.class({meta: this.props.meta.parsHolder, globalMeta: globalMeta});
         }
-
+console.log('this.props.meta = ', this.props.meta.dataSource)
         if (this.props.meta.dataSource)
         {
             let globalMeta = this.props.globalMeta.dataSourceTypes[this.props.meta.dataSource.type || this.props.globalMeta.dataSourceTypes.default];
@@ -44,6 +45,7 @@ export default class List extends PureComponent {
     }
 
     componentDidUpdate() {
+        console.log('refresh');
         let _this = this;
         this.deserializePars(() => {
             if (_this.props.autoRefresh !== false) _this.refresh(true);
@@ -142,6 +144,7 @@ export default class List extends PureComponent {
     }
 
     refresh = (needCount) => {
+        console.log('refresh', this.dataSource);
         this.setState({isLoading: true});
         this.serializePars();
         if (this.dataSource) {
@@ -157,10 +160,34 @@ export default class List extends PureComponent {
                 : idx;
     }
 
+    getColumns = () => {
+        return this.props.meta.attrs.filter(e => e.column !== false);
+    }
+
     getColumnKey = (meta, idx) => {
         return meta.name 
             ? meta.name
             : idx;
+    }
+
+    isCheckboxSelectable = () => {
+        return this.props.meta.list && this.props.meta.list.selectable && this.props.meta.list.selectable.checkbox;
+    }
+
+    isRowSelectable = () => {
+        return this.props.meta.list && this.props.meta.list.selectable && this.props.meta.list.selectable.row;
+    }
+
+    isMultiSelectable = () => {
+        return this.props.meta.list && this.props.meta.list.selectable && this.props.meta.list.selectable.isMulti;
+    }
+
+    isSelectedAll = () => {
+        return this.state.selected.length > 0 && this.state.selected.length === this.state.items.length;
+    }
+
+    isSelectedAny = () => {
+        return this.state.selected.length > 0 && this.state.selected.length < this.state.items.length;
     }
 
     refreshCallback = (data) => {
@@ -256,7 +283,12 @@ export default class List extends PureComponent {
         if (!this.parsHolder) return;
         var pars = this.parsHolder.loadPars();
         var newState = this.parsHolder.deserializePars(this.props.meta, pars);
+        console.log('deserializePars', newState);
         if (newState) this.setState(newState, setStateCallback);
+    }
+
+    getFilters = () => {
+        return this.props.meta.attrs.filter(e => e.filter);
     }
     
     render() {
@@ -270,9 +302,20 @@ export default class List extends PureComponent {
                 changePage: this.changePage,
                 changePerPage: this.changePerPage,
                 changeFilter: this.changeFilter,
-                isSelected: this.isSelected,
-                select: this.select,
-                selectAll: this.selectAll,
+                selection: {
+                    isSelected: this.isSelected,
+                    select: this.select,
+                    selectAll: this.selectAll,
+                    isCheckboxSelectable: this.isCheckboxSelectable,
+                    isRowSelectable: this.isRowSelectable,
+                    isMultiSelectable: this.isMultiSelectable,
+                    isSelectedAll: this.isSelectedAll,
+                    isSelectedAny: this.isSelectedAny
+                },
+                filter: {
+                    getFilters: this.getFilters
+                },
+                getColumns: this.getColumns,
                 getRowKey: this.getRowKey,
                 getColumnKey: this.getColumnKey,
                 onCellClick: this.onCellClick,

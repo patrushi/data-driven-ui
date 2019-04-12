@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import './App.css';
-import ListExample from './examples/ListExample';
-import CardExample from './examples/CardExample';
+import Example from './examples/Example';
 import { Route, BrowserRouter } from 'react-router-dom';
 
 export default class App extends Component {
     render() {
         return (
             <BrowserRouter>
-                <Route component={CardExample} />
+                <Route component={Example} />
             </BrowserRouter>
         );
     }

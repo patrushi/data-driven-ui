@@ -6,7 +6,7 @@ export default class OData {
     }
 
     getExpand(meta) {
-        var expand = meta.columns.filter(e => e.dataSource && e.dataSource.path)
+        var expand = meta.attrs.filter(e => e.dataSource && e.dataSource.path)
             .map(e => e.dataSource.path.slice(0, e.dataSource.path.length - 1).reduce((path, a) => path + '/' + a));
         return expand.length === 0
             ? null
@@ -14,7 +14,7 @@ export default class OData {
     }
 
     getSelect(meta) {
-        return meta.columns
+        return meta.attrs
             .map(e => e.dataSource && e.dataSource.path ? e.dataSource.path.reduce((path, a) => path + '/' + a) : e.name);
     }
 
@@ -25,7 +25,7 @@ export default class OData {
     getOrderBy(meta, data) {
         var orderedColumns = [];
         for (var name in data.orders) {
-            var columnMeta = this.getByName(meta.columns, name);
+            var columnMeta = this.getByName(meta.attrs, name);
             if (data.orders[name] !== undefined) {
                 orderedColumns.push({meta: columnMeta, order: data.orders[name] === 'desc' ? ' desc' : ''});
             }

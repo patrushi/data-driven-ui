@@ -21,18 +21,18 @@ export default class FilterPanel extends PureComponent {
     }
 
     render() {
-        if (!this.props.meta.filters) return null;
+        if (!this.props.functions.filter.getFilters()) return null;
 
         var {filtersLayout} = this.props.meta;
 
         if (!filtersLayout || !filtersLayout.type || filtersLayout.type === 'default')
         {
             var perLine = (filtersLayout && filtersLayout.perLine) || 3;
-            var linesCnt = Math.floor((this.props.meta.filters.length - 1)/perLine) + 1;
+            var linesCnt = Math.floor((this.props.functions.filter.getFilters().length - 1)/perLine) + 1;
             var filterLines = [];
             for (let i = 0; i < linesCnt; i++)
             {
-                filterLines.push(this.props.meta.filters.slice(i * perLine, (i + 1) * perLine));
+                filterLines.push(this.props.functions.filter.getFilters().slice(i * perLine, (i + 1) * perLine));
             }
             var empty = [];
             if (linesCnt > 1) for (let i = 0; i < perLine * linesCnt - this.props.meta.filters.length; i++)

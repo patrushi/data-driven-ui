@@ -9,6 +9,7 @@ export default class Local {
 
     getList(needCount, meta, data, globalMeta, callbackFunc) {
         let items = [...this.props.globalMeta.storages[meta.dataSource.storage]];
+        console.log('11');
         let expands = this.props.globalMeta.expands && this.props.globalMeta.expands[meta.dataSource.storage];
         if (expands) {
             for (let i in items) {

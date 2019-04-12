@@ -22,15 +22,15 @@ export default class List extends PureComponent {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            {this.props.meta.selectable && (this.props.meta.selectable.type === 'row&checkbox' || this.props.meta.selectable.type === 'checkbox' || (this.props.meta.selectable.type === undefined && this.props.meta.selectable.isMulti)) ? <TableCell style={{padding: '0px', textAlign: 'center'}}>
-                                {this.props.meta.selectable.isMulti ? <Checkbox
-                                indeterminate={this.props.data.selected.length > 0 && this.props.data.selected.length < this.props.data.items.length}
-                                checked={this.props.data.selected.length !== 0 && this.props.data.selected.length === this.props.data.items.length}
-                                onChange={this.props.functions.selectAll}
+                            {this.props.functions.selection.isCheckboxSelectable() ? <TableCell style={{padding: '0px', textAlign: 'center'}}>
+                                {this.props.functions.selection.isMultiSelectable() ? <Checkbox
+                                indeterminate={this.props.functions.selection.isSelectedAny()}
+                                checked={this.props.functions.selection.isSelectedAll()}
+                                onChange={this.props.functions.selection.selectAll}
                                 color="default"/> : (null)}
                             </TableCell> : (null)}
-                        {this.props.meta.columns.map((item, idx) => (
-                            <TableCell key={this.props.functions.getColumnKey(item, idx)} style={{width: Math.round(100/this.props.meta.columns.length)+'%'}}>
+                        {this.props.functions.getColumns().map((item, idx) => (
+                            <TableCell key={this.props.functions.getColumnKey(item, idx)} style={{width: Math.round(100/this.props.functions.getColumns().length)+'%'}}>
                                 {item.orderable || (item.orderable === undefined && this.props.meta.orderable) 
                                     ? <TableSortLabel 
                                         direction={this.props.data.orders[item.name] === 'asc' ? 'desc' : this.props.data.orders[item.name] === 'desc' ? 'asc' : undefined}
@@ -44,19 +44,19 @@ export default class List extends PureComponent {
                     <TableBody>
                     {this.props.data.items.map((item, rowIdx) => {
                         var key = this.props.functions.getRowKey(item, rowIdx);
-                        var tableRowProps = this.props.meta.selectable && (this.props.meta.selectable.type === 'row&checkbox' || this.props.meta.selectable.type === 'row' || this.props.meta.selectable.type === undefined)
+                        var tableRowProps = this.props.functions.selection.isRowSelectable()
                             ? {
                                 hover: true,
-                                onClick: event => this.props.functions.select(key, event),
+                                onClick: event => this.props.functions.selection.select(key, event),
                                 role: "checkbox",
                                 tabIndex: -1,
-                                selected: this.props.functions.isSelected(key)
+                                selected: this.props.functions.selection.isSelected(key)
                             } : null;
                         return <TableRow key={rowIdx} {...tableRowProps} style={this.props.functions.getRowStyle(item, rowIdx)}>
-                        {this.props.meta.selectable && (this.props.meta.selectable.type === 'row&checkbox' || this.props.meta.selectable.type === 'checkbox' || (this.props.meta.selectable.type === undefined && this.props.meta.selectable.isMulti)) ? <TableCell padding="checkbox">
-                            <Checkbox color="default" checked={this.props.functions.isSelected(key)} onClick={event => this.props.functions.select(key, event)} />
+                        {this.props.functions.selection.isCheckboxSelectable() ? <TableCell padding="checkbox">
+                            <Checkbox color="default" checked={this.props.functions.selection.isSelected(key)} onClick={event => this.props.functions.selection.select(key, event)} />
                         </TableCell> : (null)}
-                        {this.props.meta.columns.map((meta, columnIdx) => {
+                        {this.props.functions.getColumns().map((meta, columnIdx) => {
                             let canCellClick = this.props.functions.canCellClick(meta, item, rowIdx, columnIdx);
                             return (
                             <TableCell style={this.props.functions.getCellStyle(meta, item, rowIdx, columnIdx)} key={this.props.functions.getColumnKey(meta, columnIdx)} onClick={canCellClick ? (event) => this.props.functions.onCellClick(meta, item, rowIdx, columnIdx, event) : undefined}>
