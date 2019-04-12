@@ -148,7 +148,11 @@ console.log('this.props.meta = ', this.props.meta.dataSource)
         this.setState({isLoading: true});
         this.serializePars();
         if (this.dataSource) {
-            this.dataSource.getList(needCount, this.props.meta, this.state, this.props.globalMeta, this.refreshCallback);
+            this.dataSource.getList(needCount, {
+                columns: this.getColumns(),
+                filters: this.getFilters(),
+                dataSource: this.props.meta.dataSource
+            }, this.state, this.props.globalMeta, this.refreshCallback);
         }
     }
 
@@ -213,7 +217,7 @@ console.log('this.props.meta = ', this.props.meta.dataSource)
         const selectedIndex = selected.indexOf(id);
         let newSelected = [];
 
-        if (this.props.meta.selectable.isMulti) {
+        if (this.isMultiSelectable()) {
             if (selectedIndex === -1) {
                 newSelected = newSelected.concat(selected, id);
             } else if (selectedIndex === 0) {
@@ -252,7 +256,7 @@ console.log('this.props.meta = ', this.props.meta.dataSource)
 
     onCellClick = (meta, item, rowIdx, columnIdx, event) => {
         let filterSetFromColumn = this.props.globalMeta.columns.filterSetFromColumn;
-        if (meta.filter === false || !filterSetFromColumn || !filterSetFromColumn.default || !this.props.meta.filters.some(e => e.name === meta.name)) return;
+        if (meta.filter === false || !filterSetFromColumn || !filterSetFromColumn.default || !this.getFilters().some(e => e.name === meta.name)) return;
 
         if (filterSetFromColumn.altKey && !event.altKey) return;
 
@@ -260,7 +264,7 @@ console.log('this.props.meta = ', this.props.meta.dataSource)
 
         let metaFilter = meta.filter ?  meta.filter : {};
         let filterName = metaFilter.name || meta.name;
-        let filterMeta = this.props.meta.filters.filter(e => e.name === filterName)[0];
+        let filterMeta = this.getFilters().filter(e => e.name === filterName)[0];
         let filterMetaType = this.props.globalMeta.filterTypes[filterMeta.type] || this.props.globalMeta.filterTypes[this.props.globalMeta.filterTypes.default];
         let filterCurrentValue = this.state.filters[filterName];
         let func = metaFilter.setFromColumn || filterMetaType.setFromColumn || (value => value);
@@ -270,7 +274,7 @@ console.log('this.props.meta = ', this.props.meta.dataSource)
 
     canCellClick = (meta, item, rowIdx, columnIdx) => {
         let filterSetFromColumn = this.props.globalMeta.columns.filterSetFromColumn;
-        return meta.filter || (filterSetFromColumn && filterSetFromColumn.default && this.props.meta.filters.some(e => e.name === meta.name));
+        return meta.filter || (filterSetFromColumn && filterSetFromColumn.default && this.getFilters().some(e => e.name === meta.name));
     }
 
     serializePars = () => {
@@ -288,7 +292,7 @@ console.log('this.props.meta = ', this.props.meta.dataSource)
     }
 
     getFilters = () => {
-        return this.props.meta.attrs.filter(e => e.filter);
+        return this.props.meta.attrs.filter(e => e.filter).map(e => {return {...e, ...e.filter}});
     }
     
     render() {
