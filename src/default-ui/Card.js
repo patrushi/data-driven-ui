@@ -19,11 +19,11 @@ export default class Card extends PureComponent {
                         <form onSubmit={handleSubmit}>
                             {this.props.meta.fields.map((field, idx) => {
                                 let key = this.props.functions.getFieldKey(field, idx);
-                                return <Field 
-                                    key={key} name={key}
+                                return <div key={key}><Field 
+                                    name={key}
                                     component={this.props.functions.getComponent(field)}
                                     {...this.props.functions.getComponentProps(field)}
-                                />
+                                /></div>
                             })}
                             <button type="submit" disabled={pristine || invalid}>
                                 Submit

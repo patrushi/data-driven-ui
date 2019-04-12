@@ -9,9 +9,13 @@ export default class LongSelect extends PureComponent {
         this.value = undefined;
         this.key = undefined;
 
+        console.log('LongSelect', props);
+
         if (this.props.meta.dataSource) {
-            let globalMeta = this.props.globalMeta.dataSourceTypes[this.props.meta.dataSource.type || this.props.globalMeta.dataSourceTypes.default];
-            this.dataSource = new globalMeta.class({meta: this.props.meta.dataSource, globalMeta: globalMeta});
+            let dataSource = this.props.meta.dataSource;
+            let globalMeta = this.props.globalMeta.dataSourceTypes[dataSource.type || this.props.globalMeta.dataSourceTypes.default];
+            this.dataSource = new globalMeta.class({meta: dataSource, globalMeta: globalMeta});
+            console.log(this.dataSource);
         }
     }
 

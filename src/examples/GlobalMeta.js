@@ -120,6 +120,8 @@ export default {
     },
     fieldTypes: {
         string: {component: TextField},
+        date: {component: DateField},
+        longselect: {component: LongSelect, props: {loadingMessage: () => "...", noOptionsMessage: () => "По заданному тексту не найдено значений ..."}},
         default: 'string'
     },
     columnTypes: {

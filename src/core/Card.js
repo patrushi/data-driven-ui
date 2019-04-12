@@ -77,10 +77,16 @@ export default class Card extends PureComponent {
 
     getComponentProps = (meta) => {
         let globalMeta = this.props.globalMeta.fieldTypes[meta.type] || this.props.globalMeta.fieldTypes[this.props.globalMeta.fieldTypes.default];
+        console.log('meta.props', meta, meta.props);
         return {
+            globalMeta: this.props.globalMeta,
+            meta: meta,
+            componentMeta: meta,
             wrappedComponent: globalMeta.component,
             label: this.props.globalMeta.fields.label ? meta.title || meta.name : null,
-            placeholder: this.props.globalMeta.fields.placeholder ? meta.title || meta.name : null
+            placeholder: this.props.globalMeta.fields.placeholder ? meta.title || meta.name : null,
+            ...globalMeta.props,
+            ...meta.props
         };
     }
 
