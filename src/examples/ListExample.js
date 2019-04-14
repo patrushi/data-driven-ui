@@ -29,12 +29,16 @@ export class ListExample extends PureComponent {
             ],
             //filtersLayout: {type: 'default', perLine: 2},
             paging: {},
-            selectable: {type: 'row&checkbox', isMulti: false},
+            selectable: {type: 'row&checkbox', isMulti: true},
             parsHolder: {type: 'addressBar', prefix: '', history: this.props.history},
             //dataSource: {type: 'odata', shortPath: `Orders`, selectAll: true},
             dataSource: {type: 'local', storage: `Orders`},
             actions: [
-                {type: 'delete'}
+                {type: 'delete', onClick: (selected) => alert(selected)}
+            ],
+            rowActions: [
+                {type: 'delete', onClick: (selected) => alert(selected)},
+                {type: 'edit', onClick: (selected) => alert(selected)}
             ],
             row: {
                 style: (item, rowIdx) => {return item.ShipCountry === 'France' || item.ShipCountry === 'USA' ? {color: 'red'} : undefined},
@@ -63,8 +67,23 @@ export class ListExample extends PureComponent {
             dataSource: {type: 'local', storage: `Order_Details`},
             actions: [
                 {type: 'delete', isMulti: true},
-                {type: 'openCard'}
+                {type: 'edit'}
             ]
+        };
+
+        this.cardMeta = {
+            fields: [
+                {name: 'OrderID', orderable: true},
+                {name: 'CustomerID'},
+                {name: 'OrderDate', type: 'date'},
+                {name: 'RequiredDate', type: 'date'},
+                {name: 'ShippedDate', type: 'date'},
+                {name: 'ShipCountry'},
+                {name: 'ProductID', type: 'longselect',
+                    props: {extraData: (extraData) => {return <div style={{color: 'red'}}>QuantityPerUnit: {extraData.QuantityPerUnit}</div>}}, dataSource: {shortPath: 'Products', key: 'ProductID', value: 'ProductName'}, isMulti: false},
+                {type: 'number', title: 'Custom', render: (meta, item, rowIdx, columnIdx) => {return rowIdx}, style: (meta, item, rowIdx, columnIdx) => {return item.ShipCountry === 'USA' ? {backgroundColor: 'green'} : undefined}}
+            ],
+            key: 'OrderID'
         };
 
         this.state = {
@@ -84,7 +103,7 @@ export class ListExample extends PureComponent {
 
     render() {
         return <Paper style={{ margin: 15, padding: 15 }}>
-            <List meta={this.meta} globalMeta={GlobalMeta} onSelect={this.onSelect} onSingleSelect={this.onSingleSelect} parentProps={this.props} />
+            <List meta={this.meta} globalMeta={GlobalMeta} cardMeta={this.cardMeta} onSubmit={(values) => console.log(values)} onSelect={this.onSelect} onSingleSelect={this.onSingleSelect} parentProps={this.props} />
             <List meta={this.metaDetail} globalMeta={GlobalMeta} autoRefresh={false} setRef={(ref) => this.setState({listDetailRef: ref})} />
         </Paper>
     }

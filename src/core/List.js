@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react';
 import debounce from './debounce'; 
 
+import HeaderPanel from '../default-ui/HeaderPanel'
+import Card from './Card';
+
 export default class List extends PureComponent {
     constructor(props) {
         super(props);
@@ -9,7 +12,10 @@ export default class List extends PureComponent {
             orders: [],
             filters: {},
             items: [],
-            selected: []
+            selected: [],
+            isFilterPanelOpen: true,
+            isEditCardOpen: false,
+            currentItem: null
         };
 
         if (props.meta.paging) {
@@ -258,6 +264,36 @@ export default class List extends PureComponent {
         var newState = this.parsHolder.deserializePars(this.props.meta, pars);
         if (newState) this.setState(newState, setStateCallback);
     }
+
+    onFilterPanelClick = () => {
+        this.setState({isFilterPanelOpen: !this.state.isFilterPanelOpen});
+    }
+
+    getActions = () => {
+        if (!this.props.meta.actions) return null;
+        let actions = [];
+        for (var k in this.props.meta.actions) {
+            let action = this.props.meta.actions[k];
+            if (action.type === 'delete') actions.push({title: 'Удалить', onClick: () => action.onClick(this.state.selected), disabled: this.state.selected.length === 0});
+            if (action.type === 'create') actions.push({title: 'Создать', onClick: () => action.onClick(this.state.selected)});
+        }
+        return actions;
+    }
+
+    hasRowActions = () => {
+        return this.props.meta.rowActions;
+    }
+
+    getRowActions = (item) => {
+        if (!this.props.meta.rowActions) return null;
+        let actions = [];
+        for (var k in this.props.meta.rowActions) {
+            let action = this.props.meta.rowActions[k];
+            if (action.type === 'delete') actions.push({title: 'Удалить', onClick: (item) => action.onClick(item)});
+            if (action.type === 'edit') actions.push({title: 'Редактировать', onClick: (item) => {this.setState({isEditCardOpen: true, currentItem: item, onSubmit: actions.onClick})}});
+        }
+        return actions;
+    }
     
     render() {
         const props = {
@@ -278,15 +314,22 @@ export default class List extends PureComponent {
                 onCellClick: this.onCellClick,
                 canCellClick: this.canCellClick,
                 getCellStyle: this.getCellStyle,
-                getRowStyle: this.getRowStyle
+                getRowStyle: this.getRowStyle,
+                getRowActions: this.getRowActions,
+                hasRowActions: this.hasRowActions
             },
         };
 
+        const headerPanel = <HeaderPanel title="Orders" onFilterPanelClick={this.onFilterPanelClick} actions={this.getActions()} />
+
+        const card = this.props.cardMeta ? React.createElement(Card, {meta: this.props.cardMeta, globalMeta: this.props.globalMeta, onSubmit: this.props.onSubmit, key: 'Card'}) : null;
+
         const list = React.createElement(this.props.globalMeta.components.list.component, {...props, key: 'List'});
 
-        const filterPanel = React.createElement(this.props.globalMeta.components.filterPanel.component, {...props, key: 'FilterPanel'});
+        const filterPanel = React.createElement(this.props.globalMeta.components.filterPanel.component, {...props, key: 'FilterPanel', open: this.state.isFilterPanelOpen});
 
-        const longProcessPanel = React.createElement(this.props.globalMeta.components.longProcessPanel.component, {isLoading: this.state.isLoading}, [filterPanel, list]);
+        const longProcessPanel = React.createElement(this.props.globalMeta.components.longProcessPanel.component, {isLoading: this.state.isLoading},
+            [headerPanel, filterPanel, list, card]);
 
         const errorPanel = React.createElement(this.props.globalMeta.components.errorPanel.component, this.props.globalMeta.components.errorPanel.props)
 

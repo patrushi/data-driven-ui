@@ -7,6 +7,8 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import MenuButton from './MenuButton';
+import {MenuItem} from '@material-ui/core'
 
 export default class List extends PureComponent {
     constructor(props) {
@@ -39,6 +41,7 @@ export default class List extends PureComponent {
                                     : this.props.functions.renderColumnTitle(item)}
                             </TableCell>
                         ))}
+                        {this.props.functions.hasRowActions() ? <TableCell></TableCell> : (null)}
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -63,6 +66,13 @@ export default class List extends PureComponent {
                                     {this.props.functions.renderCell(meta, item, rowIdx, columnIdx)}
                                 </TableCell>
                             )})}
+                        {this.props.functions.hasRowActions() ? <TableCell>
+                            <MenuButton>
+                                {this.props.functions.getRowActions().map((action, idx) => (
+                                    <MenuItem onClick={() => action.onClick(item)} disabled={action.disabled}>{action.title}</MenuItem>
+                                ))}
+                            </MenuButton>
+                        </TableCell> : (null)}
                         </TableRow>
                     }
                     )}
