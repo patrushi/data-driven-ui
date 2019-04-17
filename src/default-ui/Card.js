@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
-import { Form, Field } from 'react-final-form'
+import { Form, Field } from 'react-final-form';
+import DialogWrapper from './DialogWrapper';
 
 export default class Card extends PureComponent {
     constructor(props) {
@@ -10,10 +11,11 @@ export default class Card extends PureComponent {
     }
 
     render() {
-        return (
+        let component = !this.props.open ? null : (
             <React.Fragment>
                 <Form
-                    onSubmit={this.props.onSubmit}
+                    onSubmit={() => {this.props.onClose(); this.props.onSubmit();}}
+                    initialValues={this.props.item}
                     //validate={validate}
                     render={({ handleSubmit, pristine, invalid }) => (
                         <form onSubmit={handleSubmit}>
@@ -33,5 +35,17 @@ export default class Card extends PureComponent {
                 />
             </React.Fragment>
         );
+
+        if (!component) return null;
+
+        if (this.props.wrapped === 'card') {
+            return (
+                <DialogWrapper open={this.props.open} onClose={this.props.onClose}>
+                    {component}
+                </DialogWrapper>
+            );
+        } else {
+            return component;
+        }
     }
 }

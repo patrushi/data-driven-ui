@@ -2,11 +2,16 @@ import React, { PureComponent } from 'react';
 import debounce from './debounce'; 
 
 import HeaderPanel from '../default-ui/HeaderPanel'
-import Card from './Card';
+
+var equal = require('fast-deep-equal');
 
 export default class List extends PureComponent {
     constructor(props) {
         super(props);
+
+        console.log('--',props);
+
+        this.currentProps = props;
 
         this.state = {
             orders: [],
@@ -51,6 +56,12 @@ export default class List extends PureComponent {
 
     componentDidUpdate() {
         let _this = this;
+
+        if (!equal(this.currentProps, this.props)) {
+            this.currentProps = this.props;
+            this.refresh(true);
+        }
+
         this.deserializePars(() => {
             if (_this.props.autoRefresh !== false) _this.refresh(true);
         });
@@ -151,7 +162,7 @@ export default class List extends PureComponent {
         this.setState({isLoading: true});
         this.serializePars();
         if (this.dataSource) {
-            this.dataSource.getList(needCount, this.props.meta, this.state, this.props.globalMeta, this.refreshCallback);
+            this.dataSource.getList(needCount, this.props.meta, this.state, this.props.globalMeta, this.refreshCallback, this.props);
         }
     }
 
@@ -290,7 +301,7 @@ export default class List extends PureComponent {
         for (var k in this.props.meta.rowActions) {
             let action = this.props.meta.rowActions[k];
             if (action.type === 'delete') actions.push({title: 'Удалить', onClick: (item) => action.onClick(item)});
-            if (action.type === 'edit') actions.push({title: 'Редактировать', onClick: (item) => {this.setState({isEditCardOpen: true, currentItem: item, onSubmit: actions.onClick})}});
+            if (action.type === 'edit') actions.push({title: 'Редактировать', onClick: (item) => {this.props.onEdit(item)}});
         }
         return actions;
     }
@@ -322,14 +333,12 @@ export default class List extends PureComponent {
 
         const headerPanel = <HeaderPanel title="Orders" onFilterPanelClick={this.onFilterPanelClick} actions={this.getActions()} />
 
-        const card = this.props.cardMeta ? React.createElement(Card, {meta: this.props.cardMeta, globalMeta: this.props.globalMeta, onSubmit: this.props.onSubmit, key: 'Card'}) : null;
-
         const list = React.createElement(this.props.globalMeta.components.list.component, {...props, key: 'List'});
 
         const filterPanel = React.createElement(this.props.globalMeta.components.filterPanel.component, {...props, key: 'FilterPanel', open: this.state.isFilterPanelOpen});
 
         const longProcessPanel = React.createElement(this.props.globalMeta.components.longProcessPanel.component, {isLoading: this.state.isLoading},
-            [headerPanel, filterPanel, list, card]);
+            [headerPanel, filterPanel, list]);
 
         const errorPanel = React.createElement(this.props.globalMeta.components.errorPanel.component, this.props.globalMeta.components.errorPanel.props)
 

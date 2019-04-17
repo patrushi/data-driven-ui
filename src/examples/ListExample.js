@@ -3,6 +3,8 @@ import List from '../core/List';
 import GlobalMeta from './GlobalMeta';
 import Paper from '@material-ui/core/Paper';
 import { withRouter } from "react-router-dom";
+import SmartPanel from '../core/SmartPanel';
+import Card from '../core/Card';
 //import ProductFilter from './ProductFilter';
 
 export class ListExample extends PureComponent {
@@ -60,6 +62,7 @@ export class ListExample extends PureComponent {
                {name: 'ProductID', type: 'longselect', /*component: ProductFilter,*/ props: {extraData: (extraData) => {return <div style={{color: 'red'}}>QuantityPerUnit: {extraData.QuantityPerUnit}</div>}}, dataSource: {shortPath: 'Products', key: 'ProductID', value: 'ProductName'}, isMulti: false},
                {name: 'UnitPrice', type: 'number'},
             ],
+            propsFilters: (props) => {return props.masterKey ? [{OrderID: props.masterKey}] : undefined},
             filtersLayout: {type: 'default', perLine: 2},
             paging: {showIfSingle: false},
             selectable: {type: 'row&checkbox', isMulti: true},
@@ -97,14 +100,19 @@ export class ListExample extends PureComponent {
     }
 
     onSingleSelect = (selectKey) => {
+        this.setState({masterKey: selectKey});
+        return;
         this.metaDetail.dataSource.extraFilters = [{OrderID: selectKey}];
         if (this.state.listDetailRef) this.state.listDetailRef.refresh(true);
     }
 
     render() {
         return <Paper style={{ margin: 15, padding: 15 }}>
-            <List meta={this.meta} globalMeta={GlobalMeta} cardMeta={this.cardMeta} onSubmit={(values) => console.log(values)} onSelect={this.onSelect} onSingleSelect={this.onSingleSelect} parentProps={this.props} />
-            <List meta={this.metaDetail} globalMeta={GlobalMeta} autoRefresh={false} setRef={(ref) => this.setState({listDetailRef: ref})} />
+            <SmartPanel 
+                list={<List meta={this.meta} globalMeta={GlobalMeta} onSelect={this.onSelect} onSingleSelect={this.onSingleSelect} parentProps={this.props} />}
+                detail={<List meta={this.metaDetail} masterKey={this.state.masterKey} globalMeta={GlobalMeta} autoRefresh={false} setRef={(ref) => this.setState({listDetailRef: ref})} />}
+                card={<Card meta={this.cardMeta} wrapped="card" globalMeta={GlobalMeta} onSubmit={(values) => console.log(values)} />}
+                />
         </Paper>
     }
 }

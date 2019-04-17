@@ -7,7 +7,7 @@ export default class Local {
 
     }
 
-    getList(needCount, meta, data, globalMeta, callbackFunc) {
+    getList(needCount, meta, data, globalMeta, callbackFunc, props) {
         let items = [...this.props.globalMeta.storages[meta.dataSource.storage]];
         let expands = this.props.globalMeta.expands && this.props.globalMeta.expands[meta.dataSource.storage];
         if (expands) {
@@ -29,9 +29,13 @@ export default class Local {
             }
         }
 
-        if (meta.dataSource.extraFilters) {
-            for (let k in meta.dataSource.extraFilters) {
-                let kv = Object.entries(meta.dataSource.extraFilters[k])[0];
+        console.log('---meta', meta);
+        if (meta.propsFilters && props) {
+            console.log(meta.propsFilters);
+            let propsFilters = meta.propsFilters(props);
+            for (let k in propsFilters) {
+                let kv = Object.entries(propsFilters[k])[0];
+                console.log('---', kv);
                 items = items.filter(i => i[kv[0]] === kv[1]);
             }
         }

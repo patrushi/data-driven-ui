@@ -9,7 +9,6 @@ export default class App extends Component {
         return (
             <BrowserRouter>
                 <Route component={ListExample} />
-                <Route component={CardExample} />
             </BrowserRouter>
         );
     }
