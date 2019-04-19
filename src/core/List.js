@@ -9,8 +9,6 @@ export default class List extends PureComponent {
     constructor(props) {
         super(props);
 
-        console.log('--',props);
-
         this.currentProps = props;
 
         this.state = {
@@ -331,7 +329,7 @@ export default class List extends PureComponent {
             },
         };
 
-        const headerPanel = <HeaderPanel title="Orders" onFilterPanelClick={this.onFilterPanelClick} actions={this.getActions()} />
+        const headerPanel = <HeaderPanel key="header" title="Orders" onFilterPanelClick={this.onFilterPanelClick} actions={this.getActions()} />
 
         const list = React.createElement(this.props.globalMeta.components.list.component, {...props, key: 'List'});
 

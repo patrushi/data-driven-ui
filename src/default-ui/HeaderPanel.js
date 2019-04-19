@@ -8,14 +8,14 @@ export default class HeaderPanel extends PureComponent {
     render() {
         return <React.Fragment>
             <Grid container spacing={8}>
-                <Grid item xs style={{display: 'flex', alignItems: 'flex-begin'}}>
+                <Grid item xs>
                     {this.props.title ? <h3>{this.props.title}</h3> : (null)}
                 </Grid>
-                <Grid item xs style={{display: 'flex', alignItems: 'flex-end'}}>
+                <Grid item xs="20" justify="flex-end" alignContent="flex-end" alignItems="flex-end">
                     {this.props.onFilterPanelClick ? <IconButton onClick={this.props.onFilterPanelClick}><FilterList/></IconButton> : (null)}
                     {this.props.actions ? <MenuButton>
                         {this.props.actions.map((action, idx) => (
-                            <MenuItem onClick={action.onClick} disabled={action.disabled}>{action.title}</MenuItem>
+                            <MenuItem key={idx} onClick={action.onClick} disabled={action.disabled}>{action.title}</MenuItem>
                         ))}
                     </MenuButton> : (null)}
                 </Grid>

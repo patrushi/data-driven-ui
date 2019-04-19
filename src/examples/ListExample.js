@@ -82,9 +82,9 @@ export class ListExample extends PureComponent {
                 {name: 'RequiredDate', type: 'date'},
                 {name: 'ShippedDate', type: 'date'},
                 {name: 'ShipCountry'},
-                {name: 'ProductID', type: 'longselect',
+                /*{name: 'ProductID', type: 'longselect',
                     props: {extraData: (extraData) => {return <div style={{color: 'red'}}>QuantityPerUnit: {extraData.QuantityPerUnit}</div>}}, dataSource: {shortPath: 'Products', key: 'ProductID', value: 'ProductName'}, isMulti: false},
-                {type: 'number', title: 'Custom', render: (meta, item, rowIdx, columnIdx) => {return rowIdx}, style: (meta, item, rowIdx, columnIdx) => {return item.ShipCountry === 'USA' ? {backgroundColor: 'green'} : undefined}}
+                {type: 'number', title: 'Custom', render: (meta, item, rowIdx, columnIdx) => {return rowIdx}, style: (meta, item, rowIdx, columnIdx) => {return item.ShipCountry === 'USA' ? {backgroundColor: 'green'} : undefined}}*/
             ],
             key: 'OrderID'
         };
@@ -101,9 +101,6 @@ export class ListExample extends PureComponent {
 
     onSingleSelect = (selectKey) => {
         this.setState({masterKey: selectKey});
-        return;
-        this.metaDetail.dataSource.extraFilters = [{OrderID: selectKey}];
-        if (this.state.listDetailRef) this.state.listDetailRef.refresh(true);
     }
 
     render() {

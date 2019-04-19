@@ -9,13 +9,10 @@ export default class LongSelect extends PureComponent {
         this.value = undefined;
         this.key = undefined;
 
-        console.log('LongSelect', props);
-
         if (this.props.meta.dataSource) {
             let dataSource = this.props.meta.dataSource;
             let globalMeta = this.props.globalMeta.dataSourceTypes[dataSource.type || this.props.globalMeta.dataSourceTypes.default];
             this.dataSource = new globalMeta.class({meta: dataSource, globalMeta: globalMeta});
-            console.log(this.dataSource);
         }
     }
 
@@ -89,7 +86,6 @@ export default class LongSelect extends PureComponent {
         if (extraData) {
             if (components === undefined) components = {};
             components.Option = (props) => {
-                console.log(props);
                 return (
                     <MenuItem
                         buttonRef={props.innerRef}

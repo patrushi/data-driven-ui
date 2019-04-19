@@ -9,6 +9,7 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import MenuButton from './MenuButton';
 import {MenuItem} from '@material-ui/core'
+import './styles.scss';
 
 export default class List extends PureComponent {
     constructor(props) {
@@ -21,7 +22,7 @@ export default class List extends PureComponent {
     render() {
         return (
             <React.Fragment>
-                <Table>
+                <Table className="list">
                     <TableHead>
                         <TableRow>
                             {this.props.meta.selectable && (this.props.meta.selectable.type === 'row&checkbox' || this.props.meta.selectable.type === 'checkbox' || (this.props.meta.selectable.type === undefined && this.props.meta.selectable.isMulti)) ? <TableCell style={{padding: '0px', textAlign: 'center'}}>
@@ -41,7 +42,7 @@ export default class List extends PureComponent {
                                     : this.props.functions.renderColumnTitle(item)}
                             </TableCell>
                         ))}
-                        {this.props.functions.hasRowActions() ? <TableCell></TableCell> : (null)}
+                        {this.props.functions.hasRowActions() ? <TableCell style={{width: '0%'}}></TableCell> : (null)}
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -66,10 +67,10 @@ export default class List extends PureComponent {
                                     {this.props.functions.renderCell(meta, item, rowIdx, columnIdx)}
                                 </TableCell>
                             )})}
-                        {this.props.functions.hasRowActions() ? <TableCell>
+                        {this.props.functions.hasRowActions() ? <TableCell className="actions">
                             <MenuButton>
                                 {this.props.functions.getRowActions().map((action, idx) => (
-                                    <MenuItem onClick={() => action.onClick(item)} disabled={action.disabled}>{action.title}</MenuItem>
+                                    <MenuItem key={idx} onClick={() => action.onClick(item)} disabled={action.disabled}>{action.title}</MenuItem>
                                 ))}
                             </MenuButton>
                         </TableCell> : (null)}

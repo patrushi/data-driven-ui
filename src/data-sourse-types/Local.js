@@ -29,13 +29,10 @@ export default class Local {
             }
         }
 
-        console.log('---meta', meta);
         if (meta.propsFilters && props) {
-            console.log(meta.propsFilters);
             let propsFilters = meta.propsFilters(props);
             for (let k in propsFilters) {
                 let kv = Object.entries(propsFilters[k])[0];
-                console.log('---', kv);
                 items = items.filter(i => i[kv[0]] === kv[1]);
             }
         }
