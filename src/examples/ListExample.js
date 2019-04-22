@@ -33,8 +33,8 @@ export class ListExample extends PureComponent {
             paging: {},
             selectable: {type: 'row&checkbox', isMulti: true},
             parsHolder: {type: 'addressBar', prefix: '', history: this.props.history},
-            dataSource: {type: 'odata', shortPath: `Orders`, selectAll: true},
-            //dataSource: {type: 'local', storage: `Orders`},
+            //dataSource: {type: 'odata', shortPath: `Orders`, selectAll: true},
+            dataSource: {type: 'local', storage: `Orders`},
             actions: [
                 {type: 'delete', onClick: (selected) => alert(selected)}
             ],
@@ -66,17 +66,20 @@ export class ListExample extends PureComponent {
             filtersLayout: {type: 'default', perLine: 2},
             paging: {showIfSingle: false},
             selectable: {type: 'row&checkbox', isMulti: true},
-            dataSource: {type: 'odata', shortPath: `Order_Details`, selectAll: true},
-            //dataSource: {type: 'local', storage: `Order_Details`},
+            //dataSource: {type: 'odata', shortPath: `Order_Details`, selectAll: true},
+            dataSource: {type: 'local', storage: `Order_Details`},
             actions: [
                 {type: 'delete', isMulti: true},
-                {type: 'edit'}
-            ]
+            ],
+            rowActions: [
+                {type: 'delete', onClick: (selected) => alert(selected)},
+                {type: 'edit', onClick: (selected) => alert(selected)}
+            ],
         };
 
         this.cardMeta = {
             fields: [
-                {name: 'OrderID', orderable: true},
+                {name: 'OrderID'},
                 {name: 'CustomerID'},
                 {name: 'OrderDate', type: 'date'},
                 {name: 'RequiredDate', type: 'date'},
@@ -87,6 +90,17 @@ export class ListExample extends PureComponent {
                 {type: 'number', title: 'Custom', render: (meta, item, rowIdx, columnIdx) => {return rowIdx}, style: (meta, item, rowIdx, columnIdx) => {return item.ShipCountry === 'USA' ? {backgroundColor: 'green'} : undefined}}*/
             ],
             key: 'OrderID'
+        };
+
+        this.cardDetailMeta = {
+            fields: [
+                {name: 'OrderID'},
+                {name: 'ProductID', title: 'Product', type: 'longselect', /*component: ProductFilter,*/ props: {extraData: (extraData) => {return <div style={{color: 'red'}}>QuantityPerUnit: {extraData.QuantityPerUnit}</div>}}, dataSource: {shortPath: 'Products', key: 'ProductID', value: 'ProductName'}, isMulti: false},
+                {name: 'UnitPrice', type: 'number'},
+                {name: 'Quantity', type: 'number'},
+                {name: 'Discount', type: 'number'},
+            ],
+            keyFunc: e => `${e.OrderID}_${e.ProductID}`,
         };
 
         this.state = {
@@ -105,11 +119,20 @@ export class ListExample extends PureComponent {
 
     render() {
         return <Paper style={{ margin: 15, padding: 15 }}>
-            <SmartPanel 
-                list={<List meta={this.meta} globalMeta={GlobalMeta} onSelect={this.onSelect} onSingleSelect={this.onSingleSelect} parentProps={this.props} />}
-                detail={<List meta={this.metaDetail} masterKey={this.state.masterKey} globalMeta={GlobalMeta} autoRefresh={false} setRef={(ref) => this.setState({listDetailRef: ref})} />}
-                card={<Card meta={this.cardMeta} wrapped="card" globalMeta={GlobalMeta} onSubmit={(values) => console.log(values)} />}
-                />
+            <SmartPanel type='master-detail'
+                master={
+                    <SmartPanel type='list-card'
+                        list={<List meta={this.meta} globalMeta={GlobalMeta} onSelect={this.onSelect} onSingleSelect={this.onSingleSelect} parentProps={this.props} />}
+                        card={<Card meta={this.cardMeta} wrapped="card" globalMeta={GlobalMeta} onSubmit={(values) => console.log(values)} />}
+                    />
+                }
+                detail={
+                    <SmartPanel type='list-card'
+                        list={<List meta={this.metaDetail} masterKey={this.state.masterKey} globalMeta={GlobalMeta} autoRefresh={false} setRef={(ref) => this.setState({listDetailRef: ref})} />}
+                        card={<Card meta={this.cardDetailMeta} wrapped="card" globalMeta={GlobalMeta} onSubmit={(values) => console.log(values)} />}
+                    />
+                } 
+            />
         </Paper>
     }
 }
