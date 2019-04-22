@@ -36,7 +36,7 @@ export default class OData {
                 .map(e => e.meta.dataSource && e.meta.dataSource.path ? e.meta.dataSource.path.reduce((path, a) => path + '/' + a) + e.order: e.meta.name + e.order);
     }
 
-    getFilter(meta, data) {
+    getFilter(meta, data, props) {
         var filters = [];
         for (var name in data.filters) {
             if (data.filters[name]) {
@@ -45,20 +45,20 @@ export default class OData {
                 filters.push(f(name, data.filters[name]));
             }
         }
-        if (meta.dataSource.extraFilters) {
-            filters = [...filters, meta.dataSource.extraFilters];
+        if (meta.propsFilters && props) {
+            filters = [...filters, meta.propsFilters(props)];
         }
         return filters.length === 0
             ? null
             : filters;
     }
 
-    getList(needCount, meta, data, globalMeta, callbackFunc) {
+    getList(needCount, meta, data, globalMeta, callbackFunc, props) {
         const path = meta.dataSource.path || this.props.globalMeta.basePath + '/' + meta.dataSource.shortPath;
         const count = needCount;
         const top = data.paging && data.paging.perPage;
         const skip = data.paging && data.paging.perPage * data.paging.page;
-        const filter = this.getFilter(meta, data);
+        const filter = this.getFilter(meta, data, props);
         const expand = this.getExpand(meta);
         const select = meta.dataSource.selectAll ? null : this.getSelect(meta);
         const orderBy = this.getOrderBy(meta, data);

@@ -33,8 +33,8 @@ export class ListExample extends PureComponent {
             paging: {},
             selectable: {type: 'row&checkbox', isMulti: true},
             parsHolder: {type: 'addressBar', prefix: '', history: this.props.history},
-            //dataSource: {type: 'odata', shortPath: `Orders`, selectAll: true},
-            dataSource: {type: 'local', storage: `Orders`},
+            dataSource: {type: 'odata', shortPath: `Orders`, selectAll: true},
+            //dataSource: {type: 'local', storage: `Orders`},
             actions: [
                 {type: 'delete', onClick: (selected) => alert(selected)}
             ],
@@ -66,8 +66,8 @@ export class ListExample extends PureComponent {
             filtersLayout: {type: 'default', perLine: 2},
             paging: {showIfSingle: false},
             selectable: {type: 'row&checkbox', isMulti: true},
-            //dataSource: {type: 'odata', shortPath: `Order_Details`, selectAll: true}
-            dataSource: {type: 'local', storage: `Order_Details`},
+            dataSource: {type: 'odata', shortPath: `Order_Details`, selectAll: true},
+            //dataSource: {type: 'local', storage: `Order_Details`},
             actions: [
                 {type: 'delete', isMulti: true},
                 {type: 'edit'}
