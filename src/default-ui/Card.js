@@ -14,7 +14,7 @@ export default class Card extends PureComponent {
         let component = !this.props.open ? null : (
             <React.Fragment>
                 <Form
-                    onSubmit={() => {this.props.onClose(); this.props.onSubmit();}}
+                    onSubmit={(values) => {this.props.onClose(); this.props.onSubmit(values);}}
                     initialValues={this.props.item}
                     //validate={validate}
                     render={({ handleSubmit, pristine, invalid }) => (

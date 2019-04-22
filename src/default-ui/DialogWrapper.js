@@ -7,7 +7,7 @@ export default class DialogWrapper extends PureComponent {
     render() {
         return (
             <Dialog open={Boolean(this.props.open)} onClose={this.props.onClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">{this.props.title}</DialogTitle>
+                <DialogTitle id="form-dialog-title">{this.props.title ? this.props.title : ''}</DialogTitle>
                 <DialogContent>
                     {this.props.children}
                 </DialogContent>
