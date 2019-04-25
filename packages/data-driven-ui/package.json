@@ -30,7 +30,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "SET NODE_ENV=production && npx babel . --out-dir dist --copy-files",
+    "build": "rimraf -rf dist && babel src/lib --out-dir dist --copy-files --ignore __tests__,spec.js,test.js,__snapshots__",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -38,11 +38,7 @@
     "extends": "react-app"
   },
   "babel": {
-    "presets": [
-      "react",
-      "env",
-      "stage-2"
-    ]
+    "presets": [["react-app", { "absoluteRuntime": false }]]
   },
   "browserslist": [
     ">0.2%",
