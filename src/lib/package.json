@@ -1,6 +1,6 @@
 {
-  "name": "@ptrushin/data-driven-ui",
-  "version": "0.1.1",
+  "name": "data-driven-ui",
+  "version": "0.1.2",
   "files": [
     "dist",
     "README.md"
@@ -25,7 +25,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "SET NODE_ENV=production&& rimraf -rf dist && babel src/lib --out-dir dist --copy-files",
+    "build": "SET NODE_ENV=production&& rimraf -rf dist && babel . --out-dir dist --copy-files",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
