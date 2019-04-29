@@ -1,11 +1,9 @@
 import React, { PureComponent } from 'react';
 //import List from '../core/List';
-import List from 'data-driven-ui/dist/core/List';
-import GlobalMeta from './GlobalMeta';
+import {List, Card, SmartPanel} from 'data-driven-ui/build';
+import GlobalMeta from 'data-driven-ui/dist/DefaultUiMeta';
 import Paper from '@material-ui/core/Paper';
 import { withRouter } from "react-router-dom";
-import SmartPanel from '../core/SmartPanel';
-import Card from '../core/Card';
 //import ProductFilter from './ProductFilter';
 
 export class ListExample extends PureComponent {
