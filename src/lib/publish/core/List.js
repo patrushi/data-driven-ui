@@ -9,6 +9,8 @@ export default class List extends PureComponent {
     constructor(props) {
         super(props);
 
+        console.log('local');
+
         this.currentProps = props;
 
         this.state = {
