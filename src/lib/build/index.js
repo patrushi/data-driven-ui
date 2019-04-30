@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.AddressBarParsHolder = exports.OData = exports.SmartPanel = exports.Card = exports.List = undefined;
+exports.DefaultUiMeta = exports.AddressBarParsHolder = exports.OData = exports.SmartPanel = exports.Card = exports.List = undefined;
 
 var _List = require("./core/List");
 
@@ -25,6 +25,10 @@ var _AddressBarParsHolder = require("./pars-holders/AddressBarParsHolder");
 
 var _AddressBarParsHolder2 = _interopRequireDefault(_AddressBarParsHolder);
 
+var _DefaultUiMeta = require("./DefaultUiMeta");
+
+var _DefaultUiMeta2 = _interopRequireDefault(_DefaultUiMeta);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.List = _List2.default;
@@ -32,3 +36,4 @@ exports.Card = _Card2.default;
 exports.SmartPanel = _SmartPanel2.default;
 exports.OData = _OData2.default;
 exports.AddressBarParsHolder = _AddressBarParsHolder2.default;
+exports.DefaultUiMeta = _DefaultUiMeta2.default;

@@ -9,7 +9,6 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import MenuButton from './MenuButton';
 import {MenuItem} from '@material-ui/core'
-import './styles.scss';
 
 export default class List extends PureComponent {
     constructor(props) {
