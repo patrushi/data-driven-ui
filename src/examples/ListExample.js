@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 //import List from '../core/List';
-import {List, Card, SmartPanel} from 'data-driven-ui';
+import {List, Card, SmartPanel} from '../lib/publish';
 import GlobalMeta from './GlobalMeta';
 import Paper from '@material-ui/core/Paper';
 import { withRouter } from "react-router-dom";

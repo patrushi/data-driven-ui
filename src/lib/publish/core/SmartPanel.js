@@ -40,14 +40,24 @@ export default class SmartPanel extends PureComponent {
         } */
     }
 
+    // bind functions
+    onListEdit = (item) => this.setState({masterCurrentItem: item, isEditCardOpen: true});
+    onListSetRef = (ref) => this.setState({listRef: ref});
+    onCardClose = (change) => {
+        this.setState({isEditCardOpen: false});
+        if (change) this.state.listRef.refresh(true);
+    };
+    onMasterSingleSelect = (selectKey) => {this.onSingleSelect(selectKey); /* component.props.onSingleSelect(selectKey);*/};
+    onMasterSetRef = (ref) => this.setState({masterRef: ref});
+
     render() {
         let components = [];
         if (this.props.type === 'list-card') {
             if (this.props.list) {
                 let component = this.mixinProps(this.props.list, component => {return {
                     key: 'list', 
-                    onEdit: (item) => this.setState({masterCurrentItem: item, isEditCardOpen: true}),
-                    setRef: (ref) => this.setState({masterRef: ref})
+                    onEdit: this.onListEdit,
+                    setRef: this.onListSetRef
                 }})
                 components.push(component);
             }
@@ -56,10 +66,7 @@ export default class SmartPanel extends PureComponent {
                     key: 'card', 
                     open: this.state.isEditCardOpen,
                     item: this.state.masterCurrentItem,
-                    onClose: (change) => {
-                        this.setState({isEditCardOpen: false});
-                        if (change) this.state.masterRef.refresh(true);
-                    }
+                    onClose: this.onCardClose
                 }});
                 components.push(component);
             }
@@ -67,8 +74,8 @@ export default class SmartPanel extends PureComponent {
             if (this.props.master) {
                 let component = this.mixinProps(this.props.master, component => {return {
                     key: 'master', 
-                    onSingleSelect: (selectKey) => {this.onSingleSelect(selectKey); component.props.onSingleSelect(selectKey);},
-                    setRef: (ref) => this.setState({masterRef: ref})
+                    onSingleSelect: this.onMasterSingleSelect,
+                    setRef: this.onMasterSetRef
                 }})
                 components.push(component);
             }
@@ -80,6 +87,7 @@ export default class SmartPanel extends PureComponent {
                 components.push(component);
             }
         }
+        console.trace();
         return (
             <React.Fragment>
                 {components}

@@ -9,8 +9,6 @@ export default class List extends PureComponent {
     constructor(props) {
         super(props);
 
-        console.log('local');
-
         this.currentProps = props;
 
         this.state = {
@@ -58,6 +56,7 @@ export default class List extends PureComponent {
         let _this = this;
 
         if (!equal(this.currentProps, this.props)) {
+            console.log('this.currentProps, this.props', this.currentProps, this.props)
             this.currentProps = this.props;
             this.refresh(true);
         }
