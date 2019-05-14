@@ -69,7 +69,7 @@ export default class List extends PureComponent {
                         {this.props.functions.hasRowActions() ? <TableCell className="actions">
                             <MenuButton>
                                 {this.props.functions.getRowActions().map((action, idx) => (
-                                    <MenuItem key={idx} onClick={() => action.onClick(item)} disabled={action.disabled}>{action.title}</MenuItem>
+                                    <MenuItem key={idx} onClick={(event) => action.onClick(item, event)} disabled={action.disabled}>{action.title}</MenuItem>
                                 ))}
                             </MenuButton>
                         </TableCell> : (null)}

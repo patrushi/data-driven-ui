@@ -11,6 +11,7 @@ export default class MenuButton extends PureComponent {
     }
 
     onOpen = (event) => {
+        event.stopPropagation();
         this.setState({anchorEl: event.currentTarget})
     }
 
@@ -21,7 +22,7 @@ export default class MenuButton extends PureComponent {
     render() {
         let children = !this.props.children ? null : React.Children.map(this.props.children, child => {
             return React.isValidElement(child) ? React.cloneElement(child, {
-                onClick: () => {this.onClose(); child.props.onClick();}
+                onClick: (event) => {this.onClose(); child.props.onClick(event);}
             }) : child;
         })
 

@@ -1,3 +1,3 @@
-import {DefaultUiMeta} from 'data-driven-ui';
+import {DefaultUiMeta} from '../lib/publish';
 
 export default DefaultUiMeta;

@@ -56,7 +56,6 @@ export default class List extends PureComponent {
         let _this = this;
 
         if (!equal(this.currentProps, this.props)) {
-            console.log('this.currentProps, this.props', this.currentProps, this.props)
             this.currentProps = this.props;
             this.refresh(true);
         }
@@ -299,8 +298,8 @@ export default class List extends PureComponent {
         let actions = [];
         for (var k in this.props.meta.rowActions) {
             let action = this.props.meta.rowActions[k];
-            if (action.type === 'delete') actions.push({title: 'Удалить', onClick: (item) => action.onClick(item)});
-            if (action.type === 'edit') actions.push({title: 'Редактировать', onClick: (item) => {this.props.onEdit(item)}});
+            if (action.type === 'delete') actions.push({title: 'Удалить', onClick: (item, event) => {event.stopPropagation(); action.onClick(item)}});
+            if (action.type === 'edit') actions.push({title: 'Редактировать', onClick: (item, event) => {event.stopPropagation(); this.props.onEdit(item)}});
         }
         return actions;
     }

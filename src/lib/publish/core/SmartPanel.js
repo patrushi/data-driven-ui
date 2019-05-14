@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-var equal = require('fast-deep-equal');
 
 export default class SmartPanel extends PureComponent {
     constructor(props) {
@@ -87,7 +86,6 @@ export default class SmartPanel extends PureComponent {
                 components.push(component);
             }
         }
-        console.trace();
         return (
             <React.Fragment>
                 {components}
