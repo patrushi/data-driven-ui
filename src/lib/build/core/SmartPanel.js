@@ -20,8 +20,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var equal = require('fast-deep-equal');
-
 var SmartPanel = function (_PureComponent) {
     _inherits(SmartPanel, _PureComponent);
 
@@ -43,17 +41,20 @@ var SmartPanel = function (_PureComponent) {
 
     _createClass(SmartPanel, [{
         key: 'componentDidUpdate',
-        value: function componentDidUpdate() {
-            /* if (!equal(this.currentProps, this.props)) {
-                this.currentProps = this.props;
-                this.setState({
-                    detailTab: this.props.detailTab,
-                    isEditCardOpen: this.props.open,
-                    masterCurrentKey: this.props.key,
-                    masterCurrentItem: this.props.item
-                });
-            } */
-        }
+        value: function componentDidUpdate() {}
+        /* if (!equal(this.currentProps, this.props)) {
+            this.currentProps = this.props;
+            this.setState({
+                detailTab: this.props.detailTab,
+                isEditCardOpen: this.props.open,
+                masterCurrentKey: this.props.key,
+                masterCurrentItem: this.props.item
+            });
+        } */
+
+
+        // bind functions
+
     }, {
         key: 'render',
         value: function render() {
@@ -65,12 +66,8 @@ var SmartPanel = function (_PureComponent) {
                     var component = this.mixinProps(this.props.list, function (component) {
                         return {
                             key: 'list',
-                            onEdit: function onEdit(item) {
-                                return _this2.setState({ masterCurrentItem: item, isEditCardOpen: true });
-                            },
-                            setRef: function setRef(ref) {
-                                return _this2.setState({ masterRef: ref });
-                            }
+                            onEdit: _this2.onListEdit,
+                            setRef: _this2.onListSetRef
                         };
                     });
                     components.push(component);
@@ -81,10 +78,7 @@ var SmartPanel = function (_PureComponent) {
                             key: 'card',
                             open: _this2.state.isEditCardOpen,
                             item: _this2.state.masterCurrentItem,
-                            onClose: function onClose(change) {
-                                _this2.setState({ isEditCardOpen: false });
-                                if (change) _this2.state.masterRef.refresh(true);
-                            }
+                            onClose: _this2.onCardClose
                         };
                     });
                     components.push(_component);
@@ -94,12 +88,8 @@ var SmartPanel = function (_PureComponent) {
                     var _component2 = this.mixinProps(this.props.master, function (component) {
                         return {
                             key: 'master',
-                            onSingleSelect: function onSingleSelect(selectKey) {
-                                _this2.onSingleSelect(selectKey);component.props.onSingleSelect(selectKey);
-                            },
-                            setRef: function setRef(ref) {
-                                return _this2.setState({ masterRef: ref });
-                            }
+                            onSingleSelect: _this2.onMasterSingleSelect,
+                            setRef: _this2.onMasterSetRef
                         };
                     });
                     components.push(_component2);
@@ -143,6 +133,27 @@ var _initialiseProps = function _initialiseProps() {
 
     this.onSingleSelect = function (selectKey) {
         _this3.setState({ masterCurrentKey: selectKey });
+    };
+
+    this.onListEdit = function (item) {
+        return _this3.setState({ masterCurrentItem: item, isEditCardOpen: true });
+    };
+
+    this.onListSetRef = function (ref) {
+        return _this3.setState({ listRef: ref });
+    };
+
+    this.onCardClose = function (change) {
+        _this3.setState({ isEditCardOpen: false });
+        if (change) _this3.state.listRef.refresh(true);
+    };
+
+    this.onMasterSingleSelect = function (selectKey) {
+        _this3.onSingleSelect(selectKey); /* component.props.onSingleSelect(selectKey);*/
+    };
+
+    this.onMasterSetRef = function (ref) {
+        return _this3.setState({ masterRef: ref });
     };
 };
 

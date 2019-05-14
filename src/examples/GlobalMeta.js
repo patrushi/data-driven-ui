@@ -1,3 +1,3 @@
-import {DefaultUiMeta} from '../lib/publish';
+import {DefaultUiMeta} from '../lib/src';
 
 export default DefaultUiMeta;

@@ -158,8 +158,8 @@ var List = function (_PureComponent) {
                                         _this2.props.functions.getRowActions().map(function (action, idx) {
                                             return _react2.default.createElement(
                                                 _core.MenuItem,
-                                                { key: idx, onClick: function onClick() {
-                                                        return action.onClick(item);
+                                                { key: idx, onClick: function onClick(event) {
+                                                        return action.onClick(item, event);
                                                     }, disabled: action.disabled },
                                                 action.title
                                             );

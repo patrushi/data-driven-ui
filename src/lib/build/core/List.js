@@ -275,11 +275,11 @@ var List = function (_PureComponent) {
 
             var _loop2 = function _loop2() {
                 var action = _this2.props.meta.rowActions[k];
-                if (action.type === 'delete') actions.push({ title: 'Удалить', onClick: function onClick(item) {
-                        return action.onClick(item);
+                if (action.type === 'delete') actions.push({ title: 'Удалить', onClick: function onClick(item, event) {
+                        event.stopPropagation();action.onClick(item);
                     } });
-                if (action.type === 'edit') actions.push({ title: 'Редактировать', onClick: function onClick(item) {
-                        _this2.props.onEdit(item);
+                if (action.type === 'edit') actions.push({ title: 'Редактировать', onClick: function onClick(item, event) {
+                        event.stopPropagation();_this2.props.onEdit(item);
                     } });
             };
 

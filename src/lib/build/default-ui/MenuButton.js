@@ -31,6 +31,7 @@ var MenuButton = function (_PureComponent) {
         var _this = _possibleConstructorReturn(this, (MenuButton.__proto__ || Object.getPrototypeOf(MenuButton)).call(this, props));
 
         _this.onOpen = function (event) {
+            event.stopPropagation();
             _this.setState({ anchorEl: event.currentTarget });
         };
 
@@ -51,8 +52,8 @@ var MenuButton = function (_PureComponent) {
 
             var children = !this.props.children ? null : _react2.default.Children.map(this.props.children, function (child) {
                 return _react2.default.isValidElement(child) ? _react2.default.cloneElement(child, {
-                    onClick: function onClick() {
-                        _this2.onClose();child.props.onClick();
+                    onClick: function onClick(event) {
+                        _this2.onClose();child.props.onClick(event);
                     }
                 }) : child;
             });
