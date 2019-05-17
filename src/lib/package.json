@@ -1,6 +1,8 @@
 {
   "name": "data-driven-ui",
-  "version": "0.1.14",
+  "description": "modeus",
+  "keywords": ["ui", "material", "react-final-form", "grid", "card"],
+  "version": "0.1.15",
   "repository": {
     "type": "git",
     "url": "https://github.com/patrushi/data-driven-ui.git"
