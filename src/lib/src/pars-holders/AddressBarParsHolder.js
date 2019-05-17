@@ -1,4 +1,4 @@
-import qs from 'query-string';
+const qs = require('query-string');
 
 export default class AddressBarParsHolder {
     constructor(props) {

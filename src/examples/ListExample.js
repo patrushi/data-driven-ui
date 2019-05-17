@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-//import {List, Card, SmartPanel} from '../lib/src';
+//import {List, Card, SmartPanel} from '../lib/dist';
 import {List, Card, SmartPanel} from 'data-driven-ui';
 import GlobalMeta from './GlobalMeta';
 import Paper from '@material-ui/core/Paper';
@@ -121,13 +121,13 @@ export class ListExample extends PureComponent {
             <SmartPanel type='master-detail'
                 master={
                     <SmartPanel type='list-card'
-                        list={<List meta={this.meta} globalMeta={GlobalMeta} onSelect={this.onSelect} onSingleSelect={this.onSingleSelect} parentProps={this.props} />}
+                        list={<List meta={this.meta} title="Orders" globalMeta={GlobalMeta} onSelect={this.onSelect} onSingleSelect={this.onSingleSelect} parentProps={this.props} />}
                         card={<Card meta={this.cardMeta} wrapped="card" globalMeta={GlobalMeta} onSubmit={(values) => console.log(values)} />}
                     />
                 }
                 detail={
                     <SmartPanel type='list-card'
-                        list={<List meta={this.metaDetail} masterKey={this.state.masterKey} globalMeta={GlobalMeta} autoRefresh={false} setRef={(ref) => this.setState({listDetailRef: ref})} />}
+                        list={<List meta={this.metaDetail} title="Order Products" masterKey={this.state.masterKey} globalMeta={GlobalMeta} autoRefresh={false} setRef={(ref) => this.setState({listDetailRef: ref})} />}
                         card={<Card meta={this.cardDetailMeta} wrapped="card" globalMeta={GlobalMeta} onSubmit={(values) => console.log(values)} />}
                     />
                 } 
