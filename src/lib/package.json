@@ -2,7 +2,7 @@
   "name": "data-driven-ui",
   "description": "modeus",
   "keywords": ["ui", "material", "react-final-form", "grid", "card"],
-  "version": "0.1.15",
+  "version": "0.1.16",
   "repository": {
     "type": "git",
     "url": "https://github.com/patrushi/data-driven-ui.git"
@@ -61,5 +61,9 @@
     "babel-preset-stage-2": "^6.24.1",
     "cross-env": "^5.2.0",
     "webpack-bundle-analyzer": "^3.1.0"
+  },
+  "private": false,
+  "publishConfig": {
+    "access": "public"
   }
 }
