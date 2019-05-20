@@ -1,8 +1,9 @@
 {
   "name": "data-driven-ui",
-  "description": "modeus",
+  "description": "Auto created by metadata Lists and Forms",
+  "author": "ptrushin",
   "keywords": ["ui", "material", "react-final-form", "grid", "card"],
-  "version": "0.1.16",
+  "version": "1.0.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/patrushi/data-driven-ui.git"
