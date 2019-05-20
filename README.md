@@ -2,7 +2,7 @@
 
 ## Installation
 Run the following command:
-`npm install @ptrushin/data-driven-ui`
+`npm install data-driven-ui --save-dev`
 
 # Examples
 https://codesandbox.io/s/github/patrushi/data-driven-ui
