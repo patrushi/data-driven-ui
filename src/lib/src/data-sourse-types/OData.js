@@ -100,7 +100,7 @@ export default class OData {
         const query = buildQuery({ filter, top, format });
         this.props.globalMeta.get(`${props.componentMeta.dataSource.path || this.props.globalMeta.basePath + '/' + props.componentMeta.dataSource.shortPath}${query}`, data => {
             callback(data.value.map(function (v) { return { 
-                label: props.componentMeta.dataSource.labelFunc ? props.componentMeta.dataSource.labelFunc(extraData) : v[props.componentMeta.dataSource.value], 
+                label: props.componentMeta.dataSource.labelFunc ? props.componentMeta.dataSource.labelFunc(v) : v[props.componentMeta.dataSource.value], 
                 value: v[props.componentMeta.dataSource.key], 
                 extraData: v } }));
         });
