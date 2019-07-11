@@ -1,8 +1,9 @@
 import React, { useCallback, useRef } from 'react';
-import { InlineDatePicker, MuiPickersUtilsProvider } from "material-ui-pickers";
+import {InlineDatePicker, MuiPickersUtilsProvider} from "material-ui-pickers";
 import MomentUtils from '@date-io/moment';
-import { IconButton } from "@material-ui/core";
-import { Clear as ClearIcon, InsertInvitation as CalendarIcon } from "@material-ui/icons";
+import IconButton from "@material-ui/core/IconButton";
+import ClearIcon from "@material-ui/icons/Clear";
+import CalendarIcon from "@material-ui/icons/InsertInvitation";
 
 export default function DateField(props) {
     let { meta, globalMeta, componentMeta, component, onChange, value, notClearable, format, label, ...rest } = props;

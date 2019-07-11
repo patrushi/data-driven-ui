@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Form, Field } from 'react-final-form';
+import {Form, Field} from 'react-final-form';
 import DialogWrapper from './DialogWrapper';
 
 export default class Card extends PureComponent {

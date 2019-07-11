@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import DateField from './DateField';
-import { Remove as RemoveIcon } from "@material-ui/icons";
+import RemoveIcon from "@material-ui/icons/Remove";
 
 export default class DatePeriodField extends PureComponent {
     render() {

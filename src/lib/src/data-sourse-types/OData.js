@@ -93,13 +93,16 @@ export default class OData {
         if (Array.isArray(inputValue)) {
             filter = {or: inputValue.map(function (e) {return { [props.componentMeta.dataSource.key]: e };})}
         } else {
-            filter = {[`tolower(${props.componentMeta.dataSource.value})`]: { contains: inputValue == null ? null : inputValue.toLowerCase()}}
+            filter = props.componentMeta.dataSource.sourceFunc ? props.componentMeta.dataSource.sourceFunc(inputValue) : {[`tolower(${props.componentMeta.dataSource.value})`]: { contains: inputValue == null ? null : inputValue.toLowerCase()}}
             var top = props.componentMeta.dataSource.count || 10;
         }
         const format = this.props.globalMeta.format;
         const query = buildQuery({ filter, top, format });
         this.props.globalMeta.get(`${props.componentMeta.dataSource.path || this.props.globalMeta.basePath + '/' + props.componentMeta.dataSource.shortPath}${query}`, data => {
-            callback(data.value.map(function (v) { return { label: v[props.componentMeta.dataSource.value], value: v[props.componentMeta.dataSource.key], extraData: v } }));
+            callback(data.value.map(function (v) { return { 
+                label: props.componentMeta.dataSource.labelFunc ? props.componentMeta.dataSource.labelFunc(extraData) : v[props.componentMeta.dataSource.value], 
+                value: v[props.componentMeta.dataSource.key], 
+                extraData: v } }));
         });
     }
 }

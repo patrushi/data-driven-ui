@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import ExtTextField from '@material-ui/core/TextField';
-import { IconButton } from "@material-ui/core";
-import {Clear as ClearIcon} from "@material-ui/icons";
+import IconButton from "@material-ui/core/IconButton";
+import ClearIcon from "@material-ui/icons/Clear";
 
 export default class TextField extends PureComponent {
     render() {

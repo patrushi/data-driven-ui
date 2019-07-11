@@ -8,7 +8,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import MenuButton from './MenuButton';
-import {MenuItem} from '@material-ui/core'
+import MenuItem from '@material-ui/core/MenuItem'
 
 export default class List extends PureComponent {
     constructor(props) {

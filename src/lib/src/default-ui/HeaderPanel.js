@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
-import {FilterList} from '@material-ui/icons'
-import {IconButton, MenuItem} from '@material-ui/core'
+import FilterList from '@material-ui/icons/FilterList'
+import IconButton from '@material-ui/core/IconButton'
+import MenuItem from '@material-ui/core/MenuItem'
 import MenuButton from './MenuButton'
 
 export default class HeaderPanel extends PureComponent {

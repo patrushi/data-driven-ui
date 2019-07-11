@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react';
-import { IconButton, Button, Menu } from "@material-ui/core";
-import { MoreVert, KeyboardArrowDown } from "@material-ui/icons";
+import IconButton from "@material-ui/core/IconButton";
+import Button from "@material-ui/core/Button";
+import Menu from "@material-ui/core/Menu";
+import MoreVert from "@material-ui/icons/MoreVert";
+import KeyboardArrowDown from "@material-ui/icons/KeyboardArrowDown";
 
 export default class MenuButton extends PureComponent {
     constructor(props) {
