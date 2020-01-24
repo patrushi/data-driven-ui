@@ -80,8 +80,6 @@ var _moment = require('moment');
 
 var _moment2 = _interopRequireDefault(_moment);
 
-require('moment/locale/ru');
-
 var _BoolColumn = require('./default-ui/BoolColumn');
 
 var _BoolColumn2 = _interopRequireDefault(_BoolColumn);
@@ -94,7 +92,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-_moment2.default.locale("ru");
+window.data_driven_ui_locale = "ru";
+
+if (window.data_driven_ui_locale !== "en") require('moment/locale/' + window.data_driven_ui_locale);
+var data_driven_ui_locale = require('./locale/' + window.data_driven_ui_locale);
+_moment2.default.locale(window.data_driven_ui_locale);
 
 exports.default = {
     components: {
@@ -102,19 +104,14 @@ exports.default = {
         card: { component: _Card2.default },
         filterPanel: { component: _FilterPanel2.default },
         longProcessPanel: { component: _LongProcessPanel2.default },
-        errorPanel: { component: _ErrorPanel2.default, props: { title: 'Something went wrong ...' } }
+        errorPanel: { component: _ErrorPanel2.default, props: { title: data_driven_ui_locale.locale.errorPanel.title } }
     },
     paging: {
         perPage: 10,
         perPageOptions: [10, 100],
         props: {
-            labelRowsPerPage: "Page size: ",
-            labelDisplayedRows: function labelDisplayedRows(_ref) {
-                var from = _ref.from,
-                    to = _ref.to,
-                    count = _ref.count;
-                return from + '-' + to + ' from ' + count;
-            }
+            labelRowsPerPage: data_driven_ui_locale.locale.paging.labelRowsPerPage,
+            labelDisplayedRows: data_driven_ui_locale.locale.paging.labelDisplayedRows
         }
     },
     parsHolderTypes: {
@@ -208,12 +205,12 @@ exports.default = {
         longselect: { component: _LongSelect2.default, props: { loadingMessage: function loadingMessage() {
                     return _react2.default.createElement(_CircularProgress2.default, { style: { margin: 5 } });
                 }, noOptionsMessage: function noOptionsMessage() {
-                    return "По заданному тексту не найдено значений ...";
+                    return data_driven_ui_locale.locale.longSelectField.notForundByText;
                 } } },
         shortselect: { component: _ShortSelect2.default },
         specialfilter: { component: _SpecialFilterField2.default },
-        date: { component: _DateField2.default, props: { invalidDateMessage: 'Wrong date format' } },
-        dateperiod: { component: _DatePeriodField2.default, props: { invalidDateMessage: 'Wrong date format' },
+        date: { component: _DateField2.default, props: { invalidDateMessage: data_driven_ui_locale.locale.dateField.wrongDateFormat } },
+        dateperiod: { component: _DatePeriodField2.default, props: { invalidDateMessage: data_driven_ui_locale.locale.dateField.wrongDateFormat },
             setFromColumn: function setFromColumn(value, item, event, current) {
                 return _modifierKeys.modifierKeys.altRight ? { from: current && current.from, till: (0, _moment2.default)(value) } : { from: (0, _moment2.default)(value), till: current && current.till };
             } },
@@ -227,7 +224,7 @@ exports.default = {
         longselect: { component: _LongSelect2.default, props: { loadingMessage: function loadingMessage() {
                     return _react2.default.createElement(_CircularProgress2.default, { style: { margin: 5 } });
                 }, noOptionsMessage: function noOptionsMessage() {
-                    return "No values found for specified text ...";
+                    return data_driven_ui_locale.locale.longSelectField.notForundByText;
                 } } },
         shortselect: { component: _ShortSelect2.default },
         bool: { component: _BoolField2.default },
@@ -261,8 +258,8 @@ exports.default = {
         Date: { columnType: 'date' }
     },
     filters: {
-        //label: true,
-        placeholder: true
+        label: true
+        //placeholder: true
     },
     fields: {
         label: true

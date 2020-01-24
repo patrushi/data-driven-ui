@@ -34,13 +34,12 @@ var _moment3 = require('moment');
 
 var _moment4 = _interopRequireDefault(_moment3);
 
-require('moment/locale/ru');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
-_moment4.default.locale("ru");
+//import "moment/locale/ru";
+_moment4.default.locale(window.data_driven_ui_locale);
 
 function DateField(props) {
     var meta = props.meta,

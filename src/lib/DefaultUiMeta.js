@@ -29,7 +29,7 @@ import moment from "moment";
 import BoolColumn from './default-ui/BoolColumn';
 import ColorColumn from './default-ui/ColorColumn';
 
-window.data_driven_ui_locale = "ru";
+window.data_driven_ui_locale = "en";
 
 if (window.data_driven_ui_locale !== "en") require(`moment/locale/${window.data_driven_ui_locale}`)
 var data_driven_ui_locale = require(`./locale/${window.data_driven_ui_locale}`)

@@ -79,7 +79,7 @@ var FilterPanel = function (_PureComponent) {
                 }
                 return _react2.default.createElement(
                     'div',
-                    { className: 'filter' },
+                    { className: 'filter', style: { margin: '0px -4px 0px -4px' } },
                     filterLines.map(function (filters, rowIdx) {
                         return _react2.default.createElement(
                             _Grid2.default,
@@ -87,7 +87,7 @@ var FilterPanel = function (_PureComponent) {
                             filters.map(function (filter, idx) {
                                 return _react2.default.createElement(
                                     _Grid2.default,
-                                    { item: true, xs: true, key: idx, style: { display: 'flex', alignItems: 'flex-begin' } },
+                                    { item: true, xs: true, key: idx, style: { display: 'flex', alignItems: 'flex-begin', padding: '4px' } },
                                     _this2.getField(filter)
                                 );
                             }).concat(rowIdx + 1 === linesCnt ? empty : [])
