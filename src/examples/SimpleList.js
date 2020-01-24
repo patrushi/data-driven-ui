@@ -10,23 +10,27 @@ export class ListExample extends PureComponent {
 
     this.meta = {
       columns: [
-        { name: "OrderID", orderable: true },
+        { name: "OrderID" },
         { name: "CustomerID" },
         { name: "OrderDate", type: "date" },
         { name: "RequiredDate", type: "date" },
         { name: "ShippedDate", type: "date" },
-        { name: "ShipCountry" }
+        { name: "ShipCountry" },
+        { name: "EmployeeId", title: 'Employee', dataSource: {path: ['Employee', 'LastName']}, render: (meta, item) => `${item.Employee.FirstName} ${item.Employee.LastName}` },
       ],
       key: "OrderID",
-      orderable: true,
+      orderable: {initial: {
+        OrderDate: 'asc'
+      }},
       filters: [
-        { name: "ShipCountry", type: "text" },
+        { name: "EmployeeId", title: 'Employee', type: 'longselect', dataSource: {shortPath: 'Employees', key: 'Id', value: 'LastName', 
+          debounce: true}, isMulti: false},
+        { name: "ShipCountry", type: "text", initial: 'fra' },
         { name: "OrderDate", type: "dateperiod" },
-        { name: "RequiredDate", type: "dateperiod" },
-        { name: "ShippedDate", type: "dateperiod" }
       ],
       paging: {},
-      selectable: { type: "row&checkbox", isMulti: true },
+      selectable: true,
+      //checkable: true,
       parsHolder: {
         type: "addressBar",
         prefix: "",

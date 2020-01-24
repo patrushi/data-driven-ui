@@ -1,5 +1,5 @@
 import React, { useCallback, useRef } from 'react';
-import {InlineDatePicker, MuiPickersUtilsProvider} from "material-ui-pickers";
+import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import MomentUtils from '@date-io/moment';
 import IconButton from "@material-ui/core/IconButton";
 import ClearIcon from "@material-ui/icons/Clear";
@@ -31,7 +31,9 @@ export default function DateField(props) {
 
     return (
         <MuiPickersUtilsProvider utils={MomentUtils} locale="ru">
-            <InlineDatePicker
+            <KeyboardDatePicker
+                disableToolbar
+                variant="inline"
                 {...rest}
                 style={{width: width}}
                 onlyCalendar

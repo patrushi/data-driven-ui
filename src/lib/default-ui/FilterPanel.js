@@ -42,7 +42,7 @@ export default class FilterPanel extends PureComponent {
             return <div className="filter" style={{margin: '0px -4px 0px -4px'}}>
                 {
                     filterLines.map((filters, rowIdx) => (
-                        <Grid container key={rowIdx} spacing={1}>
+                        <Grid container key={rowIdx} spacing={0}>
                             {
                                 filters.map((filter, idx) => (
                                     <Grid item xs key={idx} style={{display: 'flex', alignItems: 'flex-begin', padding: '4px'}}>{this.getField(filter)}</Grid>
