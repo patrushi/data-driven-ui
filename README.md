@@ -3,8 +3,9 @@
 Auto created by metadata Lists and Forms
 
 # User capabilities
-## List
 - Filtering, Ordering, Paging
+- Show/hide filter
+- Autofilter by cell value (Click with alt, for dateperiod left/right alt)
 
 # Developer capabilities
 - Data source types
@@ -12,7 +13,8 @@ Auto created by metadata Lists and Forms
     - local storage (js array)
     - graphql in plans
 - Default UI realization in MaterialUI with many components
-- You can do custom UI realization
+- You can do full custom UI realization or only add new types of field
+- All configuration in json by data (style, value) etc, for example: style: (meta, item, rowIdx, columnIdx) => {return item.ShipCountry === 'USA' ? {backgroundColor: 'green'} : undefined}
 
 # Simple example of list settings
 ```
