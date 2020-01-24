@@ -21,7 +21,9 @@ export class ListExample extends PureComponent {
       orderable: true,
       filters: [
         { name: "ShipCountry", type: "text" },
-        { name: "OrderDate", type: "dateperiod" }
+        { name: "OrderDate", type: "dateperiod" },
+        { name: "RequiredDate", type: "dateperiod" },
+        { name: "ShippedDate", type: "dateperiod" }
       ],
       paging: {},
       selectable: { type: "row&checkbox", isMulti: true },

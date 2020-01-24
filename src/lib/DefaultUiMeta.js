@@ -26,10 +26,14 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import {modifierKeys} from './core/modifier-keys';
 
 import moment from "moment";
-import "moment/locale/ru";
 import BoolColumn from './default-ui/BoolColumn';
 import ColorColumn from './default-ui/ColorColumn';
-moment.locale("ru");
+
+window.data_driven_ui_locale = "ru";
+
+if (window.data_driven_ui_locale !== "en") require(`moment/locale/${window.data_driven_ui_locale}`)
+var data_driven_ui_locale = require(`./locale/${window.data_driven_ui_locale}`)
+moment.locale(window.data_driven_ui_locale);
 
 export default {
     components: {
@@ -37,14 +41,14 @@ export default {
         card: {component: Card},
         filterPanel: {component: FilterPanel},
         longProcessPanel: {component: LongProcessPanel},
-        errorPanel: {component: ErrorPanel, props: {title: 'Something went wrong ...'}}
+        errorPanel: {component: ErrorPanel, props: {title: data_driven_ui_locale.locale.errorPanel.title}}
     },
     paging: {
         perPage: 10,
         perPageOptions: [10, 100],
         props: {
-            labelRowsPerPage: "Page size: ",
-            labelDisplayedRows: ({ from, to, count }) => `${from}-${to} from ${count}`
+            labelRowsPerPage: data_driven_ui_locale.locale.paging.labelRowsPerPage,
+            labelDisplayedRows: data_driven_ui_locale.locale.paging.labelDisplayedRows
         }
     },
     parsHolderTypes: {
@@ -115,11 +119,11 @@ export default {
     },
     filterTypes: {
         string: {component: TextField, debounce: true},
-        longselect: {component: LongSelect, props: {loadingMessage: () => <CircularProgress style={{margin: 5}} />, noOptionsMessage: () => "По заданному тексту не найдено значений ..."}},
+        longselect: {component: LongSelect, props: {loadingMessage: () => <CircularProgress style={{margin: 5}} />, noOptionsMessage: () => data_driven_ui_locale.locale.longSelectField.notForundByText}},
         shortselect: {component: ShortSelect},
         specialfilter: {component: SpecialFilterField},
-        date: {component: DateField, props: {invalidDateMessage: 'Wrong date format'}},
-        dateperiod: {component: DatePeriodField, props: {invalidDateMessage: 'Wrong date format'}, 
+        date: {component: DateField, props: {invalidDateMessage: data_driven_ui_locale.locale.dateField.wrongDateFormat}},
+        dateperiod: {component: DatePeriodField, props: {invalidDateMessage: data_driven_ui_locale.locale.dateField.wrongDateFormat}, 
             setFromColumn: (value, item, event, current) => {return modifierKeys.altRight ? {from: current && current.from, till: moment(value)} : {from: moment(value), till: current && current.till}}},
         bool: {component: BoolField},
         default: 'string'
@@ -128,7 +132,7 @@ export default {
         string: {component: TextField},
         date: {component: DateField},
         dateperiod: {component: DatePeriodField},
-        longselect: {component: LongSelect, props: {loadingMessage: () => <CircularProgress style={{margin: 5}} />, noOptionsMessage: () => "No values found for specified text ..."}},
+        longselect: {component: LongSelect, props: {loadingMessage: () => <CircularProgress style={{margin: 5}} />, noOptionsMessage: () => data_driven_ui_locale.locale.longSelectField.notForundByText}},
         shortselect: {component: ShortSelect},
         bool: {component: BoolField},
         default: 'string'
@@ -145,8 +149,8 @@ export default {
         Date: {columnType: 'date'}
     },
     filters: {
-        //label: true,
-        placeholder: true
+        label: true,
+        //placeholder: true
     },
     fields: {
         label: true,

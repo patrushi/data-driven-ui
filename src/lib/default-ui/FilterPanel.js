@@ -39,13 +39,13 @@ export default class FilterPanel extends PureComponent {
             {
                 empty.push(<Grid item xs key={100+i} />);
             }
-            return <div className="filter">
+            return <div className="filter" style={{margin: '0px -4px 0px -4px'}}>
                 {
                     filterLines.map((filters, rowIdx) => (
                         <Grid container key={rowIdx} spacing={1}>
                             {
                                 filters.map((filter, idx) => (
-                                    <Grid item xs key={idx} style={{display: 'flex', alignItems: 'flex-begin'}}>{this.getField(filter)}</Grid>
+                                    <Grid item xs key={idx} style={{display: 'flex', alignItems: 'flex-begin', padding: '4px'}}>{this.getField(filter)}</Grid>
                                 )).concat(rowIdx+1 === linesCnt ? empty : [])
                             }
                         </Grid>

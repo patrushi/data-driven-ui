@@ -5,8 +5,8 @@ import IconButton from "@material-ui/core/IconButton";
 import ClearIcon from "@material-ui/icons/Clear";
 import CalendarIcon from "@material-ui/icons/InsertInvitation";
 import moment from "moment";
-import "moment/locale/ru";
-moment.locale("ru");
+//import "moment/locale/ru";
+moment.locale(window.data_driven_ui_locale);
 
 export default function DateField(props) {
     let { meta, globalMeta, componentMeta, component, onChange, value, notClearable, format, label, ...rest } = props;

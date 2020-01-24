@@ -3,7 +3,7 @@
 Auto created by metadata Lists and Forms
 
 # User capabilities
-- Filtering, Ordering, Paging
+- Filtering, Ordering, Paging with saving it in url
 - Show/hide filter
 - Autofilter by cell value (Click with alt, for dateperiod left/right alt)
 
