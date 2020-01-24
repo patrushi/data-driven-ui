@@ -1,0 +1,12 @@
+{
+    "title": "data-driven-ui demo",
+    "devDependencies": {
+      "react-scripts": "latest"
+    },
+    "description": "https://github.com/patrushi/data-driven-ui/tree/master/src/examples/List/demo.js",
+    "dependencies": {
+      "react-dom": "latest",
+      "react": "latest",
+      "data-driven-ui": "latest"
+    }
+  }
