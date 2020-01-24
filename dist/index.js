@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.LongProcessPanel = exports.Fetch = exports.DefaultUiMeta = exports.AddressBarParsHolder = exports.OData = exports.SmartPanel = exports.Card = exports.List = undefined;
+exports.LongProcessPanel = exports.DefaultUiMeta = exports.AddressBarParsHolder = exports.OData = exports.SmartPanel = exports.Card = exports.List = undefined;
 
 var _List = require("./core/List");
 
@@ -29,10 +29,6 @@ var _DefaultUiMeta = require("./DefaultUiMeta");
 
 var _DefaultUiMeta2 = _interopRequireDefault(_DefaultUiMeta);
 
-var _Fetch = require("./data-sourse-types/Fetch");
-
-var _Fetch2 = _interopRequireDefault(_Fetch);
-
 var _LongProcessPanel = require("./default-ui/LongProcessPanel");
 
 var _LongProcessPanel2 = _interopRequireDefault(_LongProcessPanel);
@@ -45,5 +41,4 @@ exports.SmartPanel = _SmartPanel2.default;
 exports.OData = _OData2.default;
 exports.AddressBarParsHolder = _AddressBarParsHolder2.default;
 exports.DefaultUiMeta = _DefaultUiMeta2.default;
-exports.Fetch = _Fetch2.default;
 exports.LongProcessPanel = _LongProcessPanel2.default;

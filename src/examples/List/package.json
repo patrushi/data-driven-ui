@@ -3,7 +3,7 @@
     "devDependencies": {
       "react-scripts": "latest"
     },
-    "description": "https://github.com/patrushi/data-driven-ui/tree/master/src/examples/List/demo.js",
+    "description": "https://github.com/patrushi/data-driven-ui/tree/master/src/examples/List/Demo.js",
     "dependencies": {
       "react-dom": "latest",
       "react": "latest",

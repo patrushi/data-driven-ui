@@ -37,14 +37,14 @@ export default {
         card: {component: Card},
         filterPanel: {component: FilterPanel},
         longProcessPanel: {component: LongProcessPanel},
-        errorPanel: {component: ErrorPanel, props: {title: 'Что-то пошло не так ...'}}
+        errorPanel: {component: ErrorPanel, props: {title: 'Something went wrong ...'}}
     },
     paging: {
         perPage: 10,
         perPageOptions: [10, 100],
         props: {
-            labelRowsPerPage: "Показывать по: ",
-            labelDisplayedRows: ({ from, to, count }) => `${from}-${to} из ${count}`
+            labelRowsPerPage: "Page size: ",
+            labelDisplayedRows: ({ from, to, count }) => `${from}-${to} from ${count}`
         }
     },
     parsHolderTypes: {
@@ -118,8 +118,8 @@ export default {
         longselect: {component: LongSelect, props: {loadingMessage: () => <CircularProgress style={{margin: 5}} />, noOptionsMessage: () => "По заданному тексту не найдено значений ..."}},
         shortselect: {component: ShortSelect},
         specialfilter: {component: SpecialFilterField},
-        date: {component: DateField, props: {invalidDateMessage: 'Неверный формат даты'}},
-        dateperiod: {component: DatePeriodField, props: {invalidDateMessage: 'Неверный формат даты'}, 
+        date: {component: DateField, props: {invalidDateMessage: 'Wrong date format'}},
+        dateperiod: {component: DatePeriodField, props: {invalidDateMessage: 'Wrong date format'}, 
             setFromColumn: (value, item, event, current) => {return modifierKeys.altRight ? {from: current && current.from, till: moment(value)} : {from: moment(value), till: current && current.till}}},
         bool: {component: BoolField},
         default: 'string'
@@ -128,7 +128,7 @@ export default {
         string: {component: TextField},
         date: {component: DateField},
         dateperiod: {component: DatePeriodField},
-        longselect: {component: LongSelect, props: {loadingMessage: () => <CircularProgress style={{margin: 5}} />, noOptionsMessage: () => "По заданному тексту не найдено значений ..."}},
+        longselect: {component: LongSelect, props: {loadingMessage: () => <CircularProgress style={{margin: 5}} />, noOptionsMessage: () => "No values found for specified text ..."}},
         shortselect: {component: ShortSelect},
         bool: {component: BoolField},
         default: 'string'
