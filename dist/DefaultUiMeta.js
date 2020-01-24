@@ -102,18 +102,18 @@ exports.default = {
         card: { component: _Card2.default },
         filterPanel: { component: _FilterPanel2.default },
         longProcessPanel: { component: _LongProcessPanel2.default },
-        errorPanel: { component: _ErrorPanel2.default, props: { title: 'Что-то пошло не так ...' } }
+        errorPanel: { component: _ErrorPanel2.default, props: { title: 'Something went wrong ...' } }
     },
     paging: {
         perPage: 10,
         perPageOptions: [10, 100],
         props: {
-            labelRowsPerPage: "Показывать по: ",
+            labelRowsPerPage: "Page size: ",
             labelDisplayedRows: function labelDisplayedRows(_ref) {
                 var from = _ref.from,
                     to = _ref.to,
                     count = _ref.count;
-                return from + '-' + to + ' \u0438\u0437 ' + count;
+                return from + '-' + to + ' from ' + count;
             }
         }
     },
@@ -212,8 +212,8 @@ exports.default = {
                 } } },
         shortselect: { component: _ShortSelect2.default },
         specialfilter: { component: _SpecialFilterField2.default },
-        date: { component: _DateField2.default, props: { invalidDateMessage: 'Неверный формат даты' } },
-        dateperiod: { component: _DatePeriodField2.default, props: { invalidDateMessage: 'Неверный формат даты' },
+        date: { component: _DateField2.default, props: { invalidDateMessage: 'Wrong date format' } },
+        dateperiod: { component: _DatePeriodField2.default, props: { invalidDateMessage: 'Wrong date format' },
             setFromColumn: function setFromColumn(value, item, event, current) {
                 return _modifierKeys.modifierKeys.altRight ? { from: current && current.from, till: (0, _moment2.default)(value) } : { from: (0, _moment2.default)(value), till: current && current.till };
             } },
@@ -227,7 +227,7 @@ exports.default = {
         longselect: { component: _LongSelect2.default, props: { loadingMessage: function loadingMessage() {
                     return _react2.default.createElement(_CircularProgress2.default, { style: { margin: 5 } });
                 }, noOptionsMessage: function noOptionsMessage() {
-                    return "По заданному тексту не найдено значений ...";
+                    return "No values found for specified text ...";
                 } } },
         shortselect: { component: _ShortSelect2.default },
         bool: { component: _BoolField2.default },
