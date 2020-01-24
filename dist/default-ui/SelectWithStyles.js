@@ -13,9 +13,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Async = require('react-select/lib/Async');
+var _async = require('react-select/async');
 
-var _Async2 = _interopRequireDefault(_Async);
+var _async2 = _interopRequireDefault(_async);
 
 var _classnames = require('classnames');
 
@@ -249,7 +249,7 @@ var SelectWithStyles = exports.SelectWithStyles = function (_PureComponent) {
             return _react2.default.createElement(
                 'div',
                 { style: this.props.fullWidth ? { width: '100%' } : this.props.style ? this.props.style : {} },
-                _react2.default.createElement(_Async2.default, _extends({
+                _react2.default.createElement(_async2.default, _extends({
                     classes: classes,
                     styles: selectStyles,
                     textFieldProps: {

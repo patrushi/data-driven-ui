@@ -59,7 +59,7 @@ function DateField(props) {
         if (pickerRef.current) {
             pickerRef.current.open(e);
         }
-    }, [pickerRef.current]);
+    }, []);
 
     var convertToDate = function convertToDate(value) {
         return !value ? value : (0, _moment4.default)(value).startOf('day');

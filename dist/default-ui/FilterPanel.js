@@ -83,7 +83,7 @@ var FilterPanel = function (_PureComponent) {
                     filterLines.map(function (filters, rowIdx) {
                         return _react2.default.createElement(
                             _Grid2.default,
-                            { container: true, key: rowIdx, spacing: 1 },
+                            { container: true, key: rowIdx, spacing: 0 },
                             filters.map(function (filter, idx) {
                                 return _react2.default.createElement(
                                     _Grid2.default,
