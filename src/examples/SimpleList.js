@@ -16,15 +16,15 @@ export class ListExample extends PureComponent {
         { name: "RequiredDate", type: "date" },
         { name: "ShippedDate", type: "date" },
         { name: "ShipCountry" },
-        { name: "EmployeeId", title: 'Employee', dataSource: {path: ['Employee', 'LastName']}, render: (meta, item) => `${item.Employee.FirstName} ${item.Employee.LastName}` },
+        { name: "EmployeeID", title: 'Employee', dataSource: {path: ['Employee', 'LastName']}, render: (meta, item) => `${item.Employee.FirstName} ${item.Employee.LastName}` },
       ],
       key: "OrderID",
       orderable: {initial: {
         OrderDate: 'asc'
       }},
       filters: [
-        { name: "EmployeeId", title: 'Employee', type: 'longselect', dataSource: {shortPath: 'Employees', key: 'Id', value: 'LastName', 
-          debounce: true}, isMulti: false},
+        { name: "EmployeeID", title: 'Employee', type: 'longselect', dataSource: {shortPath: 'Employees', key: 'EmployeeID', value: 'LastName', 
+          debounce: true}, isMulti: true},
         { name: "ShipCountry", type: "text", initial: 'fra' },
         { name: "OrderDate", type: "dateperiod" },
       ],
