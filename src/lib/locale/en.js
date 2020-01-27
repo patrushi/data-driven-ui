@@ -1,4 +1,4 @@
-export var locale = {
+export default {en: {
     paging: {
         labelRowsPerPage: "Page size: ",
         labelDisplayedRows: ({ from, to, count }) => `${from}-${to} from ${count}`
@@ -12,4 +12,4 @@ export var locale = {
     longSelectField: {
         notFoundByText: 'No values found for specified text ...'
     }
-}
+}}

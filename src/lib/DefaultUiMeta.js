@@ -29,10 +29,11 @@ import moment from "moment";
 import BoolColumn from './default-ui/BoolColumn';
 import ColorColumn from './default-ui/ColorColumn';
 
-window.data_driven_ui_locale = "en";
+import data_driven_ui_locale from './locale/en'
+
+if (!window.data_driven_ui_locale) window.data_driven_ui_locale = "en";
 
 if (window.data_driven_ui_locale !== "en") require(`moment/locale/${window.data_driven_ui_locale}`)
-var data_driven_ui_locale = require(`./locale/${window.data_driven_ui_locale}`)
 moment.locale(window.data_driven_ui_locale);
 
 export default {
@@ -41,14 +42,14 @@ export default {
         card: {component: Card},
         filterPanel: {component: FilterPanel},
         longProcessPanel: {component: LongProcessPanel},
-        errorPanel: {component: ErrorPanel, props: {title: data_driven_ui_locale.locale.errorPanel.title}}
+        errorPanel: {component: ErrorPanel, props: {title: data_driven_ui_locale[window.data_driven_ui_locale].errorPanel.title}}
     },
     paging: {
         perPage: 10,
         perPageOptions: [10, 100],
         props: {
-            labelRowsPerPage: data_driven_ui_locale.locale.paging.labelRowsPerPage,
-            labelDisplayedRows: data_driven_ui_locale.locale.paging.labelDisplayedRows
+            labelRowsPerPage: data_driven_ui_locale[window.data_driven_ui_locale].paging.labelRowsPerPage,
+            labelDisplayedRows: data_driven_ui_locale[window.data_driven_ui_locale].paging.labelDisplayedRows
         }
     },
     parsHolderTypes: {
@@ -119,11 +120,11 @@ export default {
     },
     filterTypes: {
         string: {component: TextField, debounce: true},
-        longselect: {component: LongSelect, props: {loadingMessage: () => <CircularProgress style={{margin: 5}} />, noOptionsMessage: () => data_driven_ui_locale.locale.longSelectField.notForundByText}},
+        longselect: {component: LongSelect, props: {loadingMessage: () => <CircularProgress style={{margin: 5}} />, noOptionsMessage: () => data_driven_ui_locale[window.data_driven_ui_locale].longSelectField.notForundByText}},
         shortselect: {component: ShortSelect},
         specialfilter: {component: SpecialFilterField},
-        date: {component: DateField, props: {invalidDateMessage: data_driven_ui_locale.locale.dateField.wrongDateFormat}},
-        dateperiod: {component: DatePeriodField, props: {invalidDateMessage: data_driven_ui_locale.locale.dateField.wrongDateFormat}, 
+        date: {component: DateField, props: {invalidDateMessage: data_driven_ui_locale[window.data_driven_ui_locale].dateField.wrongDateFormat}},
+        dateperiod: {component: DatePeriodField, props: {invalidDateMessage: data_driven_ui_locale[window.data_driven_ui_locale].dateField.wrongDateFormat}, 
             setFromColumn: (value, item, event, current) => {return modifierKeys.altRight ? {from: current && current.from, till: moment(value)} : {from: moment(value), till: current && current.till}}},
         bool: {component: BoolField},
         default: 'string'
@@ -132,7 +133,7 @@ export default {
         string: {component: TextField},
         date: {component: DateField},
         dateperiod: {component: DatePeriodField},
-        longselect: {component: LongSelect, props: {loadingMessage: () => <CircularProgress style={{margin: 5}} />, noOptionsMessage: () => data_driven_ui_locale.locale.longSelectField.notForundByText}},
+        longselect: {component: LongSelect, props: {loadingMessage: () => <CircularProgress style={{margin: 5}} />, noOptionsMessage: () => data_driven_ui_locale[window.data_driven_ui_locale].longSelectField.notForundByText}},
         shortselect: {component: ShortSelect},
         bool: {component: BoolField},
         default: 'string'

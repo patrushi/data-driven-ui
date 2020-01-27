@@ -1,4 +1,4 @@
-export var locale = {
+export default {ru: {
     paging: {
         labelRowsPerPage: "Показывать по: ",
         labelDisplayedRows: ({ from, to, count }) => `${from}-${to} из ${count}`
@@ -12,4 +12,4 @@ export var locale = {
     longSelectField: {
         notFoundByText: 'По заданному тексту не найдено значений ...'
     }
-}
+}}
