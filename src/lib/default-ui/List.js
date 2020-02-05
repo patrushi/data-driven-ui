@@ -46,7 +46,7 @@ export default class List extends PureComponent {
                         {this.props.functions.getColumns().map((item, idx) => {
                             let {style, ...rest} = (item.headerProps || {});
                             if (!style) style = {}
-                            if (!style.width) style.width = Math.round(100/this.props.meta.columns.length)+'%';
+                            //if (!style.width) style.width = Math.round(100/this.props.meta.columns.length)+'%';
                             return (
                                 <TableCell key={this.props.functions.getColumnKey(item, idx)} style={style} {...rest}>
                                     {item.orderable || (item.orderable === undefined && this.props.meta.orderable) 

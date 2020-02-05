@@ -10,7 +10,7 @@ export class ListExample extends PureComponent {
 
     this.meta = {
       columns: [
-        { name: "OrderID" },
+        { name: "OrderID", headerProps: {style: {width: '20px'}} },
         { name: "CustomerID" },
         { name: "OrderDate", type: "date" },
         { name: "RequiredDate", type: "date" },
@@ -38,7 +38,7 @@ export class ListExample extends PureComponent {
         history: this.props.history
       },
       dataSource: { type: "odata", shortPath: `Orders`, selectAll: true },
-      propsFilters: props => {return [{OrderID: props.orderId}]}
+      //propsFilters: props => {return [{OrderID: props.orderId}]}
     };
   }
 
@@ -52,7 +52,7 @@ export class ListExample extends PureComponent {
           onSelect={this.onSelect}
           onSingleSelect={this.onSingleSelect}
           parentProps={this.props}
-          orderId={10248}
+          //orderId={10248}
         />
       </Paper>
     );

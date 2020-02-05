@@ -85,7 +85,7 @@ var List = function (_PureComponent) {
 
             if (columnTypeMeta) {
                 if (columnTypeMeta.renderFunc) {
-                    value = columnTypeMeta.renderFunc(meta.name, value);
+                    value = columnTypeMeta.renderFunc(meta.name, value, meta);
                 }
             }
 

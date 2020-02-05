@@ -88,14 +88,17 @@ var _ColorColumn = require('./default-ui/ColorColumn');
 
 var _ColorColumn2 = _interopRequireDefault(_ColorColumn);
 
+var _en = require('./locale/en');
+
+var _en2 = _interopRequireDefault(_en);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-window.data_driven_ui_locale = "en";
+if (!window.data_driven_ui_locale) window.data_driven_ui_locale = "en";
 
 if (window.data_driven_ui_locale !== "en") require('moment/locale/' + window.data_driven_ui_locale);
-var data_driven_ui_locale = require('./locale/' + window.data_driven_ui_locale);
 _moment2.default.locale(window.data_driven_ui_locale);
 
 exports.default = {
@@ -104,14 +107,14 @@ exports.default = {
         card: { component: _Card2.default },
         filterPanel: { component: _FilterPanel2.default },
         longProcessPanel: { component: _LongProcessPanel2.default },
-        errorPanel: { component: _ErrorPanel2.default, props: { title: data_driven_ui_locale.locale.errorPanel.title } }
+        errorPanel: { component: _ErrorPanel2.default, props: { title: _en2.default[window.data_driven_ui_locale].errorPanel.title } }
     },
     paging: {
         perPage: 10,
         perPageOptions: [10, 100],
         props: {
-            labelRowsPerPage: data_driven_ui_locale.locale.paging.labelRowsPerPage,
-            labelDisplayedRows: data_driven_ui_locale.locale.paging.labelDisplayedRows
+            labelRowsPerPage: _en2.default[window.data_driven_ui_locale].paging.labelRowsPerPage,
+            labelDisplayedRows: _en2.default[window.data_driven_ui_locale].paging.labelDisplayedRows
         }
     },
     parsHolderTypes: {
@@ -205,12 +208,12 @@ exports.default = {
         longselect: { component: _LongSelect2.default, props: { loadingMessage: function loadingMessage() {
                     return _react2.default.createElement(_CircularProgress2.default, { style: { margin: 5 } });
                 }, noOptionsMessage: function noOptionsMessage() {
-                    return data_driven_ui_locale.locale.longSelectField.notForundByText;
+                    return _en2.default[window.data_driven_ui_locale].longSelectField.notForundByText;
                 } } },
         shortselect: { component: _ShortSelect2.default },
         specialfilter: { component: _SpecialFilterField2.default },
-        date: { component: _DateField2.default, props: { invalidDateMessage: data_driven_ui_locale.locale.dateField.wrongDateFormat } },
-        dateperiod: { component: _DatePeriodField2.default, props: { invalidDateMessage: data_driven_ui_locale.locale.dateField.wrongDateFormat },
+        date: { component: _DateField2.default, props: { invalidDateMessage: _en2.default[window.data_driven_ui_locale].dateField.wrongDateFormat } },
+        dateperiod: { component: _DatePeriodField2.default, props: { invalidDateMessage: _en2.default[window.data_driven_ui_locale].dateField.wrongDateFormat },
             setFromColumn: function setFromColumn(value, item, event, current) {
                 return _modifierKeys.modifierKeys.altRight ? { from: current && current.from, till: (0, _moment2.default)(value) } : { from: (0, _moment2.default)(value), till: current && current.till };
             } },
@@ -224,33 +227,33 @@ exports.default = {
         longselect: { component: _LongSelect2.default, props: { loadingMessage: function loadingMessage() {
                     return _react2.default.createElement(_CircularProgress2.default, { style: { margin: 5 } });
                 }, noOptionsMessage: function noOptionsMessage() {
-                    return data_driven_ui_locale.locale.longSelectField.notForundByText;
+                    return _en2.default[window.data_driven_ui_locale].longSelectField.notForundByText;
                 } } },
         shortselect: { component: _ShortSelect2.default },
         bool: { component: _BoolField2.default },
         default: 'string'
     },
     columnTypes: {
-        date: { renderFunc: function renderFunc(name, value) {
+        date: { renderFunc: function renderFunc(name, value, meta) {
                 return !value ? null : (0, _moment2.default)(value).format("DD.MM.YYYY");
             } },
-        datetime: { renderFunc: function renderFunc(name, value) {
+        datetime: { renderFunc: function renderFunc(name, value, meta) {
                 return !value ? null : (0, _moment2.default)(value).format("DD.MM.YYYY HH:mm:ss");
             } },
-        number: { renderFunc: function renderFunc(name, value) {
+        number: { renderFunc: function renderFunc(name, value, meta) {
                 return _react2.default.createElement(
                     'div',
                     { style: { width: '100%', textAlign: 'right' } },
                     value
                 );
             } },
-        bool: { renderFunc: function renderFunc(name, value) {
-                return _react2.default.createElement(_BoolColumn2.default, { value: value });
+        bool: { renderFunc: function renderFunc(name, value, meta) {
+                return _react2.default.createElement(_BoolColumn2.default, { value: value, meta: meta });
             } },
-        backgroundColor: { renderFunc: function renderFunc(name, value) {
+        backgroundColor: { renderFunc: function renderFunc(name, value, meta) {
                 return _react2.default.createElement(_ColorColumn2.default, { backgroundColor: value, type: 'backgroundColor' });
             } },
-        color: { renderFunc: function renderFunc(name, value) {
+        color: { renderFunc: function renderFunc(name, value, meta) {
                 return _react2.default.createElement(_ColorColumn2.default, { color: value, type: 'color' });
             } }
     },

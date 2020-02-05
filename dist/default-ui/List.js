@@ -122,7 +122,7 @@ var List = function (_PureComponent) {
                                     rest = _objectWithoutProperties(_ref, ['style']);
 
                                 if (!style) style = {};
-                                if (!style.width) style.width = Math.round(100 / _this2.props.meta.columns.length) + '%';
+                                //if (!style.width) style.width = Math.round(100/this.props.meta.columns.length)+'%';
                                 return _react2.default.createElement(
                                     _TableCell2.default,
                                     _extends({ key: _this2.props.functions.getColumnKey(item, idx), style: style }, rest),
