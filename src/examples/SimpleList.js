@@ -38,7 +38,13 @@ export class ListExample extends PureComponent {
         history: this.props.history
       },
       dataSource: { type: "odata", shortPath: `Orders`, selectAll: true },
-      //propsFilters: props => {return [{OrderID: props.orderId}]}
+      //propsFilters: props => {return [{OrderID: props.orderId}]},
+      rowActions: [
+        {title: 'Action1', onClick: (item) => alert('Action1'), hidden: (item) => item.CustomerID === "VINET"},
+        {title: 'Action2', onClick: (item) => alert('Action2'), disabled: (item) => item.CustomerID === "VINET"},
+        {title: 'Action3', onClick: (item) => alert('Action3')}
+
+      ]
     };
   }
 

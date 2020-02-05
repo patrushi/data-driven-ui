@@ -86,6 +86,7 @@ export default class List extends PureComponent {
                         {this.props.functions.hasRowActions() ? <TableCell className="actions">
                             <MenuButton>
                                 {this.props.functions.getRowActions().map((action, idx) => {
+                                    if (action.hidden && action.hidden(item)) return undefined
                                     let onClick = action.confirm ? () => this.confirm(action, () => action.onClick(item)) : action.onClick;
                                     return <MenuItem key={idx} onClick={(event) => onClick(item, event)} disabled={action.disabled ? action.disabled(item) : null}>{action.title}</MenuItem>
                                 })}
