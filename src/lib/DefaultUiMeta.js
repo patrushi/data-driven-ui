@@ -139,12 +139,12 @@ export default {
         default: 'string'
     },
     columnTypes: {
-        date: {renderFunc: (name, value) => {return !value ? null : moment(value).format("DD.MM.YYYY")}},
-        datetime: {renderFunc: (name, value) => {return !value ? null : moment(value).format("DD.MM.YYYY HH:mm:ss")}},
-        number: {renderFunc: (name, value) => {return <div style={{width: '100%', textAlign: 'right'}}>{value}</div>}},
-        bool: {renderFunc: (name, value) => {return <BoolColumn value={value} />}},
-        backgroundColor: {renderFunc: (name, value) => {return <ColorColumn backgroundColor={value} type="backgroundColor" />}},
-        color: {renderFunc: (name, value) => {return <ColorColumn color={value} type="color" />}}
+        date: {renderFunc: (name, value, meta) => {return !value ? null : moment(value).format("DD.MM.YYYY")}},
+        datetime: {renderFunc: (name, value, meta) => {return !value ? null : moment(value).format("DD.MM.YYYY HH:mm:ss")}},
+        number: {renderFunc: (name, value, meta) => {return <div style={{width: '100%', textAlign: 'right'}}>{value}</div>}},
+        bool: {renderFunc: (name, value, meta) => {return <BoolColumn value={value} meta={meta} />}},
+        backgroundColor: {renderFunc: (name, value, meta) => {return <ColorColumn backgroundColor={value} type="backgroundColor" />}},
+        color: {renderFunc: (name, value, meta) => {return <ColorColumn color={value} type="color" />}}
     },
     types: {
         Date: {columnType: 'date'}

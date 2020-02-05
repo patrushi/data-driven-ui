@@ -17,6 +17,7 @@ export class ListExample extends PureComponent {
         { name: "ShippedDate", type: "date" },
         { name: "ShipCountry" },
         { name: "EmployeeID", title: 'Employee', dataSource: {path: ['Employee', 'LastName']}, render: (meta, item) => `${item.Employee.FirstName} ${item.Employee.LastName}` },
+        { name: "Boolean", type: "bool", threeState: true, render: (meta, item, rowIdx, columnIdx) => {return item.CustomerID === "VINET" ? true : item.CustomerID === "VICTE" ? false : null}}
       ],
       key: "OrderID",
       orderable: {initial: {
