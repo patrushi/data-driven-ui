@@ -29,6 +29,8 @@ export default class MenuButton extends PureComponent {
             }) : child;
         })
 
+        console.log('MB:', children)
+
         return (
             <React.Fragment>
                 {this.props.title ? (
@@ -36,7 +38,7 @@ export default class MenuButton extends PureComponent {
                         {this.props.title} <KeyboardArrowDown style={{marginRight: '5px'}} />
                     </Button>
                 ) : (
-                <IconButton onClick={this.onOpen} disabled={this.props.disabled} title={this.props.popupTitle}>
+                <IconButton onClick={this.onOpen} disabled={this.props.disabled || !children || children.length === 0} title={this.props.popupTitle}>
                     <MoreVert />
                 </IconButton>)}
                 <Menu 

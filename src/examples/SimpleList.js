@@ -41,8 +41,8 @@ export class ListExample extends PureComponent {
       //propsFilters: props => {return [{OrderID: props.orderId}]},
       rowActions: [
         {title: 'Action1', onClick: (item) => alert('Action1'), hidden: (item) => item.CustomerID === "VINET"},
-        {title: 'Action2', onClick: (item) => alert('Action2'), disabled: (item) => item.CustomerID === "VINET"},
-        {title: 'Action3', onClick: (item) => alert('Action3')}
+        {title: 'Action2', onClick: (item) => alert('Action2'), hidden: (item) => item.CustomerID === "VINET", disabled: (item) => item.CustomerID === "VICTE"},
+        {title: 'Action3', onClick: (item) => alert('Action3'), hidden: (item) => item.CustomerID === "VINET"}
       ],
       row: {
         style: (item, rowIdx) => {return item.CustomerID === "VINET" ? {color: 'Green'} : undefined},
