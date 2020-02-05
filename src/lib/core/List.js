@@ -143,16 +143,16 @@ export default class List extends PureComponent {
     }
 
     getCellStyle = (meta, item, rowIdx, columnIdx) => {
-        let style = meta.style 
-            ? meta.style(meta, item, rowIdx, columnIdx)
+        let style = this.canCellClick(meta, item, rowIdx, columnIdx)
+            ? {cursor: 'pointer'}
             : {};
-
-        if (this.canCellClick(meta, item, rowIdx, columnIdx)) {
-            style = {...style, cursor: 'pointer'}
-        }
 
         if (this.props.meta.row && this.props.meta.row.styleForCells) {
             style = {...style, ...this.props.meta.row.style(item, rowIdx)}
+        }
+
+        if (meta.style) {
+            style = {...style, ...meta.style(meta, item, rowIdx, columnIdx)}
         }
                             
         return style;

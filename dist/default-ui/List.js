@@ -182,6 +182,7 @@ var List = function (_PureComponent) {
                                         _MenuButton2.default,
                                         null,
                                         _this2.props.functions.getRowActions().map(function (action, idx) {
+                                            if (action.hidden && action.hidden(item)) return undefined;
                                             var _onClick = action.confirm ? function () {
                                                 return _this2.confirm(action, function () {
                                                     return action.onClick(item);

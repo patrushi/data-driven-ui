@@ -15,7 +15,7 @@ export class ListExample extends PureComponent {
         { name: "OrderDate", type: "date" },
         { name: "RequiredDate", type: "date" },
         { name: "ShippedDate", type: "date" },
-        { name: "ShipCountry" },
+        { name: "ShipCountry", style: (meta, item, rowIdx, columnIdx) => {return item.ShipCountry === 'France' ? {color: 'red'} : undefined} },
         { name: "EmployeeID", title: 'Employee', dataSource: {path: ['Employee', 'LastName']}, render: (meta, item) => `${item.Employee.FirstName} ${item.Employee.LastName}` },
         { name: "Boolean", type: "bool", threeState: true, render: (meta, item, rowIdx, columnIdx) => {return item.CustomerID === "VINET" ? true : item.CustomerID === "VICTE" ? false : null}}
       ],
@@ -43,8 +43,11 @@ export class ListExample extends PureComponent {
         {title: 'Action1', onClick: (item) => alert('Action1'), hidden: (item) => item.CustomerID === "VINET"},
         {title: 'Action2', onClick: (item) => alert('Action2'), disabled: (item) => item.CustomerID === "VINET"},
         {title: 'Action3', onClick: (item) => alert('Action3')}
-
-      ]
+      ],
+      row: {
+        style: (item, rowIdx) => {return item.CustomerID === "VINET" ? {color: 'Green'} : undefined},
+        styleForCells: true
+      },
     };
   }
 
