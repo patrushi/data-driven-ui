@@ -1,10 +1,15 @@
 import React, { PureComponent } from "react";
-import { List } from "../lib";
-import { DefaultUiMeta as GlobalMeta } from "../lib";
+import { List } from "../../lib";
 import Paper from "@material-ui/core/Paper";
 import { withRouter } from "react-router-dom";
+import { storages } from "./storages";
 
-export class ListExample extends PureComponent {
+window.data_driven_ui_locale = "en"
+var GlobalMeta = require('../../lib/DefaultUiMeta').default;
+console.log(GlobalMeta)
+GlobalMeta.dataSourceTypes.local.storages = storages
+
+export class LocalStorageSimpleList extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -16,7 +21,6 @@ export class ListExample extends PureComponent {
         { name: "RequiredDate", type: "date" },
         { name: "ShippedDate", type: "date" },
         { name: "ShipCountry" },
-        { name: "EmployeeID", title: 'Employee', dataSource: {path: ['Employee', 'LastName']}, render: (meta, item) => `${item.Employee.FirstName} ${item.Employee.LastName}` },
         { name: "Boolean", type: "bool", threeState: true, render: (meta, item, rowIdx, columnIdx) => {return item.CustomerID === "VINET" ? true : item.CustomerID === "VICTE" ? false : null}}
       ],
       key: "OrderID",
@@ -24,8 +28,6 @@ export class ListExample extends PureComponent {
         OrderDate: 'asc'
       }},
       filters: [
-        { name: "EmployeeID", title: 'Employee', type: 'longselect', dataSource: {shortPath: 'Employees', key: 'EmployeeID', value: 'LastName', 
-          debounce: true}, isMulti: true},
         { name: "ShipCountry", type: "text", initial: 'fra' },
         { name: "OrderDate", type: "dateperiod" },
       ],
@@ -37,8 +39,8 @@ export class ListExample extends PureComponent {
         prefix: "",
         history: this.props.history
       },
-      dataSource: { type: "odata", shortPath: `Orders`, selectAll: true },
-      propsFilters: props => {return [{OrderID: props.orderId}]}
+      dataSource: { type: "local", storage: `Orders` },
+      //propsFilters: props => {return [{CustomerID: props.customerID}]}
     };
   }
 
@@ -52,11 +54,11 @@ export class ListExample extends PureComponent {
           onSelect={this.onSelect}
           onSingleSelect={this.onSingleSelect}
           parentProps={this.props}
-          orderId={10248}
+          //customerID='BLONP'
         />
       </Paper>
     );
   }
 }
 
-export default withRouter(ListExample);
+export default withRouter(LocalStorageSimpleList);
