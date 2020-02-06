@@ -100,7 +100,7 @@ export default class LongSelect extends PureComponent {
     }
 
     render() {
-        let {componentMeta, value, onChange, extraData, components, disabled, clearable, ...rest} = this.props;
+        let {componentMeta, value, onChange, extraData, components, disabled, clearable, propsGetter, ...rest} = this.props;
 
         if (extraData) {
             if (components === undefined) components = {};
@@ -136,6 +136,7 @@ export default class LongSelect extends PureComponent {
                 loadOptions={this.loadOptionsFunc()}
                 components={components}
                 {...rest}
+                {...(propsGetter ? propsGetter() : undefined)}
                 isClearable={clearable === false ? false : true}
                 isDisabled={disabled}
                 defaultOptions={this.state.defaultOptions}

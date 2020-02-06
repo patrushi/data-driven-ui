@@ -29,8 +29,6 @@ export default class MenuButton extends PureComponent {
             }) : child;
         })
 
-        console.log('MB:', children)
-
         return (
             <React.Fragment>
                 {this.props.title ? (

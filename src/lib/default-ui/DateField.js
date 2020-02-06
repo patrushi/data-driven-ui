@@ -9,7 +9,7 @@ import moment from "moment";
 moment.locale(window.data_driven_ui_locale);
 
 export default function DateField(props) {
-    let { meta, globalMeta, componentMeta, component, onChange, value, notClearable, format, label, ...rest } = props;
+    let { meta, globalMeta, componentMeta, component, onChange, value, notClearable, format, label, propsGetter, ...rest } = props;
 
     const pickerRef = useRef(null);
 
@@ -33,6 +33,7 @@ export default function DateField(props) {
         <MuiPickersUtilsProvider utils={MomentUtils} locale="ru">
             <InlineDatePicker
                 {...rest}
+                {...(propsGetter ? propsGetter() : undefined)}
                 style={{width: width}}
                 onlyCalendar
                 keyboard

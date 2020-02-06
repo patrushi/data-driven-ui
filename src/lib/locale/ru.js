@@ -1,4 +1,6 @@
-export default {ru: {
+if (!window.data_driven_ui) window.data_driven_ui = {}
+if (!window.data_driven_ui.locales) window.data_driven_ui.locales = {}
+window.data_driven_ui.locales['ru'] = {
     paging: {
         labelRowsPerPage: "Показывать по: ",
         labelDisplayedRows: ({ from, to, count }) => `${from}-${to} из ${count}`
@@ -12,4 +14,4 @@ export default {ru: {
     longSelectField: {
         notFoundByText: 'По заданному тексту не найдено значений ...'
     }
-}}
+}

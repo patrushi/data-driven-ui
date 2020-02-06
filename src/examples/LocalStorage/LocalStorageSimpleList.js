@@ -4,9 +4,7 @@ import Paper from "@material-ui/core/Paper";
 import { withRouter } from "react-router-dom";
 import { storages } from "./storages";
 
-window.data_driven_ui_locale = "en"
 var GlobalMeta = require('../../lib/DefaultUiMeta').default;
-console.log(GlobalMeta)
 GlobalMeta.dataSourceTypes.local.storages = storages
 
 export class LocalStorageSimpleList extends PureComponent {

@@ -3,6 +3,14 @@ import { Route, BrowserRouter } from 'react-router-dom';
 import SimpleList from './examples/SimpleList';
 import LocalStorageSimpleList from './examples/LocalStorage/LocalStorageSimpleList';
 
+
+/*
+// locale
+import 'moment/locale/ru'
+import './lib/locale/ru'
+window.data_driven_ui.setLocale("ru")
+*/
+
 export default class App extends Component {
     render() {
         return (

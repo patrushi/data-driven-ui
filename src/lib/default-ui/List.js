@@ -114,7 +114,7 @@ export default class List extends PureComponent {
                         nextIconButtonProps={{
                             'aria-label': 'Next Page',
                         }}
-                        {...this.props.globalMeta.paging.props}
+                        {...this.props.globalMeta.paging.propsGetter()}
                     />}
                 <ConfirmationDialog open={this.state.confirmationDialogOpen} onClose={() => this.setState({confirmationDialogOpen: false, confirmationDialogOnConfirm: null})} onConfirm={this.state.confirmationDialogOnConfirm} title={this.state.confirmationDialogTitle}>
                     {this.state.confirmationDialogMessage}

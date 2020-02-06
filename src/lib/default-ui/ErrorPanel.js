@@ -24,7 +24,7 @@ export default class ErrorPanel extends PureComponent {
     render() {
         return (
             <Dialog open={this.state.open} onClose={() => this.setState({open: false})} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">{this.props.title}</DialogTitle>
+                <DialogTitle id="form-dialog-title">{this.props.propsGetter().title}</DialogTitle>
                 <DialogContent>
                     {this.state.error ? this.state.error.toString() : null}
                 </DialogContent>
