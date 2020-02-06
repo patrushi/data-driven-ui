@@ -37,8 +37,8 @@ export class LocalStorageSimpleList extends PureComponent {
         prefix: "",
         history: this.props.history
       },
-      dataSource: { type: "local", storage: `Orders` },
-      //propsFilters: props => {return [{CustomerID: props.customerID}]}
+      dataSource: { type: "local", storage: `Order` },
+      //propsFilters: props => {return [(i) => i.Customer && i.Customer.CompanyName === props.customerCompanyName]}
     };
   }
 
@@ -52,7 +52,7 @@ export class LocalStorageSimpleList extends PureComponent {
           onSelect={this.onSelect}
           onSingleSelect={this.onSingleSelect}
           parentProps={this.props}
-          //customerID='BLONP'
+          customerCompanyName='Alfreds Futterkiste'
         />
       </Paper>
     );

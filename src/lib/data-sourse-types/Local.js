@@ -32,8 +32,12 @@ export default class Local {
         if (meta.propsFilters && props) {
             let propsFilters = meta.propsFilters(props);
             for (let k in propsFilters) {
-                let kv = Object.entries(propsFilters[k])[0];
-                items = items.filter(i => i[kv[0]] === kv[1]);
+                if (typeof propsFilters[k] === "function") {
+                    items = items.filter(i => propsFilters[k](i));
+                } else {
+                    let kv = Object.entries(propsFilters[k])[0];
+                    items = items.filter(i => i[kv[0]] === kv[1]);
+                }
             }
         }
 

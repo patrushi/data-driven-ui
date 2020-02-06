@@ -38,7 +38,6 @@ export class ListExample extends PureComponent {
         history: this.props.history
       },
       dataSource: { type: "odata", shortPath: `Orders`, selectAll: true },
-      //propsFilters: props => {return [{OrderID: props.orderId}]},
       rowActions: [
         {title: 'Action1', onClick: (item) => alert('Action1'), hidden: (item) => item.CustomerID === "VINET"},
         {title: 'Action2', onClick: (item) => alert('Action2'), hidden: (item) => item.CustomerID === "VINET", disabled: (item) => item.CustomerID === "VICTE"},
@@ -48,6 +47,7 @@ export class ListExample extends PureComponent {
         style: (item, rowIdx) => {return item.CustomerID === "VINET" ? {color: 'Green'} : undefined},
         styleForCells: true
       },
+      //propsFilters: props => {return [{Customer: {CompanyName: props.customerCompanyName}}]}
     };
   }
 
@@ -61,7 +61,7 @@ export class ListExample extends PureComponent {
           onSelect={this.onSelect}
           onSingleSelect={this.onSingleSelect}
           parentProps={this.props}
-          //orderId={10248}
+          customerCompanyName='Alfreds Futterkiste'
         />
       </Paper>
     );
