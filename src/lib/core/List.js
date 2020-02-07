@@ -156,7 +156,7 @@ export default class List extends PureComponent {
         }
 
         if (meta.paddingRightOrder) {
-            style = {...style, paddingRight: '42px'}
+            //style = {...style, paddingRight: '20px'}
         }
                             
         return style;

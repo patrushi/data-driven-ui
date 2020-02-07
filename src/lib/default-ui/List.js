@@ -32,7 +32,7 @@ export default class List extends PureComponent {
     render() {
         return (
             <React.Fragment>
-                <Table className="list">
+                <Table className="list" size="small">
                     <TableHead>
                         <TableRow>
                             {this.props.meta.checkable ? <TableCell style={{padding: '0px', textAlign: 'center'}}>

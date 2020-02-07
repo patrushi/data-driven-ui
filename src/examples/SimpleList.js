@@ -10,7 +10,7 @@ export class ListExample extends PureComponent {
 
     this.meta = {
       columns: [
-        { name: "OrderID", type: "number", paddingRightOrder: true, headerProps: {style: {width: '20px'}}, render: () => {return 483571.34} },
+        { name: "OrderID", headerProps: {style: {width: '20px'}} },
         { name: "CustomerID" },
         { name: "OrderDate", type: "date" },
         { name: "RequiredDate", type: "date" },
