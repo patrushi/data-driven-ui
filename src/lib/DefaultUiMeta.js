@@ -154,10 +154,14 @@ export default {
     columnTypes: {
         date: {renderFunc: (name, value, meta) => {return !value ? null : moment(value).format("DD.MM.YYYY")}},
         datetime: {renderFunc: (name, value, meta) => {return !value ? null : moment(value).format("DD.MM.YYYY HH:mm:ss")}},
-        number: {renderFunc: (name, value, meta) => {return <div style={{width: '100%', textAlign: 'right', whiteSpace: 'nowrap'}}>{formatNumber(value, meta, {midpointRounding: 2, split: true})}</div>}},
+        number: {
+            renderFunc: (name, value, meta, componentMeta) => {return <div style={{width: '100%', textAlign: 'right', whiteSpace: 'nowrap'}}>{formatNumber(value, meta, {midpointRounding: 2, split: true})}</div>},
+            headerProps: (meta, componentMeta) => {return {style: {textAlign: 'right'}}}
+        },
         bool: {renderFunc: (name, value, meta) => {return <BoolColumn value={value} meta={meta} />}},
         backgroundColor: {renderFunc: (name, value, meta) => {return <ColorColumn backgroundColor={value} type="backgroundColor" />}},
-        color: {renderFunc: (name, value, meta) => {return <ColorColumn color={value} type="color" />}}
+        color: {renderFunc: (name, value, meta) => {return <ColorColumn color={value} type="color" />}},
+        default: 'string'
     },
     types: {
         Date: {columnType: 'date'}

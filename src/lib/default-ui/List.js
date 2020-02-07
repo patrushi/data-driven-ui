@@ -44,11 +44,8 @@ export default class List extends PureComponent {
                                 color="default"/>
                             </TableCell> : (null)}
                         {this.props.functions.getColumns().map((item, idx) => {
-                            let {style, ...rest} = (item.headerProps || {});
-                            if (!style) style = {}
-                            //if (!style.width) style.width = Math.round(100/this.props.meta.columns.length)+'%';
                             return (
-                                <TableCell key={this.props.functions.getColumnKey(item, idx)} style={style} {...rest}>
+                                <TableCell key={this.props.functions.getColumnKey(item, idx)} {...this.props.functions.getHeaderCellProps(item)}>
                                     {item.orderable || (item.orderable === undefined && this.props.meta.orderable) 
                                         ? <TableSortLabel 
                                             direction={this.props.data.orders[item.name] === 'asc' ? 'desc' : this.props.data.orders[item.name] === 'desc' ? 'asc' : undefined}

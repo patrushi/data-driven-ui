@@ -135,7 +135,7 @@ export default class List extends PureComponent {
 
         if (columnTypeMeta) {
             if (columnTypeMeta.renderFunc) {
-                value = columnTypeMeta.renderFunc(meta.name, value, meta);
+                value = columnTypeMeta.renderFunc(meta.name, value, meta, this.props.meta);
             }
         }
 
@@ -155,11 +155,20 @@ export default class List extends PureComponent {
             style = {...style, ...meta.style(meta, item, rowIdx, columnIdx)}
         }
 
-        if (meta.paddingRightOrder) {
+        if (meta.type) {
             //style = {...style, paddingRight: '20px'}
         }
                             
         return style;
+    }
+
+    getHeaderCellProps = (meta) => {
+        let props = meta.headerProps || {}
+        var defaultColumnMeta = this.props.globalMeta.columnTypes[meta.type || this.props.globalMeta.columnTypes.default]
+        if (defaultColumnMeta && defaultColumnMeta.headerProps) {
+            props.style = {...props.style, ...defaultColumnMeta.headerProps(meta, this.props.meta).style }
+        }
+        return props
     }
 
     getRowStyle = (item, rowIdx) => {
@@ -403,7 +412,8 @@ export default class List extends PureComponent {
                 getCellStyle: this.getCellStyle,
                 getRowStyle: this.getRowStyle,
                 getRowActions: this.getRowActions,
-                hasRowActions: this.hasRowActions
+                hasRowActions: this.hasRowActions,
+                getHeaderCellProps: this.getHeaderCellProps
             },
         };
 
