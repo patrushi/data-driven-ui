@@ -154,6 +154,10 @@ export default class List extends PureComponent {
         if (meta.style) {
             style = {...style, ...meta.style(meta, item, rowIdx, columnIdx)}
         }
+
+        if (meta.paddingRightOrder) {
+            style = {...style, paddingRight: '42px'}
+        }
                             
         return style;
     }

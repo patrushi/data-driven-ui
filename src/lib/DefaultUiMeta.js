@@ -29,6 +29,8 @@ import moment from "moment";
 import BoolColumn from './default-ui/BoolColumn';
 import ColorColumn from './default-ui/ColorColumn';
 
+import {formatNumber} from './core/formatters'
+
 import './core/data_driven_ui'
 
 export default {
@@ -152,7 +154,7 @@ export default {
     columnTypes: {
         date: {renderFunc: (name, value, meta) => {return !value ? null : moment(value).format("DD.MM.YYYY")}},
         datetime: {renderFunc: (name, value, meta) => {return !value ? null : moment(value).format("DD.MM.YYYY HH:mm:ss")}},
-        number: {renderFunc: (name, value, meta) => {return <div style={{width: '100%', textAlign: 'right'}}>{value}</div>}},
+        number: {renderFunc: (name, value, meta) => {return <div style={{width: '100%', textAlign: 'right', whiteSpace: 'nowrap'}}>{formatNumber(value, meta, {midpointRounding: 2, split: true})}</div>}},
         bool: {renderFunc: (name, value, meta) => {return <BoolColumn value={value} meta={meta} />}},
         backgroundColor: {renderFunc: (name, value, meta) => {return <ColorColumn backgroundColor={value} type="backgroundColor" />}},
         color: {renderFunc: (name, value, meta) => {return <ColorColumn color={value} type="color" />}}
