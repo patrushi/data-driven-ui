@@ -139,6 +139,11 @@ export default class List extends PureComponent {
             }
         }
 
+        if (meta.afterRender) {
+            value = meta.afterRender(meta, item, rowIdx, columnIdx, value)
+            console.log(value)
+        }
+
         return value;
     }
 

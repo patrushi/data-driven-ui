@@ -10,9 +10,9 @@ export class ListExample extends PureComponent {
 
     this.meta = {
       columns: [
-        { name: "OrderID", type: 'number', headerProps: {style: {width: '20px'}}},
+        { name: "OrderID", headerProps: {style: {width: '20px'}}},
         { name: "CustomerID" },
-        { name: "OrderDate", type: "date" },
+        { name: "OrderDate", type: "date", afterRender: (meta, item, rowIdx, columnIdx, cell) => {return <span onClick={() => alert("11")}>{cell}</span>} },
         { name: "RequiredDate", type: "date" },
         { name: "ShippedDate", type: "date" },
         { name: "ShipCountry", style: (meta, item, rowIdx, columnIdx) => {return item.ShipCountry === 'France' ? {color: 'red'} : undefined} },
