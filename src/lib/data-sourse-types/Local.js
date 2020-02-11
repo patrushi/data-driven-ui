@@ -24,6 +24,7 @@ export default class Local {
         if (data.filters) {
             for (let name in data.filters) {
                 let filterMeta = meta.filters.filter(e => e.name === name)[0];
+                console.log('filterMeta', filterMeta)
                 let globalFilterMeta = filterMeta.func || this.props.globalMeta.filters[filterMeta.type] || this.props.globalMeta.filters[this.props.globalMeta.filters.default];
                 items = items.filter(i => globalFilterMeta(i[name], data.filters[name]));
             }
