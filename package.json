@@ -32,8 +32,6 @@
     "moment": "^2.24.0",
     "odata-query": "^5.7.0",
     "query-string": "^6.10.1",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
     "react-router-dom": "^5.1.2",
     "react-select": "^3.0.8"
   },
@@ -67,6 +65,8 @@
     "babel-preset-react-app": "^9.1.0",
     "babel-preset-stage-2": "^6.24.1",
     "cross-env": "^6.0.3",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
     "react-scripts": "^3.3.0",
     "webpack-bundle-analyzer": "^3.6.0"
   },
