@@ -5,6 +5,7 @@ import OData from "./data-sourse-types/OData";
 import AddressBarParsHolder from "./pars-holders/AddressBarParsHolder";
 import DefaultUiMeta from "./DefaultUiMeta";
 import LongProcessPanel from "./default-ui/LongProcessPanel";
+import FilterPanel from "./default-ui/FilterPanel";
 
 export { List, Card, SmartPanel };
 export { OData };
