@@ -11,3 +11,4 @@ export { OData };
 export { AddressBarParsHolder };
 export { DefaultUiMeta };
 export { LongProcessPanel }
+export { FilterPanel }
