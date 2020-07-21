@@ -32,6 +32,7 @@ export default class List extends PureComponent {
     render() {
         return (
             <React.Fragment>
+                <div style={this.props.fullWidth ? {} : {overflow: "auto"}}>
                 <Table className="list" size="small">
                     <TableHead>
                         <TableRow>
@@ -94,6 +95,7 @@ export default class List extends PureComponent {
                     )}
                     </TableBody>
                 </Table>
+                </div>
                 {!this.props.meta.paging || (!this.props.data.count) || (this.props.meta.paging.showIfSingle === false && this.props.data.count <= this.props.data.paging.perPage)
                     ? (null)
                     :
