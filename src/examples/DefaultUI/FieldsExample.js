@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom";
 import DateField from "../../lib/default-ui/DateField";
 import DatePeriodField from "../../lib/default-ui/DatePeriodField";
 import TextField from "../../lib/default-ui/TextField";
+import AutocompleteField from "../../lib/default-ui/AutocompleteField";
 
 export class FieldsExample extends PureComponent {
     constructor(props) {
@@ -11,6 +12,7 @@ export class FieldsExample extends PureComponent {
             DateFieldValue: null,
             DatePeriodFieldValue: {from: new Date(2010, 0, 1), till: null},
             TextFieldValue: 'test',
+            AutocompleteFieldValue: 'fgg'
         }
     }
 
@@ -23,6 +25,7 @@ export class FieldsExample extends PureComponent {
             <DatePeriodField label='Not Nullable' required={true} value={this.state.DatePeriodFieldValue} nullable={false} onChange={(v) => { this.setState({ DatePeriodFieldValue: v }) }} /><br/>
             <DatePeriodField label='Not Editable' editable={false} value={this.state.DatePeriodFieldValue} nullable={false} onChange={(v) => { this.setState({ DatePeriodFieldValue: v }) }} /><br/>
             <TextField label='Default' value={this.state.TextFieldValue} onChange={(v) => { this.setState({ TextFieldValue: v }) }} /><br/>
+            <AutocompleteField label='Default' value={this.state.AutocompleteFieldValue} onChange={(v) => { this.setState({ AutocompleteFieldValue: v }) }} /><br/>
         </React.Fragment>
     }
 }
