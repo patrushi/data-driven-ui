@@ -1,26 +1,23 @@
-import React, { useCallback, useRef } from 'react';
+import * as React from 'react';
+import { useCallback, useRef } from 'react';
 import {InlineDatePicker, MuiPickersUtilsProvider} from "material-ui-pickers";
 import MomentUtils from '@date-io/moment';
 import IconButton from "@material-ui/core/IconButton";
 import ClearIcon from "@material-ui/icons/Clear";
 import CalendarIcon from "@material-ui/icons/InsertInvitation";
 import moment from "moment";
+import {FieldProps} from '../core/CommonTypes'
 //import "moment/locale/ru";
 //moment.locale(window.data_driven_ui_locale);
 
-export interface Props {
-    value: Date | null | undefined;
-    onChange: (date: Date | null) => void;
-    label: string;
-    format: string;
-    disabled: boolean;
-    nullable: boolean;
-    withTime: boolean;
+export interface Props extends FieldProps<Date> {
+    format: string | null | undefined;
+    withTime: boolean | null | undefined;
 }
 
-export default function DateField({value, onChange, label, format, disabled, nullable = true, withTime}: Props) {
+export default function DateField({value = null, onChange, label, editable = true, nullable = true, required, format, withTime}: Props) {
     //let { meta, globalMeta, componentMeta, component, onChange, value, notClearable, format, label, propsGetter, ...rest } = props;
-    console.log({value, onChange, label, format, disabled, nullable, withTime});
+    console.log('DateField', {value, onChange, label, format, editable, nullable, withTime});
 
     const pickerRef: any = useRef(null);
 
@@ -46,24 +43,26 @@ export default function DateField({value, onChange, label, format, disabled, nul
                 //{...rest}
                 //{...(propsGetter ? propsGetter() : undefined)}
                 style={{width: width}}
+                required={required}
                 onlyCalendar
                 keyboard
                 clearable={nullable}
                 label={label}
-                value={value || null}
+                value={value}
                 format={format || lFormat}
                 onChange={(d) => onChange(convertToDate(d))}
                 autoComplete="off"
                 disableOpenOnEnter={true}
                 InputLabelProps={{ shrink: true }}
                 ref={pickerRef}
+                disabled={!editable}
                 InputProps={nullable ? {
                     endAdornment:
                         <React.Fragment>
-                            <IconButton onClick={openPicker} style={{padding: '3px'}} disabled={disabled}>
+                            <IconButton onClick={openPicker} style={{padding: '3px'}} disabled={!editable}>
                                 <CalendarIcon />
                             </IconButton>
-                            <IconButton onClick={() => onChange(null)} style={{padding: '3px'}} disabled={disabled}>
+                            <IconButton onClick={() => onChange(null)} style={{padding: '3px'}} disabled={!editable}>
                                 <ClearIcon />
                             </IconButton>
                         </React.Fragment>
