@@ -18,7 +18,7 @@ export interface Props {
     withTime: boolean;
 }
 
-export default function DateField({value, onChange, label, format, disabled, nullable, withTime}: Props) {
+export default function DateField({value, onChange, label, format, disabled, nullable = true, withTime}: Props) {
     //let { meta, globalMeta, componentMeta, component, onChange, value, notClearable, format, label, propsGetter, ...rest } = props;
     console.log({value, onChange, label, format, disabled, nullable, withTime});
 
