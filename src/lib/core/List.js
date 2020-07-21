@@ -156,7 +156,7 @@ export default class List extends PureComponent {
         }
 
         if (meta.style) {
-            style = {...style, ...meta.style(meta, item, rowIdx, columnIdx)}
+            style = {...style, ...meta.style({meta, item, rowIdx, columnIdx})}
         }
 
         if (meta.type) {

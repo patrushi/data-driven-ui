@@ -15,7 +15,7 @@ export class ListExample extends PureComponent {
         { name: "OrderDate", type: "date", afterRender: (meta, item, rowIdx, columnIdx, cell) => {return <span onClick={() => alert("11")}>{cell}</span>} },
         { name: "RequiredDate", type: "date" },
         { name: "ShippedDate", type: "date" },
-        { name: "ShipCountry", style: (meta, item, rowIdx, columnIdx) => {return item.ShipCountry === 'France' ? {color: 'red'} : undefined} },
+        { name: "ShipCountry", style: ({item}) => {return item.ShipCountry === 'France' ? {color: 'red'} : undefined} },
         { name: "EmployeeID", title: 'Employee', dataSource: {path: ['Employee', 'LastName']}, render: (meta, item) => `${item.Employee.FirstName} ${item.Employee.LastName}` },
         { name: "Boolean", type: "bool", threeState: true, render: (meta, item, rowIdx, columnIdx) => {return item.CustomerID === "VINET" ? true : item.CustomerID === "VICTE" ? false : null}}
       ],
