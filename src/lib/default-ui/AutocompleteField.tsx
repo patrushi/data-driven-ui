@@ -69,7 +69,7 @@ export default function AutocompleteField({fetchUrlFunc, keyName = "Id", labelNa
             options={options}
             loading={loading}
             value={value || []}
-            onChange={(event: any, newValue: ValueType[]) => onChange(newValue)}
+            onChange={(event, newValue) => onChange(newValue)}
             onInputChange={(event, newInputValue) => setInputValue(newInputValue)}
             renderInput={(params) => (
                 <TextField
