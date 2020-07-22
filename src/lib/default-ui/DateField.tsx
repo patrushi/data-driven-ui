@@ -15,10 +15,7 @@ export interface Props extends FieldProps<Date> {
     withTime: boolean | null | undefined;
 }
 
-export default function DateField({value = null, onChange, label, editable = true, nullable = true, required, format, withTime}: Props) {
-    //let { meta, globalMeta, componentMeta, component, onChange, value, notClearable, format, label, propsGetter, ...rest } = props;
-    console.log('DateField', {value, onChange, label, format, editable, nullable, withTime});
-
+export default function DateField({value = null, onChange, label, disabled, notNullable, required, format, withTime}: Props) {
     const pickerRef: any = useRef(null);
 
     const openPicker = useCallback(
@@ -46,7 +43,7 @@ export default function DateField({value = null, onChange, label, editable = tru
                 required={required}
                 onlyCalendar
                 keyboard
-                clearable={nullable}
+                clearable={!notNullable}
                 label={label}
                 value={value}
                 format={format || lFormat}
@@ -55,14 +52,14 @@ export default function DateField({value = null, onChange, label, editable = tru
                 disableOpenOnEnter={true}
                 InputLabelProps={{ shrink: true }}
                 ref={pickerRef}
-                disabled={!editable}
-                InputProps={nullable ? {
+                disabled={disabled}
+                InputProps={!notNullable ? {
                     endAdornment:
                         <React.Fragment>
-                            <IconButton onClick={openPicker} style={{padding: '3px'}} disabled={!editable}>
+                            <IconButton onClick={openPicker} style={{padding: '3px'}} disabled={disabled}>
                                 <CalendarIcon />
                             </IconButton>
-                            <IconButton onClick={() => onChange(null)} style={{padding: '3px'}} disabled={!editable}>
+                            <IconButton onClick={() => onChange(null)} style={{padding: '3px'}} disabled={disabled}>
                                 <ClearIcon />
                             </IconButton>
                         </React.Fragment>

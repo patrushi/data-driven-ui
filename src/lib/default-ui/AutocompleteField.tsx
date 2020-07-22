@@ -1,81 +1,92 @@
-import * as React from 'react';
+// *https://www.registers.service.gov.uk/registers/country/use-the-api*
 import fetch from 'cross-fetch';
+import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import debounce from '../core/debounce';
 import {FieldProps} from '../core/CommonTypes'
 
-export interface Props extends FieldProps<any> {
+interface ValueType {
+    [x:string]: any;
 }
 
-interface CountryType {
-  name: string;
+export interface Props extends FieldProps<ValueType[]> {
+  fetchUrlFunc: (inputValue: string) => {} | null | undefined;
+  keyName: string;
+  labelName: string | null | undefined;
+  labelFunc: (value: ValueType) => {} | undefined;
 }
 
-export default function Asynchronous() {
-  const [open, setOpen] = React.useState(false);
-  const [options, setOptions] = React.useState<CountryType[]>([]);
-  const loading = open && options.length === 0;
+export default function AutocompleteField({fetchUrlFunc, keyName = "Id", labelName, labelFunc, label, value, onChange}: Props) {
+    const [open, setOpen] = React.useState(false);
+    const [options, setOptions] = React.useState<ValueType[]>([]);
+    //const [value, setValue] = React.useState<ValueType[]>([]);
+    const [fetching, setFetching] = React.useState<boolean>(false);
+    const [inputValue, setInputValue] = React.useState<string>('');
+    const loading = open && fetching;
 
-  React.useEffect(() => {
-    let active = true;
+    const debounceFetchData = React.useCallback(debounce(async (inputValue: string, active: boolean) => {
+        const response = await fetch(fetchUrlFunc(inputValue) as string);
+        const result = await response.json();
 
-    if (!loading) {
-      return undefined;
-    }
+        if (active) 
+        {
+            setOptions(result.value ? result.value as ValueType[] : []);
+            setFetching(false);
+        }
+    }, 200), []);
 
-    (async () => {
-      const response = await fetch('https://country.register.gov.uk/records.json?page-size=5000');
-      //await sleep(1e3); // For demo purposes.
-      const countries = await response.json();
+    React.useEffect(() => {
+        let active = true;
 
-      if (active) {
-        setOptions(Object.keys(countries).map((key) => countries[key].item[0]) as CountryType[]);
-      }
-    })();
+        if (!open || inputValue === '') {
+            return undefined;
+        }
 
-    return () => {
-      active = false;
-    };
-  }, [loading]);
+        setFetching(true)
+        debounceFetchData(inputValue, active);
 
-  React.useEffect(() => {
-    if (!open) {
-      setOptions([]);
-    }
-  }, [open]);
+        return () => {
+            active = false;
+        };
+    }, [open, inputValue, debounceFetchData]);
 
-  return (
-    <Autocomplete
-      id="asynchronous-demo"
-      style={{ width: 300 }}
-      open={open}
-      onOpen={() => {
-        setOpen(true);
-      }}
-      onClose={() => {
-        setOpen(false);
-      }}
-      getOptionSelected={(option, value) => option.name === value.name}
-      getOptionLabel={(option) => option.name}
-      options={options}
-      loading={loading}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          label="Asynchronous"
-          variant="outlined"
-          InputProps={{
-            ...params.InputProps,
-            endAdornment: (
-              <React.Fragment>
-                {loading ? <CircularProgress color="inherit" size={20} /> : null}
-                {params.InputProps.endAdornment}
-              </React.Fragment>
-            ),
-          }}
+    return (
+        <Autocomplete
+            fullWidth
+            multiple
+            size="small"
+            open={open}
+            onOpen={() => {
+                setOpen(true);
+            }}
+            onClose={() => {
+                setOpen(false);
+            }}
+            getOptionSelected={(option, value) => option[keyName] === value[keyName]}
+            getOptionLabel={(option) => labelFunc ? labelFunc(option) : option[labelName as string]}
+            options={options}
+            loading={loading}
+            value={value || []}
+            onChange={(event: any, newValue: ValueType[]) => onChange(newValue)}
+            onInputChange={(event, newInputValue) => setInputValue(newInputValue)}
+            renderInput={(params) => (
+                <TextField
+                    {...params}
+                    label={label}
+                    InputLabelProps={{ shrink: true }}
+                    InputProps={{
+                        ...params.InputProps,
+                        endAdornment: (
+                            <React.Fragment>
+                                {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                                {params.InputProps.endAdornment}
+                            </React.Fragment>
+                        ),
+                    }}
+                />
+            )}
         />
-      )}
-    />
-  );
+    );
 }
