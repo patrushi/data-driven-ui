@@ -12,7 +12,8 @@ export class FieldsExample extends PureComponent {
             DateFieldValue: null,
             DatePeriodFieldValue: {from: new Date(2010, 0, 1), till: null},
             TextFieldValue: null,
-            AutocompleteFieldValue: null
+            AutocompleteFieldValue: null,
+            AutocompleteFieldValue2: null
         }
     }
 
@@ -25,10 +26,16 @@ export class FieldsExample extends PureComponent {
             <DatePeriodField label='Not Nullable' required={true} value={this.state.DatePeriodFieldValue} notNullable={true} onChange={(v) => { this.setState({ DatePeriodFieldValue: v }) }} /><br/>
             <DatePeriodField label='Disabled' disabled={true} value={this.state.DatePeriodFieldValue} onChange={(v) => { this.setState({ DatePeriodFieldValue: v }) }} /><br/>
             <TextField label='Default' value={this.state.TextFieldValue} onChange={(v) => { this.setState({ TextFieldValue: v }) }} /><br/>
-            <AutocompleteField label='Default' value={this.state.AutocompleteFieldValue} onChange={(v) => { this.setState({ AutocompleteFieldValue: v }) }} fetchUrlFunc = {(inputValue) => `https://services.odata.org/V4/Northwind/Northwind.svc/Employees?$select=EmployeeID,LastName,FirstName&$filter=contains(tolower(LastName),%27${inputValue}%27)&$top=10&$orderby=LastName&$format=json`}
+            <AutocompleteField label='Default' value={this.state.AutocompleteFieldValue} onChange={(v) => { this.setState({ AutocompleteFieldValue: v }) }} 
+                fetchUrlFunc = {(inputValue) => `https://services.odata.org/V4/Northwind/Northwind.svc/Employees?$select=EmployeeID,LastName,FirstName&$filter=contains(tolower(LastName),%27${inputValue}%27)&$top=10&$orderby=LastName&$format=json`}
                 keyName = "EmployeeID"
                 labelName = "LastName"
                 labelFunc = {options => `${options.FirstName} ${options.LastName}`} /><br/>
+            <AutocompleteField label='Example' value={this.state.AutocompleteFieldValue2} onChange={(v) => { this.setState({ AutocompleteFieldValue2: v }) }} 
+                fetchUrlFunc = {(inputValue) => `https://country.register.gov.uk/records.json?page-size=5000`}
+                parseResultFunc = {countries => Object.keys(countries).map((key) => countries[key].item[0])}
+                keyName = "name"
+                labelName = "name"/><br/>
         </React.Fragment>
     }
 }
