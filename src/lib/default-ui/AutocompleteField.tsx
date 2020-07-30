@@ -11,15 +11,17 @@ interface ValueType {
     [x: string]: any;
 }
 
-export interface Props extends FieldProps<ValueType[]> {
+export interface Props extends FieldProps<ValueType | ValueType[]> {
+    multiple: boolean,
     fetchUrlFunc: ((inputValue: string) => string);
     parseResultFunc: ((result: any) => ValueType[]) | null | undefined;
     keyName: string;
     labelName: string | null | undefined;
     labelFunc: (value: ValueType) => {} | undefined;
+    options: ValueType[] | undefined
 }
 
-export default function AutocompleteField({ fetchUrlFunc, parseResultFunc, keyName = "Id", labelName, labelFunc, label, value, onChange }: Props) {
+export default function AutocompleteField({ options: sourseOptions, nullable = true, disabled, fetchUrlFunc, parseResultFunc, multiple = true, keyName = "Id", labelName, labelFunc, label, value, onChange }: Props) {
     const [open, setOpen] = React.useState(false);
     const [options, setOptions] = React.useState<ValueType[]>([]);
     //const [value, setValue] = React.useState<ValueType[]>([]);
@@ -41,7 +43,7 @@ export default function AutocompleteField({ fetchUrlFunc, parseResultFunc, keyNa
     React.useEffect(() => {
         let active = true;
 
-        if (!open || inputValue === '') {
+        if (sourseOptions || !open || inputValue === '') {
             return undefined;
         }
 
@@ -56,7 +58,7 @@ export default function AutocompleteField({ fetchUrlFunc, parseResultFunc, keyNa
     return (
         <Autocomplete
             fullWidth
-            multiple
+            multiple={multiple}
             size="small"
             open={open}
             onOpen={() => {
@@ -65,9 +67,9 @@ export default function AutocompleteField({ fetchUrlFunc, parseResultFunc, keyNa
             onClose={() => {
                 setOpen(false);
             }}
-            getOptionSelected={(option, value) => option[keyName] === value[keyName]}
+            getOptionSelected={(option, value) => value ? option[keyName] === value[keyName] : false}
             getOptionLabel={labelFunc ? (option) => labelFunc(option) : (option) => option[labelName as string]}
-            options={options}
+            options={sourseOptions || options}
             loading={loading}
             value={value || undefined}
             onChange={(event, newValue) => onChange(newValue)}
@@ -75,6 +77,8 @@ export default function AutocompleteField({ fetchUrlFunc, parseResultFunc, keyNa
             onInputChange={(event, newInputValue) => {
                 setInputValue(newInputValue);
             }}
+            disableClearable={!nullable}
+            disabled={disabled}
             renderInput={(params) => (
                 <TextField
                     {...params}

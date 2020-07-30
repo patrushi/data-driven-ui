@@ -15,7 +15,7 @@ export interface Props extends FieldProps<Date> {
     withTime: boolean | null | undefined;
 }
 
-export default function DateField({value = null, onChange, label, disabled, notNullable, required, format, withTime}: Props) {
+export default function DateField({value = null, onChange, label, disabled, nullable = true, required, format, withTime}: Props) {
     const pickerRef: any = useRef(null);
 
     const openPicker = useCallback(
@@ -43,7 +43,7 @@ export default function DateField({value = null, onChange, label, disabled, notN
                 required={required}
                 onlyCalendar
                 keyboard
-                clearable={!notNullable}
+                clearable={nullable}
                 label={label}
                 value={value}
                 format={format || lFormat}
@@ -53,7 +53,7 @@ export default function DateField({value = null, onChange, label, disabled, notN
                 InputLabelProps={{ shrink: true }}
                 ref={pickerRef}
                 disabled={disabled}
-                InputProps={!notNullable ? {
+                InputProps={nullable ? {
                     endAdornment:
                         <React.Fragment>
                             <IconButton onClick={openPicker} style={{padding: '3px'}} disabled={disabled}>

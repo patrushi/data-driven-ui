@@ -8,7 +8,7 @@ export interface Props extends FieldProps<{from: Date | null, till: Date | null}
     withTime: boolean | null | undefined;
 }
 
-export default function DatePeriodField({value = null, onChange, label, disabled, notNullable, required, format, withTime}: Props) {
+export default function DatePeriodField({value = null, onChange, label, disabled, nullable = true, required, format, withTime}: Props) {
     let lValue = value ? value : {from: null, till: null};
     return (
         <React.Fragment>
@@ -17,7 +17,7 @@ export default function DatePeriodField({value = null, onChange, label, disabled
                 withTime = {withTime}
                 required = {required}
                 disabled = {disabled}
-                notNullable = {notNullable}
+                nullable = {nullable}
                 label = {label}
                 value = {lValue.from}
                 onChange = {v => onChange(!v && !lValue.till ? null : {from: v, till: lValue.till})} />
@@ -26,7 +26,7 @@ export default function DatePeriodField({value = null, onChange, label, disabled
                 format = {format}
                 withTime = {withTime}
                 disabled = {disabled}
-                notNullable = {notNullable}
+                nullable = {nullable}
                 required = {required}
                 label = ' '
                 value = {lValue.till}

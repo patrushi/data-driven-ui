@@ -7,7 +7,7 @@ import {FieldProps} from '../core/CommonTypes'
 export interface Props extends FieldProps<string> {
 }
 
-export default function TextField({value = null, onChange, label, disabled, notNullable, required}: Props) {
+export default function TextField({value = null, onChange, label, disabled, nullable = true, required}: Props) {
     return <ExtTextField
                 label = {label}
                 value = {value || ''}
@@ -15,7 +15,7 @@ export default function TextField({value = null, onChange, label, disabled, notN
                 fullWidth
                 disabled = {disabled}
                 InputLabelProps={{ shrink: true }}
-                InputProps={!notNullable ? {
+                InputProps={nullable ? {
                     endAdornment: (
                         <IconButton onClick={() => onChange(null)} style={{padding: '3px'}}>
                             <ClearIcon />

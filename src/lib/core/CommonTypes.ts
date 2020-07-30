@@ -3,6 +3,6 @@ export interface FieldProps<T> {
     onChange: (value: T | null) => void;
     label: string | null | undefined;
     disabled: boolean;
-    notNullable: boolean;
+    nullable: boolean;
     required: boolean;
 }
