@@ -4,8 +4,8 @@ import RemoveIcon from "@material-ui/icons/Remove";
 import {FieldProps} from '../core/CommonTypes'
 
 export interface Props extends FieldProps<{from: Date | null, till: Date | null}> {
-    format: string | null | undefined;
-    withTime: boolean | null | undefined;
+    format?: string | null;
+    withTime?: boolean | null;
 }
 
 export default function DatePeriodField({value = null, onChange, label, disabled, nullable = true, required, format, withTime}: Props) {

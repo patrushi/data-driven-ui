@@ -11,8 +11,8 @@ import {FieldProps} from '../core/CommonTypes'
 //moment.locale(window.data_driven_ui_locale);
 
 export interface Props extends FieldProps<Date> {
-    format: string | null | undefined;
-    withTime: boolean | null | undefined;
+    format?: string | null;
+    withTime?: boolean | null;
 }
 
 export default function DateField({value = null, onChange, label, disabled, nullable = true, required, format, withTime}: Props) {

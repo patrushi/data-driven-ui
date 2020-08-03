@@ -1,5 +1,4 @@
 // *https://www.registers.service.gov.uk/registers/country/use-the-api*
-import fetch from 'cross-fetch';
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -7,43 +6,36 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import debounce from '../core/debounce';
 import { FieldProps } from '../core/CommonTypes'
 
-interface ValueType {
-    [x: string]: any;
+export interface Props extends FieldProps<any | any[]> {
+    multiple?: boolean,
+    getByInputValueFunc?: ((inputValue: string, callback: (result: any) => void) => void);
+    keyName?: string;
+    labelName?: string;
+    labelFunc?: (value: any) => string;
+    options?: any[]
 }
 
-export interface Props extends FieldProps<ValueType | ValueType[]> {
-    multiple: boolean,
-    fetchUrlFunc: ((inputValue: string) => string);
-    parseResultFunc: ((result: any) => ValueType[]) | null | undefined;
-    keyName: string;
-    labelName: string | null | undefined;
-    labelFunc: (value: ValueType) => {} | undefined;
-    options: ValueType[] | undefined
-}
-
-export default function AutocompleteField({ options: sourseOptions, nullable = true, disabled, fetchUrlFunc, parseResultFunc, multiple = true, keyName = "Id", labelName, labelFunc, label, value, onChange }: Props) {
+export default function SelectField({ getByInputValueFunc, options: sourceOptions, nullable = true, disabled, multiple = true, keyName = "Id", labelName, labelFunc, label, value, onChange }: Props) {
     const [open, setOpen] = React.useState(false);
-    const [options, setOptions] = React.useState<ValueType[]>([]);
-    //const [value, setValue] = React.useState<ValueType[]>([]);
+    const [options, setOptions] = React.useState<any[]>(sourceOptions || []);
     const [fetching, setFetching] = React.useState<boolean>(false);
     const [inputValue, setInputValue] = React.useState<string>('');
     const loading = open && fetching;
 
     const debounceFetchData = React.useCallback(debounce(async (inputValue: string, active: boolean) => {
-        const response = await fetch(fetchUrlFunc(inputValue) as string);
-        const result = await response.json();
-
-        if (active) 
-        {
-            setOptions(parseResultFunc ? parseResultFunc(result) : (result.value ? result.value as ValueType[] : []));
-            setFetching(false);
-        }
+        getByInputValueFunc!(inputValue, result => {
+            if (active) 
+            {
+                setOptions(result);
+                setFetching(false);
+            }
+        })
     }, 200), []);
 
     React.useEffect(() => {
         let active = true;
 
-        if (sourseOptions || !open || inputValue === '') {
+        if (sourceOptions || !getByInputValueFunc || !open || inputValue === '') {
             return undefined;
         }
 
@@ -53,7 +45,9 @@ export default function AutocompleteField({ options: sourseOptions, nullable = t
         return () => {
             active = false;
         };
-    }, [open, inputValue, debounceFetchData]);
+    }, [open, inputValue, debounceFetchData, getByInputValueFunc, sourceOptions]);
+
+    console.log('value = ', value, 'sourceOptions = ', sourceOptions)
 
     return (
         <Autocomplete
@@ -61,15 +55,11 @@ export default function AutocompleteField({ options: sourseOptions, nullable = t
             multiple={multiple}
             size="small"
             open={open}
-            onOpen={() => {
-                setOpen(true);
-            }}
-            onClose={() => {
-                setOpen(false);
-            }}
+            onOpen={() => setOpen(true)}
+            onClose={() => setOpen(false)}
             getOptionSelected={(option, value) => value ? option[keyName] === value[keyName] : false}
-            getOptionLabel={labelFunc ? (option) => labelFunc(option) : (option) => option[labelName as string]}
-            options={sourseOptions || options}
+            getOptionLabel={labelFunc ? (option) => labelFunc!(option) : (option) => option[labelName as string]}
+            options={sourceOptions || options}
             loading={loading}
             value={value || undefined}
             onChange={(event, newValue) => onChange(newValue)}
